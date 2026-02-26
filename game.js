@@ -30,6 +30,260 @@ class Card {
         const suitMap = { 'clubs': '♣', 'spades': '♠', 'hearts': '♥', 'diamonds': '♦' };
         return suitMap[this.suit];
     }
+
+    getSVG() {
+        if (this.type === 'monster') {
+            return this.getMonsterSVG();
+        } else if (this.type === 'weapon') {
+            return this.getWeaponSVG();
+        } else if (this.type === 'potion') {
+            return this.getPotionSVG();
+        }
+        return '';
+    }
+
+    getMonsterSVG() {
+        const weaponType = this.suit === 'spades' ? 'swords' : 'clubs';
+        const isSpaces = this.suit === 'spades';
+        let monsterSvg = '';
+
+        if (this.value === 14) {
+            // Dragon
+            monsterSvg = this.createDragon(isSpaces);
+        } else if (this.value === 13) {
+            // King
+            monsterSvg = this.createKing(isSpaces);
+        } else if (this.value === 12) {
+            // Queen
+            monsterSvg = this.createQueen(isSpaces);
+        } else if (this.value === 11) {
+            // Army Leader
+            monsterSvg = this.createArmyLeader(isSpaces);
+        } else {
+            // Soldiers (2-10)
+            monsterSvg = this.createSoldier(this.value, isSpaces);
+        }
+
+        const baseColor = isSpaces ? '#4a4a4a' : '#5a5a5a';
+        return `
+            <svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%;">
+                <defs>
+                    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ff9999;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#ff6b6b;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect width="200" height="300" fill="url(#cardGrad)" rx="8"/>
+                <rect x="5" y="5" width="190" height="290" fill="none" stroke="#333" stroke-width="2" rx="8"/>
+                
+                <!-- Attack value in corner -->
+                <circle cx="25" cy="25" r="28" fill="${baseColor}" opacity="0.8"/>
+                <text x="25" y="35" font-size="32" font-weight="bold" fill="#fff" text-anchor="middle">${this.value}</text>
+                
+                <!-- Monster graphic -->
+                <g transform="translate(100, 140) scale(2)">
+                    ${monsterSvg}
+                </g>
+                
+                <!-- Suit indicator -->
+                <text x="175" y="280" font-size="48" fill="#333" text-anchor="middle">${isSpaces ? '♠' : '♣'}</text>
+            </svg>
+        `;
+    }
+
+    createDragon(isSpades) {
+        const fill = isSpades ? '#2c3e50' : '#34495e';
+        return `
+            <!-- Dragon head -->
+            <circle cx="0" cy="-15" r="18" fill="${fill}"/>
+            <!-- Dragon jaw -->
+            <path d="M -8 -5 Q 0 5 8 -5" stroke="${fill}" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <!-- Dragon horns -->
+            <line x1="-10" y1="-32" x2="-15" y2="-45" stroke="${fill}" stroke-width="3" stroke-linecap="round"/>
+            <line x1="10" y1="-32" x2="15" y2="-45" stroke="${fill}" stroke-width="3" stroke-linecap="round"/>
+            <!-- Dragon eyes -->
+            <circle cx="-6" cy="-18" r="2" fill="#ff6b6b"/>
+            <circle cx="6" cy="-18" r="2" fill="#ff6b6b"/>
+            <!-- Dragon wings -->
+            <path d="M -18 -5 Q -30 -20 -25 0" stroke="${fill}" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M 18 -5 Q 30 -20 25 0" stroke="${fill}" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- Dragon fire breath -->
+            <path d="M 0 5 Q 5 15 0 25" stroke="#ff6b6b" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+            <path d="M 0 5 Q -5 15 0 25" stroke="#ff6b6b" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+        `;
+    }
+
+    createKing(isSpades) {
+        const fill = isSpades ? '#2c3e50' : '#34495e';
+        return `
+            <!-- Crown -->
+            <path d="M -15 -20 L -8 -35 L 0 -38 L 8 -35 L 15 -20" stroke="${fill}" stroke-width="2" fill="none"/>
+            <circle cx="-8" cy="-32" r="2" fill="#ffc107"/>
+            <circle cx="0" cy="-35" r="2" fill="#ffc107"/>
+            <circle cx="8" cy="-32" r="2" fill="#ffc107"/>
+            <!-- Jewels -->
+            <circle cx="-12" cy="-25" r="1.5" fill="#ff6b6b"/>
+            <circle cx="12" cy="-25" r="1.5" fill="#ff6b6b"/>
+            <!-- Face -->
+            <circle cx="0" cy="-5" r="12" fill="${fill}"/>
+            <circle cx="-5" cy="-8" r="2" fill="#ff6b6b"/>
+            <circle cx="5" cy="-8" r="2" fill="#ff6b6b"/>
+            <line x1="-2" y1="0" x2="2" y2="0" stroke="#333" stroke-width="1"/>
+            <!-- Beard/Chin -->
+            <path d="M -8 5 Q 0 10 8 5" stroke="${fill}" stroke-width="2" fill="none"/>
+        `;
+    }
+
+    createQueen(isSpades) {
+        const fill = isSpades ? '#2c3e50' : '#34495e';
+        return `
+            <!-- Crown with points -->
+            <path d="M -16 -15 L -10 -30 L -4 -25 L 0 -35 L 4 -25 L 10 -30 L 16 -15" stroke="${fill}" stroke-width="2" fill="url(#queenGradient)"/>
+            <defs><linearGradient id="queenGradient" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#ffc107"/><stop offset="100%" style="stop-color:#daa520"/></linearGradient></defs>
+            <!-- Jewels on crown -->
+            <circle cx="-4" cy="-28" r="1.5" fill="#ff6b6b"/>
+            <circle cx="0" cy="-34" r="1.5" fill="#ff6b6b"/>
+            <circle cx="4" cy="-28" r="1.5" fill="#ff6b6b"/>
+            <!-- Face -->
+            <circle cx="0" cy="0" r="11" fill="${fill}"/>
+            <!-- Eyes -->
+            <circle cx="-5" cy="-3" r="1.5" fill="#ff6b6b"/>
+            <circle cx="5" cy="-3" r="1.5" fill="#ff6b6b"/>
+            <!-- Hair/Elegance -->
+            <path d="M -11 0 Q -12 8 -8 12" stroke="${fill}" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M 11 0 Q 12 8 8 12" stroke="${fill}" stroke-width="2" fill="none" stroke-linecap="round"/>
+        `;
+    }
+
+    createArmyLeader(isSpades) {
+        const fill = isSpades ? '#2c3e50' : '#34495e';
+        return `
+            <!-- Helmet -->
+            <path d="M -12 -20 Q -12 -30 0 -32 Q 12 -30 12 -20" stroke="${fill}" stroke-width="2" fill="${fill}"/>
+            <!-- Face guard -->
+            <circle cx="0" cy="-8" r="9" fill="${fill}"/>
+            <!-- Eyes -->
+            <circle cx="-4" cy="-10" r="1" fill="#ff6b6b"/>
+            <circle cx="4" cy="-10" r="1" fill="#ff6b6b"/>
+            <!-- Sword pointing up -->
+            <line x1="0" y1="-35" x2="0" y2="15" stroke="#999" stroke-width="3" stroke-linecap="round"/>
+            <!-- Sword guard -->
+            <line x1="-8" y1="5" x2="8" y2="5" stroke="#999" stroke-width="2"/>
+            <!-- Armor -->
+            <path d="M -10 0 L -12 10 L 0 15 L 12 10 L 10 0" stroke="${fill}" stroke-width="1.5" fill="none"/>
+        `;
+    }
+
+    createSoldier(level, isSpades) {
+        const fill = isSpades ? '#2c3e50' : '#34495e';
+        const helmetSize = 8 + (level > 5 ? 1 : 0);
+        return `
+            <!-- Helmet -->
+            <circle cx="0" cy="-12" r="${helmetSize}" fill="${fill}"/>
+            <!-- Face -->
+            <circle cx="0" cy="-2" r="6" fill="${fill}"/>
+            <!-- Eyes -->
+            <circle cx="-2" cy="-3" r="1" fill="#ff6b6b"/>
+            <circle cx="2" cy="-3" r="1" fill="#ff6b6b"/>
+            <!-- Body armor -->
+            <rect x="-8" y="5" width="16" height="12" rx="2" fill="${fill}" opacity="0.8"/>
+            <!-- Shield or weapon -->
+            ${level > 7 ? 
+                `<!-- Shield -->
+                <circle cx="-12" cy="8" r="5" fill="#999" opacity="0.6"/>
+                <line x1="-12" y1="5" x2="-12" y2="11" stroke="${fill}" stroke-width="1"/>` 
+                : 
+                `<!-- Spear -->
+                <line x1="10" y1="-10" x2="10" y2="18" stroke="#999" stroke-width="2" stroke-linecap="round"/>
+                <path d="M 8 -10 L 10 -15 L 12 -10" fill="#999"/>`
+            }
+        `;
+    }
+
+    getWeaponSVG() {
+        return `
+            <svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%;">
+                <defs>
+                    <linearGradient id="weaponGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#ffed4e;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect width="200" height="300" fill="url(#weaponGrad)" rx="8"/>
+                <rect x="5" y="5" width="190" height="290" fill="none" stroke="#b8860b" stroke-width="2" rx="8"/>
+                
+                <!-- Attack value in corner -->
+                <circle cx="25" cy="25" r="28" fill="#b8860b" opacity="0.8"/>
+                <text x="25" y="35" font-size="32" font-weight="bold" fill="#fff" text-anchor="middle">${this.value}</text>
+                
+                <!-- Weapon graphic -->
+                <g transform="translate(100, 140) scale(2)">
+                    ${this.createWeaponGraphic()}
+                </g>
+                
+                <!-- Suit indicator -->
+                <text x="175" y="280" font-size="48" fill="#b8860b" text-anchor="middle">♦</text>
+            </svg>
+        `;
+    }
+
+    createWeaponGraphic() {
+        return `
+            <!-- Sword -->
+            <line x1="0" y1="-40" x2="0" y2="30" stroke="#888" stroke-width="3" stroke-linecap="round"/>
+            <!-- Blade shine -->
+            <line x1="1" y1="-35" x2="1" y2="20" stroke="#ddd" stroke-width="1" opacity="0.5"/>
+            <!-- Cross guard -->
+            <line x1="-12" y1="8" x2="12" y2="8" stroke="#8b4513" stroke-width="4" stroke-linecap="round"/>
+            <!-- Handle -->
+            <rect x="-3" y="10" width="6" height="18" fill="#8b4513" rx="1"/>
+            <!-- Grip texture -->
+            <line x1="-2" y1="13" x2="2" y2="13" stroke="#654321" stroke-width="0.5"/>
+            <line x1="-2" y1="17" x2="2" y2="17" stroke="#654321" stroke-width="0.5"/>
+            <line x1="-2" y1="21" x2="2" y2="21" stroke="#654321" stroke-width="0.5"/>
+            <!-- Pommel -->
+            <circle cx="0" cy="32" r="4" fill="#8b4513"/>
+        `;
+    }
+
+    getPotionSVG() {
+        return `
+            <svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%;">
+                <defs>
+                    <linearGradient id="potionGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ff69b4;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#ff1493;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect width="200" height="300" fill="url(#potionGrad)" rx="8"/>
+                <rect x="5" y="5" width="190" height="290" fill="none" stroke="#c71585" stroke-width="2" rx="8"/>
+                
+                <!-- Healing value in corner -->
+                <circle cx="25" cy="25" r="28" fill="#c71585" opacity="0.8"/>
+                <text x="25" y="35" font-size="32" font-weight="bold" fill="#fff" text-anchor="middle">${this.value}</text>
+                
+                <!-- Potion bottle graphic -->
+                <g transform="translate(100, 140) scale(2)">
+                    <!-- Bottle neck -->
+                    <rect x="-6" y="-30" width="12" height="15" fill="#8b0a50" rx="2"/>
+                    <!-- Bottle cap -->
+                    <rect x="-8" y="-36" width="16" height="8" fill="#654321" rx="1"/>
+                    <!-- Main bottle -->
+                    <path d="M -16 -15 Q -18 0 -16 20 Q -12 30 0 32 Q 12 30 16 20 Q 18 0 16 -15" fill="#8b0a50" stroke="#ff1493" stroke-width="1"/>
+                    <!-- Liquid inside -->
+                    <path d="M -14 -10 Q -16 0 -14 15 Q -10 23 0 25 Q 10 23 14 15 Q 16 0 14 -10" fill="#ff69b4" opacity="0.6"/>
+                    <!-- Shine/shimmer -->
+                    <ellipse cx="-8" cy="5" rx="4" ry="8" fill="#fff" opacity="0.3"/>
+                    <!-- Plus sign for healing -->
+                    <line x1="-3" y1="35" x2="3" y2="35" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="0" y1="32" x2="0" y2="38" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                </g>
+                
+                <!-- Suit indicator -->
+                <text x="175" y="280" font-size="48" fill="#c71585" text-anchor="middle">♥</text>
+            </svg>
+        `;
+    }
 }
 
 class GameState {
@@ -73,9 +327,8 @@ class ScoundrelGame {
 
         for (let suit of suits) {
             for (let value of values) {
-                // Skip red face cards, red aces
+                // Skip red face cards and aces (11, 12, 13, 14)
                 if ((suit === 'hearts' || suit === 'diamonds') && value >= 11) continue;
-                if ((suit === 'hearts' || suit === 'diamonds') && value === 14) continue;
 
                 deck.push(new Card(suit, value));
             }
@@ -324,8 +577,10 @@ class ScoundrelGame {
             return;
         }
 
-        // Put current room cards at bottom of deck
-        this.state.deck.unshift(...this.state.currentRoom);
+        // Shuffle and put current room cards at bottom of deck (beginning of array)
+        const shuffledCards = this.shuffleDeck([...this.state.currentRoom]);
+        this.state.deck.unshift(...shuffledCards);
+        this.state.currentRoom = []; // Clear current room to prevent duplicates
         this.state.lastRoomSkipped = true;
         this.showMessage('Skipped room!', 'info');
 
@@ -412,40 +667,12 @@ class ScoundrelGame {
             const cardEl = document.createElement('div');
             cardEl.className = 'card';
             
-            // Add suit color
-            if (card.suit === 'hearts' || card.suit === 'diamonds') {
-                cardEl.classList.add('hearts');
-            } else {
-                cardEl.classList.add('clubs');
-            }
-
             if (this.selectedCard === index) {
                 cardEl.classList.add('selected');
             }
 
-            // Add type-specific styling
-            if (card.type === 'monster') {
-                cardEl.style.color = '#333';
-                cardEl.style.background = 'linear-gradient(135deg, #ff9999 0%, #ff6b6b 100%)';
-            } else if (card.type === 'weapon') {
-                cardEl.style.color = '#fff';
-                cardEl.style.background = 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)';
-            } else if (card.type === 'potion') {
-                cardEl.style.color = '#fff';
-                cardEl.style.background = 'linear-gradient(135deg, #ff69b4 0%, #ff1493 100%)';
-            }
-
-            // Create card content
-            const valueEl = document.createElement('div');
-            valueEl.className = 'card-value';
-            valueEl.textContent = card.getValueDisplay();
-
-            const suitEl = document.createElement('div');
-            suitEl.className = 'card-suit';
-            suitEl.textContent = card.getSuitDisplay();
-
-            cardEl.appendChild(valueEl);
-            cardEl.appendChild(suitEl);
+            // Insert SVG graphics directly
+            cardEl.innerHTML = card.getSVG();
 
             if (!this.state.gameOver && this.state.cardsUsedThisRoom < 3) {
                 cardEl.classList.add('selectable');
@@ -472,9 +699,11 @@ class ScoundrelGame {
                 stackInfo += '</div>';
             }
 
+            const weaponSvg = weaponCard.getSVG();
             container.innerHTML = `
-                <div class="weapon-card">${weaponCard.getDisplay()}</div>
-                <div class="weapon-info">Damage: ${weaponCard.value}</div>
+                <div style="width: 100%; height: 150px; margin-bottom: 15px;">
+                    ${weaponSvg}
+                </div>
                 ${stackInfo}
             `;
             discardBtn.disabled = false;

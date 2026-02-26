@@ -148,49 +148,35 @@
 
         .card {
             aspect-ratio: 1;
-            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-            border: 2px solid #333;
+            background: transparent;
+            border: none;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5em;
-            font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            padding: 0;
+        }
+
+        .card svg {
+            width: 100%;
+            height: 100%;
         }
 
         .card:hover {
             transform: scale(1.05);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
         }
 
         .card.selectable {
             cursor: pointer;
         }
 
-        .card.selected {
-            box-shadow: 0 0 20px rgba(76, 205, 196, 0.8);
-            border-color: rgba(76, 205, 196, 1);
-        }
-
-        .card-suit {
-            color: #333;
-            font-weight: bold;
-        }
-
-        .card.hearts .card-suit {
-            color: #ff6b6b;
-        }
-
-        .card.diamonds .card-suit {
-            color: #ff6b6b;
-        }
-
-        .card-value {
-            margin-right: 5px;
+        .card.selected svg {
+            filter: drop-shadow(0 0 20px rgba(76, 205, 196, 0.8));
         }
 
         .action-area {
