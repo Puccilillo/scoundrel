@@ -729,17 +729,6 @@ class ScoundrelGame {
         this.render();
     }
 
-    discardWeapon() {
-        if (!this.state.equippedWeapon) return;
-
-        this.showMessage(`Discarded ${this.state.equippedWeapon.getDisplay()} and its stacked monsters!`, 'info');
-        this.addToDiscard(this.state.equippedWeapon);
-        this.state.stackedMonsters.forEach(monster => this.addToDiscard(monster));
-        this.state.equippedWeapon = null;
-        this.state.stackedMonsters = [];
-        this.render();
-    }
-
     endGame() {
         this.state.gameOver = true;
         this.render();
@@ -881,7 +870,6 @@ class ScoundrelGame {
 
     updateWeaponDisplay() {
         const container = document.getElementById('weaponDisplay');
-        const discardBtn = document.getElementById('discardWeaponBtn');
 
         if (this.state.equippedWeapon) {
             const weaponCard = this.state.equippedWeapon;
@@ -903,11 +891,9 @@ class ScoundrelGame {
                 </div>
                 ${stackInfo}
             `;
-            discardBtn.disabled = false;
         } else {
             container.classList.remove('equipped');
             container.innerHTML = '<div style="opacity: 0.5;">⚔️ No weapon equipped</div>';
-            discardBtn.disabled = true;
         }
     }
 
