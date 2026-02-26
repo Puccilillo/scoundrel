@@ -11,6 +11,10 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --dungeon-depth: 0.05;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
@@ -22,6 +26,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            --dungeon-depth: 0.05;
         }
 
         .header {
@@ -43,12 +48,96 @@
             flex-wrap: wrap;
         }
 
+        .room-progress {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .progress-label {
+            font-size: 0.9em;
+            opacity: 0.7;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .room-progress-path {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .node {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .node.visited {
+            background: rgba(78, 205, 196, 0.3);
+            border-color: rgba(78, 205, 196, 0.6);
+        }
+
+        .node.current {
+            background: linear-gradient(135deg, #4ecdc4, #45b8b0);
+            border-color: #95e1d3;
+            box-shadow: 0 0 12px rgba(78, 205, 196, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.2);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .connector {
+            width: 24px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(78, 205, 196, 0.2), rgba(78, 205, 196, 0.4));
+            margin: 0 0;
+        }
+
         .info-box {
             background: rgba(255, 255, 255, 0.1);
             padding: 15px 25px;
             border-radius: 8px;
             border: 2px solid rgba(255, 255, 255, 0.2);
             text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .info-box:hover {
+            border-color: rgba(78, 205, 196, 0.4);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.2);
+        }
+
+        .health-bar-container {
+            width: 100%;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid rgba(82, 183, 136, 0.3);
+            margin: 8px 0;
+        }
+
+        .health-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #52b788, #95e1d3);
+            transition: width 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 0 8px rgba(82, 183, 136, 0.4);
         }
 
         .info-label {
@@ -94,6 +183,8 @@
             font-weight: bold;
             border-bottom: 2px solid rgba(255, 255, 255, 0.2);
             padding-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .weapon-display {
@@ -107,6 +198,13 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .weapon-display.equipped {
+            background: rgba(218, 165, 32, 0.15);
+            border: 2px solid rgba(218, 165, 32, 0.4);
+            box-shadow: 0 0 20px rgba(218, 165, 32, 0.3), inset 0 0 20px rgba(218, 165, 32, 0.1);
         }
 
         .weapon-card {
@@ -123,6 +221,10 @@
             margin-top: 10px;
             font-size: 0.85em;
             color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.15);
+            padding: 8px;
+            border-radius: 4px;
+            border-left: 3px solid #ff6b6b;
         }
 
         .room-area {
@@ -356,11 +458,13 @@
         }
 
         .turn-info {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px;
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(255, 107, 107, 0.1));
+            padding: 12px;
             border-radius: 6px;
             margin-bottom: 15px;
             font-size: 0.9em;
+            border-left: 3px solid #4ecdc4;
+            font-weight: bold;
         }
 
         @media (max-width: 1024px) {
@@ -401,16 +505,28 @@
 
         <div class="game-info">
             <div class="info-box">
-                <div class="info-label">HEALTH</div>
-                <div class="info-value health-value" id="healthDisplay">20</div>
+                <div class="info-label">❤️ HEALTH</div>
+                <div class="health-bar-container">
+                    <div class="health-bar" id="healthBar"></div>
+                </div>
+                <div style="font-size: 0.85em; margin-top: 5px;">
+                    <span id="healthDisplay">20</span>/20
+                </div>
             </div>
             <div class="info-box">
-                <div class="info-label">DECK</div>
+                <div class="info-label">📜 DECK</div>
                 <div class="info-value deck-value" id="deckDisplay">44</div>
             </div>
             <div class="info-box">
-                <div class="info-label">ROOM</div>
-                <div class="info-value" id="roomDisplay">1</div>
+                <div class="info-label">🗺️ ROOM</div>
+                <div class="info-value" id="roomDisplay">I</div>
+            </div>
+        </div>
+
+        <div class="room-progress">
+            <div class="progress-label">Dungeon Path</div>
+            <div class="room-progress-path" id="roomProgressPath">
+                <div class="node current" title="Room I"></div>
             </div>
         </div>
 

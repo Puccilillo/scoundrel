@@ -416,6 +416,7 @@ class GameState {
         this.roomNumber = 1;
         this.gameOver = false;
         this.playerDead = false;
+        this.visitedRooms = [1];
     }
 
     getScore() {
@@ -570,7 +571,7 @@ class ScoundrelGame {
                     monsterKilled = true;
                     this.state.stackedMonsters.push(card);
                     this.showMessage(
-                        `Monster ${card.getDisplay()} defeated by ${this.state.equippedWeapon.getDisplay()}!`,
+                        `💥 Monster ${card.getDisplay()} defeated by ${this.state.equippedWeapon.getDisplay()}!`,
                         'success'
                     );
                 } else {
@@ -579,7 +580,7 @@ class ScoundrelGame {
                     monsterKilled = true;
                     this.state.stackedMonsters.push(card);
                     this.showMessage(
-                        `Monster ${card.getDisplay()} dealt ${damage} damage! (weapon reduced it)`,
+                        `⚔️ Monster ${card.getDisplay()} dealt ${damage} damage! (weapon reduced it)`,
                         'warning'
                     );
                 }
@@ -721,6 +722,9 @@ class ScoundrelGame {
         // Keep last card for new room
         this.state.lastRoomSkipped = false;
         this.state.roomNumber++;
+        this.state.visitedRooms.push(this.state.roomNumber);
+        this.state.cardsUsedThisRoom = 0;
+        this.state.potionUsedThisRoom = false;
         this.dealRoom();
         this.render();
     }
@@ -776,8 +780,68 @@ class ScoundrelGame {
     updateStats() {
         document.getElementById('healthDisplay').textContent = this.state.health;
         document.getElementById('deckDisplay').textContent = this.state.deck.length;
-        document.getElementById('roomDisplay').textContent = this.state.roomNumber;
+        document.getElementById('roomDisplay').textContent = this.toRomanNumeral(this.state.roomNumber);
         document.getElementById('cardsUsed').textContent = this.state.cardsUsedThisRoom;
+        this.updateHealthBar();
+        this.updateRoomProgressPath();
+        this.updateDungeonDepthAtmosphere();
+    }
+
+    toRomanNumeral(num) {
+        const romanMap = [
+            [1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'],
+            [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'],
+            [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']
+        ];
+        let result = '';
+        for (let [value, roman] of romanMap) {
+            while (num >= value) {
+                result += roman;
+                num -= value;
+            }
+        }
+        return result;
+    }
+
+    updateHealthBar() {
+        const healthPercent = (this.state.health / this.state.maxHealth) * 100;
+        const style = healthPercent > 50 ? '#52b788' : healthPercent > 25 ? '#ffc107' : '#ff6b6b';
+        const barEl = document.getElementById('healthBar');
+        if (barEl) {
+            barEl.style.width = healthPercent + '%';
+            barEl.style.backgroundColor = style;
+        }
+    }
+
+    updateRoomProgressPath() {
+        const pathEl = document.getElementById('roomProgressPath');
+        if (!pathEl) return;
+        
+        let path = '';
+        for (let i = 1; i <= this.state.roomNumber; i++) {
+            const isCurrent = i === this.state.roomNumber;
+            const classes = isCurrent ? 'node current' : 'node visited';
+            path += `<div class="${classes}" title="Room ${this.toRomanNumeral(i)}"></div>`;
+            if (i < this.state.roomNumber) {
+                path += '<div class="connector"></div>';
+            }
+        }
+        pathEl.innerHTML = path;
+    }
+
+    updateDungeonDepthAtmosphere() {
+        const depth = Math.min(this.state.roomNumber, 10);
+        const darkness = 0.05 + (depth * 0.04);
+        const container = document.querySelector('.container');
+        if (container) {
+            container.style.setProperty('--dungeon-depth', darkness);
+        }
+        
+        const mainGame = document.querySelector('.main-game');
+        if (mainGame) {
+            const shadowIntensity = 0.1 + (depth * 0.05);
+            mainGame.style.boxShadow = `inset 0 0 40px rgba(0, 0, 0, ${shadowIntensity})`;
+        }
     }
 
     updateRoomDisplay() {
@@ -824,7 +888,7 @@ class ScoundrelGame {
             let stackInfo = '';
 
             if (this.state.stackedMonsters.length > 0) {
-                stackInfo = `<div class="stacked-monsters">Stacked Monsters (${this.state.stackedMonsters.length}):<br>`;
+                stackInfo = `<div class="stacked-monsters">⚠️ THREATS (${this.state.stackedMonsters.length}):<br>`;
                 this.state.stackedMonsters.forEach(m => {
                     stackInfo += `${m.getDisplay()} `;
                 });
@@ -832,6 +896,7 @@ class ScoundrelGame {
             }
 
             const weaponSvg = weaponCard.getSVG();
+            container.classList.add('equipped');
             container.innerHTML = `
                 <div style="width: 100%; height: 150px; margin-bottom: 15px;">
                     ${weaponSvg}
@@ -840,7 +905,8 @@ class ScoundrelGame {
             `;
             discardBtn.disabled = false;
         } else {
-            container.innerHTML = '<div style="opacity: 0.5;">No weapon equipped</div>';
+            container.classList.remove('equipped');
+            container.innerHTML = '<div style="opacity: 0.5;">⚔️ No weapon equipped</div>';
             discardBtn.disabled = true;
         }
     }
