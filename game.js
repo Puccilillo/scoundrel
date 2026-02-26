@@ -410,6 +410,10 @@ class ScoundrelGame {
         if (card.type !== 'weapon') return;
 
         // Discard old weapon and its stacked monsters
+        if (this.state.equippedWeapon) {
+            this.addToDiscard(this.state.equippedWeapon);
+            this.state.stackedMonsters.forEach(monster => this.addToDiscard(monster));
+        }
         this.state.equippedWeapon = card;
         this.state.stackedMonsters = [];
 
@@ -491,6 +495,7 @@ class ScoundrelGame {
 
         // Track all monsters removed from play (killed/defeated monsters)
         this.state.killedMonsters.push(card);
+        this.addToDiscard(card);
 
         // Remove card from room
         this.state.currentRoom.splice(this.selectedCard, 1);
@@ -528,6 +533,7 @@ class ScoundrelGame {
 
         // Track all monsters removed from play (killed/defeated monsters)
         this.state.killedMonsters.push(card);
+        this.addToDiscard(card);
 
         // Remove card from room
         this.state.currentRoom.splice(this.selectedCard, 1);
@@ -561,6 +567,8 @@ class ScoundrelGame {
             this.showMessage(`Healed ${healed} HP with ${card.getDisplay()}!`, 'success');
             this.state.potionUsedThisRoom = true;
         }
+
+        this.addToDiscard(card);
 
         // Remove card from room
         this.state.currentRoom.splice(this.selectedCard, 1);
@@ -607,6 +615,8 @@ class ScoundrelGame {
         if (!this.state.equippedWeapon) return;
 
         this.showMessage(`Discarded ${this.state.equippedWeapon.getDisplay()} and its stacked monsters!`, 'info');
+        this.addToDiscard(this.state.equippedWeapon);
+        this.state.stackedMonsters.forEach(monster => this.addToDiscard(monster));
         this.state.equippedWeapon = null;
         this.state.stackedMonsters = [];
         this.render();
@@ -638,7 +648,45 @@ class ScoundrelGame {
         this.updateWeaponDisplay();
         this.updateActionButtons();
         this.updateButtons();
+        this.updateDebugDisplay();
         this.checkGameState();
+    }
+
+    addToDiscard(card) {
+        if (!card) return;
+        if (this.state.discardPile.includes(card)) return;
+        this.state.discardPile.push(card);
+    }
+
+    formatCardList(cards) {
+        if (!cards || cards.length === 0) return 'empty';
+        return cards.map(card => card.getDisplay()).join(' ');
+    }
+
+    updateDebugDisplay() {
+        const deckCountEl = document.getElementById('debugDeckCount');
+        const deckContentEl = document.getElementById('debugDeckContent');
+        const tableCountEl = document.getElementById('debugTableCount');
+        const tableContentEl = document.getElementById('debugTableContent');
+        const discardCountEl = document.getElementById('debugDiscardCount');
+        const discardContentEl = document.getElementById('debugDiscardContent');
+
+        if (!deckCountEl || !deckContentEl || !tableCountEl || !tableContentEl || !discardCountEl || !discardContentEl) return;
+
+        const tableCards = [...this.state.currentRoom];
+        if (this.state.equippedWeapon) {
+            tableCards.push(this.state.equippedWeapon);
+        }
+        if (this.state.stackedMonsters.length > 0) {
+            tableCards.push(...this.state.stackedMonsters);
+        }
+
+        deckCountEl.textContent = this.state.deck.length;
+        discardCountEl.textContent = this.state.discardPile.length;
+        deckContentEl.textContent = this.formatCardList(this.state.deck);
+        discardContentEl.textContent = this.formatCardList(this.state.discardPile);
+        tableCountEl.textContent = tableCards.length;
+        tableContentEl.textContent = this.formatCardList(tableCards);
     }
 
     updateStats() {
