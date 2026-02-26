@@ -92,110 +92,208 @@ class Card {
     }
 
     createDragon(isSpades) {
-        const fill = isSpades ? '#2c3e50' : '#34495e';
+        const fill = isSpades ? '#1a252f' : '#2d3e50';
+        const accent = isSpades ? '#ff4444' : '#ff6b6b';
         return `
+            <!-- Dragon body -->
+            <ellipse cx="0" cy="0" rx="14" ry="20" fill="${fill}" stroke="${fill}" stroke-width="0.5"/>
+            <!-- Dragon neck -->
+            <path d="M -8 -15 Q -6 -25 0 -32" fill="${fill}" stroke="${fill}" stroke-width="1"/>
+            <path d="M 8 -15 Q 6 -25 0 -32" fill="${fill}" stroke="${fill}" stroke-width="1"/>
             <!-- Dragon head -->
-            <circle cx="0" cy="-15" r="18" fill="${fill}"/>
-            <!-- Dragon jaw -->
-            <path d="M -8 -5 Q 0 5 8 -5" stroke="${fill}" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <!-- Dragon horns -->
-            <line x1="-10" y1="-32" x2="-15" y2="-45" stroke="${fill}" stroke-width="3" stroke-linecap="round"/>
-            <line x1="10" y1="-32" x2="15" y2="-45" stroke="${fill}" stroke-width="3" stroke-linecap="round"/>
-            <!-- Dragon eyes -->
-            <circle cx="-6" cy="-18" r="2" fill="#ff6b6b"/>
-            <circle cx="6" cy="-18" r="2" fill="#ff6b6b"/>
+            <circle cx="0" cy="-38" r="10" fill="${fill}" stroke="#000" stroke-width="0.5"/>
+            <!-- Dragon snout -->
+            <ellipse cx="0" cy="-32" rx="8" ry="6" fill="${fill}" stroke="#000" stroke-width="0.5"/>
+            <!-- Dragon jaw/mouth -->
+            <path d="M -4 -30 L 4 -30 L 2 -26 L -2 -26 Z" fill="${accent}" opacity="0.6"/>
+            <!-- Dragon eyes (glowing) -->
+            <circle cx="-4" cy="-40" r="2.5" fill="${accent}"/>
+            <circle cx="4" cy="-40" r="2.5" fill="${accent}"/>
+            <circle cx="-4" cy="-40" r="1.2" fill="#fff" opacity="0.8"/>
+            <circle cx="4" cy="-40" r="1.2" fill="#fff" opacity="0.8"/>
+            <!-- Dragon horns/spikes -->
+            <path d="M -6 -44 L -8 -52 L -5 -48" fill="${fill}" stroke="${fill}" stroke-width="0.5"/>
+            <path d="M 0 -47 L 0 -56 L -1 -50" fill="${fill}" stroke="${fill}" stroke-width="0.5"/>
+            <path d="M 6 -44 L 8 -52 L 5 -48" fill="${fill}" stroke="${fill}" stroke-width="0.5"/>
             <!-- Dragon wings -->
-            <path d="M -18 -5 Q -30 -20 -25 0" stroke="${fill}" stroke-width="2" fill="none" stroke-linecap="round"/>
-            <path d="M 18 -5 Q 30 -20 25 0" stroke="${fill}" stroke-width="2" fill="none" stroke-linecap="round"/>
-            <!-- Dragon fire breath -->
-            <path d="M 0 5 Q 5 15 0 25" stroke="#ff6b6b" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
-            <path d="M 0 5 Q -5 15 0 25" stroke="#ff6b6b" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+            <path d="M -14 -5 Q -26 -12 -24 5 L -16 2 Q -20 -4 -14 0" fill="${fill}" stroke="${fill}" stroke-width="0.5" opacity="0.9"/>
+            <path d="M 14 -5 Q 26 -12 24 5 L 16 2 Q 20 -4 14 0" fill="${fill}" stroke="${fill}" stroke-width="0.5" opacity="0.9"/>
+            <!-- Dragon tail -->
+            <path d="M 0 18 Q 8 25 6 32" stroke="${fill}" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M -2 18 Q -10 26 -8 33" stroke="${fill}" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <!-- Fire breath -->
+            <path d="M -2 -28 Q -6 -15 -8 5" stroke="${accent}" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+            <path d="M 2 -28 Q 6 -15 8 5" stroke="${accent}" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.7"/>
         `;
     }
 
     createKing(isSpades) {
-        const fill = isSpades ? '#2c3e50' : '#34495e';
+        const fill = isSpades ? '#1a252f' : '#2d3e50';
+        const skin = '#d4a574';
         return `
-            <!-- Crown -->
-            <path d="M -15 -20 L -8 -35 L 0 -38 L 8 -35 L 15 -20" stroke="${fill}" stroke-width="2" fill="none"/>
-            <circle cx="-8" cy="-32" r="2" fill="#ffc107"/>
-            <circle cx="0" cy="-35" r="2" fill="#ffc107"/>
-            <circle cx="8" cy="-32" r="2" fill="#ffc107"/>
-            <!-- Jewels -->
-            <circle cx="-12" cy="-25" r="1.5" fill="#ff6b6b"/>
-            <circle cx="12" cy="-25" r="1.5" fill="#ff6b6b"/>
-            <!-- Face -->
-            <circle cx="0" cy="-5" r="12" fill="${fill}"/>
-            <circle cx="-5" cy="-8" r="2" fill="#ff6b6b"/>
-            <circle cx="5" cy="-8" r="2" fill="#ff6b6b"/>
-            <line x1="-2" y1="0" x2="2" y2="0" stroke="#333" stroke-width="1"/>
-            <!-- Beard/Chin -->
-            <path d="M -8 5 Q 0 10 8 5" stroke="${fill}" stroke-width="2" fill="none"/>
+            <!-- Crown base -->
+            <ellipse cx="0" cy="-30" rx="14" ry="4" fill="#daa520" stroke="#b8860b" stroke-width="1"/>
+            <!-- Crown points -->
+            <path d="M -12 -30 L -10 -40 L -6 -32" fill="#ffc107" stroke="#b8860b" stroke-width="0.8"/>
+            <path d="M 0 -30 L 0 -42 L 2 -32" fill="#ffc107" stroke="#b8860b" stroke-width="0.8"/>
+            <path d="M 12 -30 L 10 -40 L 6 -32" fill="#ffc107" stroke="#b8860b" stroke-width="0.8"/>
+            <!-- Jewels on crown -->
+            <circle cx="-10" cy="-37" r="1.5" fill="#ff6b6b"/>
+            <circle cx="0" cy="-39" r="1.5" fill="#ff6b6b"/>
+            <circle cx="10" cy="-37" r="1.5" fill="#ff6b6b"/>
+            <!-- Head -->
+            <circle cx="0" cy="-10" r="11" fill="${skin}" stroke="${fill}" stroke-width="1"/>
+            <!-- Eyes -->
+            <circle cx="-5" cy="-12" r="1.5" fill="#333"/>
+            <circle cx="5" cy="-12" r="1.5" fill="#333"/>
+            <circle cx="-4" cy="-12.5" r="0.6" fill="#fff" opacity="0.8"/>
+            <circle cx="5.4" cy="-12.5" r="0.6" fill="#fff" opacity="0.8"/>
+            <!-- Nose -->
+            <path d="M 0 -8 L -1 -2 L 1 -2" fill="${fill}" stroke="${fill}" stroke-width="0.5"/>
+            <!-- Mouth -->
+            <path d="M -3 0 Q 0 3 3 0" stroke="#333" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+            <!-- Beard -->
+            <path d="M -8 4 Q 0 8 8 4" stroke="${fill}" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+            <line x1="-6" y1="6" x2="-4" y2="10" stroke="${fill}" stroke-width="1" opacity="0.6"/>
+            <line x1="0" y1="6.5" x2="0" y2="11" stroke="${fill}" stroke-width="1" opacity="0.6"/>
+            <line x1="6" y1="6" x2="4" y2="10" stroke="${fill}" stroke-width="1" opacity="0.6"/>
+            <!-- Neck -->
+            <rect x="-6" y="0" width="12" height="6" fill="${skin}" stroke="${fill}" stroke-width="0.5"/>
+            <!-- Royal robe -->
+            <path d="M -10 6 L -12 18 L 0 20 L 12 18 L 10 6" fill="${fill}" stroke="#000" stroke-width="0.8"/>
+            <!-- Robe trim -->
+            <path d="M -11 8 Q -12 14 -10 18" stroke="#ffc107" stroke-width="1.2" fill="none"/>
+            <path d="M 11 8 Q 12 14 10 18" stroke="#ffc107" stroke-width="1.2" fill="none"/>
         `;
     }
 
     createQueen(isSpades) {
-        const fill = isSpades ? '#2c3e50' : '#34495e';
+        const fill = isSpades ? '#1a252f' : '#2d3e50';
+        const skin = '#d4a574';
         return `
-            <!-- Crown with points -->
-            <path d="M -16 -15 L -10 -30 L -4 -25 L 0 -35 L 4 -25 L 10 -30 L 16 -15" stroke="${fill}" stroke-width="2" fill="url(#queenGradient)"/>
-            <defs><linearGradient id="queenGradient" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#ffc107"/><stop offset="100%" style="stop-color:#daa520"/></linearGradient></defs>
-            <!-- Jewels on crown -->
-            <circle cx="-4" cy="-28" r="1.5" fill="#ff6b6b"/>
-            <circle cx="0" cy="-34" r="1.5" fill="#ff6b6b"/>
-            <circle cx="4" cy="-28" r="1.5" fill="#ff6b6b"/>
-            <!-- Face -->
-            <circle cx="0" cy="0" r="11" fill="${fill}"/>
-            <!-- Eyes -->
-            <circle cx="-5" cy="-3" r="1.5" fill="#ff6b6b"/>
-            <circle cx="5" cy="-3" r="1.5" fill="#ff6b6b"/>
-            <!-- Hair/Elegance -->
-            <path d="M -11 0 Q -12 8 -8 12" stroke="${fill}" stroke-width="2" fill="none" stroke-linecap="round"/>
-            <path d="M 11 0 Q 12 8 8 12" stroke="${fill}" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- Crown base -->
+            <ellipse cx="0" cy="-27" rx="15" ry="5" fill="#e8d5b7" stroke="#b8860b" stroke-width="1"/>
+            <!-- Crown ornate points -->
+            <path d="M -12 -27 L -10 -38 L -7 -28" fill="#ffc107" stroke="#b8860b" stroke-width="0.8"/>
+            <path d="M -4 -27 L -3 -42 L 0 -28" fill="#ff6b6b" stroke="#cc0000" stroke-width="0.8"/>
+            <path d="M 4 -27 L 3 -42 L 0 -28" fill="#ff6b6b" stroke="#cc0000" stroke-width="0.8"/>
+            <path d="M 12 -27 L 10 -38 L 7 -28" fill="#ffc107" stroke="#b8860b" stroke-width="0.8"/>
+            <!-- Jewels -->
+            <circle cx="-8" cy="-35" r="1.2" fill="#ff6b6b"/>
+            <circle cx="-1" cy="-38" r="1.5" fill="#ff6b6b"/>
+            <circle cx="1" cy="-38" r="1.5" fill="#ff6b6b"/>
+            <circle cx="8" cy="-35" r="1.2" fill="#ff6b6b"/>
+            <!-- Head -->
+            <circle cx="0" cy="-5" r="12" fill="${skin}" stroke="${fill}" stroke-width="1"/>
+            <!-- Hair -->
+            <path d="M -12 -8 Q -14 -2 -10 4" stroke="#8b4513" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M 12 -8 Q 14 -2 10 4" stroke="#8b4513" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M -8 -16 Q -10 -14 -9 -8" stroke="#8b4513" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M 8 -16 Q 10 -14 9 -8" stroke="#8b4513" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- Eyes (elegant) -->
+            <ellipse cx="-5" cy="-7" rx="2" ry="1.5" fill="#333"/>
+            <ellipse cx="5" cy="-7" rx="2" ry="1.5" fill="#333"/>
+            <circle cx="-4.2" cy="-7.5" r="0.7" fill="#fff" opacity="0.9"/>
+            <circle cx="5.4" cy="-7.5" r="0.7" fill="#fff" opacity="0.9"/>
+            <!-- Eyebrows -->
+            <path d="M -7 -9 Q -5 -10 -3 -9" stroke="#8b4513" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+            <path d="M 3 -9 Q 5 -10 7 -9" stroke="#8b4513" stroke-width="0.6" fill="none" stroke-linecap="round"/>
+            <!-- Nose -->
+            <line x1="0" y1="-4" x2="0" y2="0" stroke="${fill}" stroke-width="0.6"/>
+            <!-- Lips -->
+            <path d="M -2 2 Q 0 4 2 2" stroke="#c74461" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+            <!-- Necklace -->
+            <path d="M -8 6 Q 0 10 8 6" stroke="#ffc107" stroke-width="1.5" fill="none"/>
+            <circle cx="-5" cy="7" r="0.8" fill="#ff6b6b"/>
+            <circle cx="0" cy="9" r="0.8" fill="#ff6b6b"/>
+            <circle cx="5" cy="7" r="0.8" fill="#ff6b6b"/>
+            <!-- Robe -->
+            <path d="M -10 8 L -12 20 L 0 22 L 12 20 L 10 8" fill="#8b008b" stroke="#000" stroke-width="0.8"/>
+            <!-- Robe trim -->
+            <path d="M -11 10 Q -12 16 -10 20" stroke="#ff69b4" stroke-width="1" fill="none"/>
+            <path d="M 11 10 Q 12 16 10 20" stroke="#ff69b4" stroke-width="1" fill="none"/>
         `;
     }
 
     createArmyLeader(isSpades) {
-        const fill = isSpades ? '#2c3e50' : '#34495e';
+        const fill = isSpades ? '#1a252f' : '#2d3e50';
+        const metalColor = '#888';
         return `
             <!-- Helmet -->
-            <path d="M -12 -20 Q -12 -30 0 -32 Q 12 -30 12 -20" stroke="${fill}" stroke-width="2" fill="${fill}"/>
-            <!-- Face guard -->
-            <circle cx="0" cy="-8" r="9" fill="${fill}"/>
-            <!-- Eyes -->
-            <circle cx="-4" cy="-10" r="1" fill="#ff6b6b"/>
-            <circle cx="4" cy="-10" r="1" fill="#ff6b6b"/>
-            <!-- Sword pointing up -->
-            <line x1="0" y1="-35" x2="0" y2="15" stroke="#999" stroke-width="3" stroke-linecap="round"/>
+            <ellipse cx="0" cy="-22" rx="13" ry="10" fill="${metalColor}" stroke="#555" stroke-width="1"/>
+            <!-- Helmet crest -->
+            <ellipse cx="0" cy="-25" rx="7" ry="4" fill="#666" stroke="#555" stroke-width="0.8"/>
+            <path d="M -3 -27 L -5 -35 L 0 -28" fill="#ff4444" stroke="#cc0000" stroke-width="0.6"/>
+            <path d="M 3 -27 L 5 -35 L 0 -28" fill="#ff4444" stroke="#cc0000" stroke-width="0.6"/>
+            <!-- Face mask -->
+            <ellipse cx="0" cy="-10" rx="7" ry="9" fill="${metalColor}" stroke="#555" stroke-width="1"/>
+            <!-- Eye slits -->
+            <ellipse cx="-3" cy="-12" rx="1.5" ry="2" fill="#222"/>
+            <ellipse cx="3" cy="-12" rx="1.5" ry="2" fill="#222"/>
+            <!-- Eyes glowing through slits -->
+            <circle cx="-3" cy="-12" r="0.8" fill="#ff6b6b"/>
+            <circle cx="3" cy="-12" r="0.8" fill="#ff6b6b"/>
+            <!-- Nose guard -->
+            <path d="M -1 -8 L 0 -6 L 1 -8" fill="${metalColor}" stroke="#555" stroke-width="0.5"/>
+            <!-- Mouth guard -->
+            <rect x="-2" y="-4" width="4" height="3" fill="${metalColor}" stroke="#555" stroke-width="0.5"/>
+            <!-- Sword blade -->
+            <path d="M -2 -32 L -1 15 L 1 15 L 2 -32" fill="${metalColor}" stroke="#666" stroke-width="0.8"/>
+            <!-- Blade shine -->
+            <line x1="-0.5" y1="-30" x2="-0.5" y2="12" stroke="#ccc" stroke-width="0.4" opacity="0.6"/>
             <!-- Sword guard -->
-            <line x1="-8" y1="5" x2="8" y2="5" stroke="#999" stroke-width="2"/>
-            <!-- Armor -->
-            <path d="M -10 0 L -12 10 L 0 15 L 12 10 L 10 0" stroke="${fill}" stroke-width="1.5" fill="none"/>
+            <ellipse cx="0" cy="5" rx="9" ry="2" fill="#8b4513" stroke="#654321" stroke-width="0.8"/>
+            <!-- Sword handle -->
+            <rect x="-1.5" y="6" width="3" height="12" fill="#8b4513" stroke="#654321" stroke-width="0.6"/>
+            <!-- Handle grip -->
+            <line x1="-1" y1="8" x2="1" y2="8" stroke="#654321" stroke-width="0.4"/>
+            <line x1="-1" y1="11" x2="1" y2="11" stroke="#654321" stroke-width="0.4"/>
+            <line x1="-1" y1="14" x2="1" y2="14" stroke="#654321" stroke-width="0.4"/>
+            <!-- Pommel -->
+            <circle cx="0" cy="20" r="2.5" fill="#8b4513" stroke="#654321" stroke-width="0.6"/>
+            <!-- Armor breastplate -->
+            <path d="M -8 2 L -10 16 L 0 18 L 10 16 L 8 2 Z" fill="${fill}" stroke="#555" stroke-width="1"/>
+            <!-- Armor details -->
+            <line x1="-5" y1="4" x2="-6" y2="14" stroke="${metalColor}" stroke-width="0.5" opacity="0.5"/>
+            <line x1="5" y1="4" x2="6" y2="14" stroke="${metalColor}" stroke-width="0.5" opacity="0.5"/>
         `;
     }
 
     createSoldier(level, isSpades) {
-        const fill = isSpades ? '#2c3e50' : '#34495e';
-        const helmetSize = 8 + (level > 5 ? 1 : 0);
+        const fill = isSpades ? '#1a252f' : '#2d3e50';
+        const metalColor = '#888';
+        const helmetSize = 8 + (level > 5 ? 1.5 : 0);
         return `
             <!-- Helmet -->
-            <circle cx="0" cy="-12" r="${helmetSize}" fill="${fill}"/>
+            <ellipse cx="0" cy="-14" rx="${helmetSize}" ry="${helmetSize * 1.1}" fill="${metalColor}" stroke="#666" stroke-width="0.8"/>
+            <!-- Helmet nasal -->
+            <path d="M -1 -12 L 0 -8 L 1 -12" fill="${metalColor}" stroke="#666" stroke-width="0.5"/>
             <!-- Face -->
-            <circle cx="0" cy="-2" r="6" fill="${fill}"/>
+            <circle cx="0" cy="-2" r="6" fill="#d4a574" stroke="${fill}" stroke-width="0.5"/>
             <!-- Eyes -->
-            <circle cx="-2" cy="-3" r="1" fill="#ff6b6b"/>
-            <circle cx="2" cy="-3" r="1" fill="#ff6b6b"/>
+            <circle cx="-2" cy="-3" r="1" fill="#333"/>
+            <circle cx="2" cy="-3" r="1" fill="#333"/>
+            <circle cx="-1.5" cy="-3.5" r="0.4" fill="#fff" opacity="0.8"/>
+            <circle cx="2.4" cy="-3.5" r="0.4" fill="#fff" opacity="0.8"/>
+            <!-- Mouth -->
+            <line x1="-1" y1="1" x2="1" y2="1" stroke="#8b4513" stroke-width="0.5"/>
             <!-- Body armor -->
-            <rect x="-8" y="5" width="16" height="12" rx="2" fill="${fill}" opacity="0.8"/>
-            <!-- Shield or weapon -->
+            <ellipse cx="0" cy="8" rx="9" ry="10" fill="${fill}" stroke="#444" stroke-width="1"/>
+            <!-- Armor segments -->
+            <line x1="-8" y1="5" x2="8" y2="5" stroke="${metalColor}" stroke-width="0.8" opacity="0.5"/>
+            <line x1="-8" y1="10" x2="8" y2="10" stroke="${metalColor}" stroke-width="0.8" opacity="0.5"/>
+            <!-- Shield or weapon based on level -->
             ${level > 7 ? 
-                `<!-- Shield -->
-                <circle cx="-12" cy="8" r="5" fill="#999" opacity="0.6"/>
-                <line x1="-12" y1="5" x2="-12" y2="11" stroke="${fill}" stroke-width="1"/>` 
+                `<!-- Shield (strong soldier) -->
+                <circle cx="-12" cy="8" r="6" fill="#999" stroke="#666" stroke-width="0.8"/>
+                <circle cx="-12" cy="8" r="4" fill="#777" opacity="0.6"/>
+                <path d="M -14 6 L -10 6 L -12 10" fill="${fill}" opacity="0.7"/>
+                <line x1="-12" y1="4" x2="-12" y2="12" stroke="${fill}" stroke-width="0.8" opacity="0.7"/>` 
                 : 
-                `<!-- Spear -->
-                <line x1="10" y1="-10" x2="10" y2="18" stroke="#999" stroke-width="2" stroke-linecap="round"/>
-                <path d="M 8 -10 L 10 -15 L 12 -10" fill="#999"/>`
+                `<!-- Spear (regular soldier) -->
+                <line x1="11" y1="-12" x2="11" y2="20" stroke="#999" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M 9 -12 L 11 -18 L 13 -12" fill="${metalColor}" stroke="#666" stroke-width="0.5"/>
+                <line x1="10" y1="8" x2="12" y2="8" stroke="#999" stroke-width="1.5" stroke-linecap="round"/>`
             }
         `;
     }
@@ -229,20 +327,36 @@ class Card {
 
     createWeaponGraphic() {
         return `
-            <!-- Sword -->
-            <line x1="0" y1="-40" x2="0" y2="30" stroke="#888" stroke-width="3" stroke-linecap="round"/>
-            <!-- Blade shine -->
-            <line x1="1" y1="-35" x2="1" y2="20" stroke="#ddd" stroke-width="1" opacity="0.5"/>
+            <!-- Sword blade -->
+            <path d="M -2.5 -42 L -1 10 L 0 32 L 1 10 L 2.5 -42" fill="#9ca3af" stroke="#666" stroke-width="0.8"/>
+            <!-- Blade edges -->
+            <line x1="-2.5" y1="-40" x2="0" y2="30" stroke="#555" stroke-width="0.5" opacity="0.7"/>
+            <line x1="2.5" y1="-40" x2="0" y2="30" stroke="#555" stroke-width="0.5" opacity="0.7"/>
+            <!-- Blade shine/edge highlight -->
+            <line x1="-1" y1="-38" x2="-0.5" y2="25" stroke="#e8e8e8" stroke-width="0.6" opacity="0.8"/>
+            <line x1="0.5" y1="-38" x2="1" y2="25" stroke="#e8e8e8" stroke-width="0.4" opacity="0.5"/>
+            <!-- Spine/fuller detail -->
+            <path d="M -0.8 -35 L -0.3 10 L 0 28 L 0.3 10 L 0.8 -35" fill="none" stroke="#999" stroke-width="0.4" opacity="0.6"/>
             <!-- Cross guard -->
-            <line x1="-12" y1="8" x2="12" y2="8" stroke="#8b4513" stroke-width="4" stroke-linecap="round"/>
+            <ellipse cx="0" cy="8" rx="13" ry="2.5" fill="#8b4513" stroke="#654321" stroke-width="1"/>
+            <ellipse cx="0" cy="8" rx="11" ry="2" fill="#a0522d" opacity="0.6"/>
+            <!-- Guard detail -->
+            <path d="M -10 6 Q -11 8 -10 10" stroke="#654321" stroke-width="0.5" fill="none" opacity="0.7"/>
+            <path d="M 10 6 Q 11 8 10 10" stroke="#654321" stroke-width="0.5" fill="none" opacity="0.7"/>
             <!-- Handle -->
-            <rect x="-3" y="10" width="6" height="18" fill="#8b4513" rx="1"/>
-            <!-- Grip texture -->
-            <line x1="-2" y1="13" x2="2" y2="13" stroke="#654321" stroke-width="0.5"/>
-            <line x1="-2" y1="17" x2="2" y2="17" stroke="#654321" stroke-width="0.5"/>
-            <line x1="-2" y1="21" x2="2" y2="21" stroke="#654321" stroke-width="0.5"/>
+            <rect x="-2.5" y="10" width="5" height="18" fill="#8b4513" rx="1.5" stroke="#654321" stroke-width="0.8"/>
+            <!-- Leather wrapping -->
+            <line x1="-2" y1="12" x2="2" y2="12" stroke="#654321" stroke-width="0.6" opacity="0.8"/>
+            <line x1="-2" y1="15" x2="2" y2="15" stroke="#654321" stroke-width="0.6" opacity="0.8"/>
+            <line x1="-2" y1="18" x2="2" y2="18" stroke="#654321" stroke-width="0.6" opacity="0.8"/>
+            <line x1="-2" y1="21" x2="2" y2="21" stroke="#654321" stroke-width="0.6" opacity="0.8"/>
+            <line x1="-2" y1="24" x2="2" y2="24" stroke="#654321" stroke-width="0.6" opacity="0.8"/>
             <!-- Pommel -->
-            <circle cx="0" cy="32" r="4" fill="#8b4513"/>
+            <circle cx="0" cy="32" r="3.5" fill="#8b4513" stroke="#654321" stroke-width="1"/>
+            <circle cx="0" cy="32" r="2" fill="#a0522d" opacity="0.6"/>
+            <!-- Pommel detail -->
+            <circle cx="-1" cy="31" r="0.6" fill="#daa520" opacity="0.7"/>
+            <circle cx="1" cy="33" r="0.6" fill="#daa520" opacity="0.7"/>
         `;
     }
 
@@ -648,7 +762,6 @@ class ScoundrelGame {
         this.updateWeaponDisplay();
         this.updateActionButtons();
         this.updateButtons();
-        this.updateDebugDisplay();
         this.checkGameState();
     }
 
@@ -658,36 +771,7 @@ class ScoundrelGame {
         this.state.discardPile.push(card);
     }
 
-    formatCardList(cards) {
-        if (!cards || cards.length === 0) return 'empty';
-        return cards.map(card => card.getDisplay()).join(' ');
-    }
 
-    updateDebugDisplay() {
-        const deckCountEl = document.getElementById('debugDeckCount');
-        const deckContentEl = document.getElementById('debugDeckContent');
-        const tableCountEl = document.getElementById('debugTableCount');
-        const tableContentEl = document.getElementById('debugTableContent');
-        const discardCountEl = document.getElementById('debugDiscardCount');
-        const discardContentEl = document.getElementById('debugDiscardContent');
-
-        if (!deckCountEl || !deckContentEl || !tableCountEl || !tableContentEl || !discardCountEl || !discardContentEl) return;
-
-        const tableCards = [...this.state.currentRoom];
-        if (this.state.equippedWeapon) {
-            tableCards.push(this.state.equippedWeapon);
-        }
-        if (this.state.stackedMonsters.length > 0) {
-            tableCards.push(...this.state.stackedMonsters);
-        }
-
-        deckCountEl.textContent = this.state.deck.length;
-        discardCountEl.textContent = this.state.discardPile.length;
-        deckContentEl.textContent = this.formatCardList(this.state.deck);
-        discardContentEl.textContent = this.formatCardList(this.state.discardPile);
-        tableCountEl.textContent = tableCards.length;
-        tableContentEl.textContent = this.formatCardList(tableCards);
-    }
 
     updateStats() {
         document.getElementById('healthDisplay').textContent = this.state.health;
