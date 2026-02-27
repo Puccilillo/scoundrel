@@ -413,9 +413,15 @@ class GameState {
         const remainingInRoom = this.currentRoom.filter(c => c.type === 'monster').reduce((sum, card) => sum + card.value, 0);
         const remainingInDeck = this.deck.filter(c => c.type === 'monster').reduce((sum, card) => sum + card.value, 0);
         const remainingScore = remainingInDeck + remainingInRoom;
-        // Add value of remaining weapons (diamonds) and potions (hearts) in deck and current room only
-        const remainingWeaponsAndPotions = this.deck.filter(c => c.type === 'weapon' || c.type === 'potion').reduce((sum, card) => sum + card.value, 0) + 
-                                           this.currentRoom.filter(c => c.type === 'weapon' || c.type === 'potion').reduce((sum, card) => sum + card.value, 0);
+        
+        // Only add value of remaining weapons and potions when player wins (not dead)
+        let remainingWeaponsAndPotions = 0;
+        if (!this.playerDead) {
+            // Count unused weapons and potions only on winning condition
+            remainingWeaponsAndPotions = this.deck.filter(c => c.type === 'weapon' || c.type === 'potion').reduce((sum, card) => sum + card.value, 0) + 
+                                         this.currentRoom.filter(c => c.type === 'weapon' || c.type === 'potion').reduce((sum, card) => sum + card.value, 0);
+        }
+        
         return killedScore + remainingWeaponsAndPotions - remainingScore;
     }
 }
