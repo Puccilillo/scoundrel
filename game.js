@@ -424,7 +424,10 @@ class GameState {
         const remainingInRoom = this.currentRoom.filter(c => c.type === 'monster').reduce((sum, card) => sum + card.value, 0);
         const remainingInDeck = this.deck.filter(c => c.type === 'monster').reduce((sum, card) => sum + card.value, 0);
         const remainingScore = remainingInDeck + remainingInRoom;
-        return killedScore - remainingScore;
+        // Add value of remaining weapons (diamonds) and potions (hearts) in deck and current room only
+        const remainingWeaponsAndPotions = this.deck.filter(c => c.type === 'weapon' || c.type === 'potion').reduce((sum, card) => sum + card.value, 0) + 
+                                           this.currentRoom.filter(c => c.type === 'weapon' || c.type === 'potion').reduce((sum, card) => sum + card.value, 0);
+        return killedScore + remainingWeaponsAndPotions - remainingScore;
     }
 }
 
@@ -486,7 +489,13 @@ class ScoundrelGame {
         const cardsNeeded = 4 - this.state.currentRoom.length;
         for (let i = 0; i < cardsNeeded; i++) {
             if (this.state.deck.length === 0) {
-                this.endGame();
+                // Deck is empty. Check if all monsters are killed - if so, player wins!
+                if (this.isAllMonsterKilled()) {
+                    this.state.gameOver = true;
+                    this.state.playerDead = false;
+                    this.endGame();
+                }
+                // If not all monsters are killed but deck is empty, just allow playing with remaining cards in room
                 return;
             }
             this.state.currentRoom.push(this.state.deck.pop());
@@ -539,7 +548,13 @@ class ScoundrelGame {
         this.currentAction = null;
 
         this.showMessage(`Equipped weapon: ${card.getDisplay()}`, 'success');
-        this.render();
+        
+        // Auto-advance if 3 cards used
+        if (this.state.cardsUsedThisRoom >= 3) {
+            this.autoAdvanceRoom();
+        } else {
+            this.render();
+        }
     }
 
     fightMonster() {
@@ -618,11 +633,19 @@ class ScoundrelGame {
         this.selectedCard = null;
         this.currentAction = null;
 
-        if (this.state.gameOver) {
-            this.endGame();
+        // Check if all monsters are killed - if so, player wins!
+        if (this.isAllMonsterKilled()) {
+            this.state.gameOver = true;
+            this.state.playerDead = false;
         }
 
-        this.render();
+        if (this.state.gameOver) {
+            this.endGame();
+        } else if (this.state.cardsUsedThisRoom >= 3) {
+            this.autoAdvanceRoom();
+        } else {
+            this.render();
+        }
     }
 
     fightMonsterBareHanded() {
@@ -656,11 +679,19 @@ class ScoundrelGame {
         this.selectedCard = null;
         this.currentAction = null;
 
-        if (this.state.gameOver) {
-            this.endGame();
+        // Check if all monsters are killed - if so, player wins!
+        if (this.isAllMonsterKilled()) {
+            this.state.gameOver = true;
+            this.state.playerDead = false;
         }
 
-        this.render();
+        if (this.state.gameOver) {
+            this.endGame();
+        } else if (this.state.cardsUsedThisRoom >= 3) {
+            this.autoAdvanceRoom();
+        } else {
+            this.render();
+        }
     }
 
     usePotion() {
@@ -691,7 +722,12 @@ class ScoundrelGame {
         this.selectedCard = null;
         this.currentAction = null;
 
-        this.render();
+        // Auto-advance if 3 cards used
+        if (this.state.cardsUsedThisRoom >= 3) {
+            this.autoAdvanceRoom();
+        } else {
+            this.render();
+        }
     }
 
     skipRoom() {
@@ -713,12 +749,7 @@ class ScoundrelGame {
         this.render();
     }
 
-    advance() {
-        if (this.state.cardsUsedThisRoom < 3) {
-            this.showMessage('You must use 3 cards to advance!', 'error');
-            return;
-        }
-
+    autoAdvanceRoom() {
         // Keep last card for new room
         this.state.lastRoomSkipped = false;
         this.state.roomNumber++;
@@ -727,6 +758,13 @@ class ScoundrelGame {
         this.state.potionUsedThisRoom = false;
         this.dealRoom();
         this.render();
+    }
+
+    isAllMonsterKilled() {
+        // A standard deck has 26 monsters (13 clubs + 13 spades)
+        // Check if all monsters have been killed
+        const totalMonstersInGame = 26;
+        return this.state.killedMonsters.length === totalMonstersInGame;
     }
 
     endGame() {
@@ -968,14 +1006,11 @@ class ScoundrelGame {
 
     updateButtons() {
         const skipBtn = document.getElementById('skipRoomBtn');
-        const advanceBtn = document.getElementById('advanceBtn');
 
         if (this.state.gameOver) {
             skipBtn.disabled = true;
-            advanceBtn.disabled = true;
         } else {
             skipBtn.disabled = this.state.lastRoomSkipped || this.state.cardsUsedThisRoom > 0;
-            advanceBtn.disabled = this.state.cardsUsedThisRoom < 3;
         }
     }
 
@@ -998,8 +1033,8 @@ class ScoundrelGame {
             title.textContent = '💀 YOU DIED 💀';
             message.textContent = `You survived ${this.state.roomNumber} rooms`;
         } else {
-            title.textContent = '✨ GAME COMPLETE ✨';
-            message.textContent = 'You cleared all the monsters!';
+            title.textContent = '✨ VICTORY ✨';
+            message.textContent = `You killed all monsters in ${this.state.roomNumber} rooms!`;
         }
 
         score.textContent = this.state.getScore();
