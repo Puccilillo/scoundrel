@@ -670,23 +670,17 @@
                         Initializing game...
                     </div>
                 </div>
-                <div class="action-buttons">
-                    <button class="btn-primary" id="skipRoomBtn" onclick="game.skipRoom()" disabled>
-                        Skip Room
-                    </button>
-                </div>
             </div>
 
             <!-- Actions Area -->
             <div class="action-area">
+                <div style="margin-top: 20px; margin-bottom: 20px; display: grid; grid-template-columns: 1fr; gap: 10px;">
+                    <button class="btn-secondary" onclick="game.newGame()">New Game</button>
+                    <button class="btn-danger" id="skipRoomBtn" onclick="game.skipRoom()" disabled>Skip Room</button>
+                </div>
                 <div class="section-title">ACTIONS</div>
                 <div id="actionButtons" style="display: grid; grid-template-columns: 1fr; gap: 10px;">
                     <!-- Action buttons will be generated here -->
-                </div>
-                <div style="margin-top: 20px;">
-                    <button class="btn-secondary" style="width: 100%;" onclick="game.newGame()">
-                        New Game
-                    </button>
                 </div>
             </div>
         </div>
