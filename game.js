@@ -316,36 +316,54 @@ class Card {
 
     createWeaponGraphic() {
         return `
-            <!-- Sword blade -->
-            <path d="M -2.5 -42 L -1 10 L 0 32 L 1 10 L 2.5 -42" fill="#9ca3af" stroke="#666" stroke-width="0.8"/>
+            <!-- SHIELD (WIDE BACKGROUND) -->
+            <!-- Shield body - 3x wider, centered -->
+            <path d="M -30 -30 L -24 -35 L 24 -35 L 30 -30 L 30 15 Q 0 30 0 32 Q 0 30 -30 15 Z" fill="#c0860b" stroke="#8b5a00" stroke-width="1"/>
+            <!-- Shield highlight/metallic shine -->
+            <ellipse cx="0" cy="-5" rx="12" ry="14" fill="#daa520" opacity="0.4"/>
+            <!-- Shield vertical lines -->
+            <line x1="-20" y1="-32" x2="-20" y2="18" stroke="#8b5a00" stroke-width="0.8" opacity="0.6"/>
+            <line x1="-10" y1="-33" x2="-10" y2="20" stroke="#8b5a00" stroke-width="0.8" opacity="0.6"/>
+            <line x1="0" y1="-34" x2="0" y2="22" stroke="#8b5a00" stroke-width="0.8" opacity="0.6"/>
+            <line x1="10" y1="-33" x2="10" y2="20" stroke="#8b5a00" stroke-width="0.8" opacity="0.6"/>
+            <line x1="20" y1="-32" x2="20" y2="18" stroke="#8b5a00" stroke-width="0.8" opacity="0.6"/>
+            <!-- Shield boss (center circle) -->
+            <circle cx="0" cy="2" r="8" fill="#888" stroke="#555" stroke-width="0.8"/>
+            <circle cx="0" cy="2" r="6" fill="#999" opacity="0.6"/>
+            <!-- Boss shine -->
+            <circle cx="-1.5" cy="0" r="2" fill="#e8e8e8" opacity="0.8"/>
+            <!-- Shield edge definition -->
+            <path d="M -30 -30 L -24 -35 L 24 -35 L 30 -30" fill="none" stroke="#6b4423" stroke-width="0.8" opacity="0.8"/>
+            <path d="M -30 -30 L -30 15 Q 0 30 0 32" fill="none" stroke="#6b4423" stroke-width="0.8" opacity="0.8"/>
+            <path d="M 30 -30 L 30 15 Q 0 30 0 32" fill="none" stroke="#6b4423" stroke-width="0.8" opacity="0.8"/>
+            
+            <!-- SWORD (IN FRONT, CENTERED, LONGER AND LOWER) -->
+            <!-- Sword blade - longer and lower -->
+            <path d="M -1.5 -50 L -0.5 15 L 0 40 L 0.5 15 L 1.5 -50" fill="#9ca3af" stroke="#666" stroke-width="0.8"/>
             <!-- Blade edges -->
-            <line x1="-2.5" y1="-40" x2="0" y2="30" stroke="#555" stroke-width="0.5" opacity="0.7"/>
-            <line x1="2.5" y1="-40" x2="0" y2="30" stroke="#555" stroke-width="0.5" opacity="0.7"/>
+            <line x1="-1.5" y1="-48" x2="0" y2="38" stroke="#555" stroke-width="0.5" opacity="0.7"/>
+            <line x1="1.5" y1="-48" x2="0" y2="38" stroke="#555" stroke-width="0.5" opacity="0.7"/>
             <!-- Blade shine/edge highlight -->
-            <line x1="-1" y1="-38" x2="-0.5" y2="25" stroke="#e8e8e8" stroke-width="0.6" opacity="0.8"/>
-            <line x1="0.5" y1="-38" x2="1" y2="25" stroke="#e8e8e8" stroke-width="0.4" opacity="0.5"/>
+            <line x1="-0.8" y1="-46" x2="-0.2" y2="33" stroke="#e8e8e8" stroke-width="0.6" opacity="0.8"/>
+            <line x1="0.2" y1="-46" x2="0.8" y2="33" stroke="#e8e8e8" stroke-width="0.4" opacity="0.5"/>
             <!-- Spine/fuller detail -->
-            <path d="M -0.8 -35 L -0.3 10 L 0 28 L 0.3 10 L 0.8 -35" fill="none" stroke="#999" stroke-width="0.4" opacity="0.6"/>
+            <path d="M -0.6 -43 L -0.2 15 L 0 36 L 0.2 15 L 0.6 -43" fill="none" stroke="#999" stroke-width="0.4" opacity="0.6"/>
             <!-- Cross guard -->
-            <ellipse cx="0" cy="8" rx="13" ry="2.5" fill="#8b4513" stroke="#654321" stroke-width="1"/>
-            <ellipse cx="0" cy="8" rx="11" ry="2" fill="#a0522d" opacity="0.6"/>
-            <!-- Guard detail -->
-            <path d="M -10 6 Q -11 8 -10 10" stroke="#654321" stroke-width="0.5" fill="none" opacity="0.7"/>
-            <path d="M 10 6 Q 11 8 10 10" stroke="#654321" stroke-width="0.5" fill="none" opacity="0.7"/>
+            <ellipse cx="0" cy="15" rx="9" ry="2.5" fill="#8b4513" stroke="#654321" stroke-width="1"/>
+            <ellipse cx="0" cy="15" rx="7" ry="2" fill="#a0522d" opacity="0.6"/>
             <!-- Handle -->
-            <rect x="-2.5" y="10" width="5" height="18" fill="#8b4513" rx="1.5" stroke="#654321" stroke-width="0.8"/>
+            <rect x="-1.5" y="17" width="3" height="18" fill="#8b4513" rx="1.5" stroke="#654321" stroke-width="0.8"/>
             <!-- Leather wrapping -->
-            <line x1="-2" y1="12" x2="2" y2="12" stroke="#654321" stroke-width="0.6" opacity="0.8"/>
-            <line x1="-2" y1="15" x2="2" y2="15" stroke="#654321" stroke-width="0.6" opacity="0.8"/>
-            <line x1="-2" y1="18" x2="2" y2="18" stroke="#654321" stroke-width="0.6" opacity="0.8"/>
-            <line x1="-2" y1="21" x2="2" y2="21" stroke="#654321" stroke-width="0.6" opacity="0.8"/>
-            <line x1="-2" y1="24" x2="2" y2="24" stroke="#654321" stroke-width="0.6" opacity="0.8"/>
+            <line x1="-1.2" y1="19" x2="1.2" y2="19" stroke="#654321" stroke-width="0.6" opacity="0.8"/>
+            <line x1="-1.2" y1="22" x2="1.2" y2="22" stroke="#654321" stroke-width="0.6" opacity="0.8"/>
+            <line x1="-1.2" y1="25" x2="1.2" y2="25" stroke="#654321" stroke-width="0.6" opacity="0.8"/>
+            <line x1="-1.2" y1="28" x2="1.2" y2="28" stroke="#654321" stroke-width="0.6" opacity="0.8"/>
             <!-- Pommel -->
-            <circle cx="0" cy="32" r="3.5" fill="#8b4513" stroke="#654321" stroke-width="1"/>
-            <circle cx="0" cy="32" r="2" fill="#a0522d" opacity="0.6"/>
+            <circle cx="0" cy="39" r="2.5" fill="#8b4513" stroke="#654321" stroke-width="1"/>
+            <circle cx="0" cy="39" r="1.5" fill="#a0522d" opacity="0.6"/>
             <!-- Pommel detail -->
-            <circle cx="-1" cy="31" r="0.6" fill="#daa520" opacity="0.7"/>
-            <circle cx="1" cy="33" r="0.6" fill="#daa520" opacity="0.7"/>
+            <circle cx="-0.8" cy="38" r="0.4" fill="#daa520" opacity="0.7"/>
+            <circle cx="0.8" cy="40" r="0.4" fill="#daa520" opacity="0.7"/>
         `;
     }
 
@@ -929,10 +947,24 @@ class ScoundrelGame {
 
     updateActionButtons() {
         const container = document.getElementById('actionButtons');
-        container.innerHTML = '';
+        const skipBtn = document.getElementById('skipRoomBtn');
+        
+        // Clear action buttons but preserve skip button
+        const buttonsToRemove = container.querySelectorAll('button:not(#skipRoomBtn)');
+        buttonsToRemove.forEach(btn => btn.remove());
+        
+        // Remove message if present
+        const message = container.querySelector('.actions-empty');
+        if (message) message.remove();
 
         if (this.selectedCard === null || this.state.gameOver || this.state.cardsUsedThisRoom >= 3) {
-            container.innerHTML = '<p class="actions-empty">Select a card to act</p>';
+            // Only show message if no cards are selected
+            if (this.selectedCard === null && !this.state.gameOver && this.state.cardsUsedThisRoom < 3) {
+                const msg = document.createElement('p');
+                msg.className = 'actions-empty';
+                msg.textContent = 'Select a card to act';
+                container.insertBefore(msg, skipBtn);
+            }
             return;
         }
 
@@ -943,7 +975,7 @@ class ScoundrelGame {
             btn.className = 'btn-primary';
             btn.textContent = `⚔️ Equip ${card.getDisplay()}`;
             btn.onclick = () => this.equipWeapon();
-            container.appendChild(btn);
+            container.insertBefore(btn, skipBtn);
         } else if (card.type === 'monster') {
             // Check if weapon is equipped and usable
             let canUseWeapon = false;
@@ -963,13 +995,13 @@ class ScoundrelGame {
                 btnWeapon.className = 'btn-primary';
                 btnWeapon.textContent = `⚔️ Fight ${card.getDisplay()} (with weapon)`;
                 btnWeapon.onclick = () => this.fightMonster();
-                container.appendChild(btnWeapon);
+                container.insertBefore(btnWeapon, skipBtn);
 
                 const btnBareHanded = document.createElement('button');
                 btnBareHanded.className = 'btn-danger';
                 btnBareHanded.textContent = `👊 Fight ${card.getDisplay()} (bare-handed)`;
                 btnBareHanded.onclick = () => this.fightMonsterBareHanded();
-                container.appendChild(btnBareHanded);
+                container.insertBefore(btnBareHanded, skipBtn);
             } else {
                 // Only bare-handed option (no weapon or weapon unusable)
                 const btn = document.createElement('button');
@@ -980,7 +1012,7 @@ class ScoundrelGame {
                     btn.textContent = `👊 Fight ${card.getDisplay()}`;
                 }
                 btn.onclick = () => this.fightMonsterBareHanded();
-                container.appendChild(btn);
+                container.insertBefore(btn, skipBtn);
             }
         } else if (card.type === 'potion') {
             const btn = document.createElement('button');
@@ -992,7 +1024,7 @@ class ScoundrelGame {
                 btn.textContent = `🧪 Use ${card.getDisplay()}`;
             }
             btn.onclick = () => this.usePotion();
-            container.appendChild(btn);
+            container.insertBefore(btn, skipBtn);
         }
     }
 
