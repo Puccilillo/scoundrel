@@ -21,16 +21,6 @@ class Card {
         return `${displayValue}${suitMap[this.suit]}`;
     }
 
-    getValueDisplay() {
-        const valueMap = { 11: 'J', 12: 'Q', 13: 'K', 14: 'A' };
-        return valueMap[this.value] || this.value;
-    }
-
-    getSuitDisplay() {
-        const suitMap = { 'clubs': '♣', 'spades': '♠', 'hearts': '♥', 'diamonds': '♦' };
-        return suitMap[this.suit];
-    }
-
     getSVG() {
         if (this.type === 'monster') {
             return this.getMonsterSVG();
@@ -43,7 +33,6 @@ class Card {
     }
 
     getMonsterSVG() {
-        const weaponType = this.suit === 'spades' ? 'swords' : 'clubs';
         const isSpaces = this.suit === 'spades';
         let monsterSvg = '';
 
@@ -566,7 +555,6 @@ class ScoundrelGame {
         const monsterValue = card.value;
         const weaponValue = this.state.equippedWeapon ? this.state.equippedWeapon.value : 0;
         let damage = 0;
-        let monsterKilled = false;
 
         if (this.state.equippedWeapon) {
             // Check if weapon can be used (must be less valuable than last stacked monster)
@@ -583,7 +571,6 @@ class ScoundrelGame {
                 if (monsterValue <= weaponValue) {
                     // Monster <= weapon: monster dies, no damage
                     damage = 0;
-                    monsterKilled = true;
                     this.state.stackedMonsters.push(card);
                     this.showMessage(
                         `💥 Monster ${card.getDisplay()} defeated by ${this.state.equippedWeapon.getDisplay()}!`,
@@ -592,7 +579,6 @@ class ScoundrelGame {
                 } else {
                     // Monster > weapon: reduced damage = monster - weapon
                     damage = monsterValue - weaponValue;
-                    monsterKilled = true;
                     this.state.stackedMonsters.push(card);
                     this.showMessage(
                         `⚔️ Monster ${card.getDisplay()} dealt ${damage} damage! (weapon reduced it)`,
@@ -875,14 +861,14 @@ class ScoundrelGame {
         const container = document.getElementById('roomCards');
         
         if (this.state.gameOver && this.state.currentRoom.length === 0) {
-            container.innerHTML = '<div style="text-align: center; color: rgba(255,255,255,0.5); grid-column: 1/-1;">Game Over</div>';
+            container.innerHTML = '<div class="room-cards-placeholder">Game Over</div>';
             return;
         }
 
         container.innerHTML = '';
         
         if (this.state.currentRoom.length === 0) {
-            container.innerHTML = '<div style="text-align: center; color: rgba(255,255,255,0.5); grid-column: 1/-1;">No more cards. Game Over!</div>';
+            container.innerHTML = '<div class="room-cards-placeholder">No more cards. Game Over!</div>';
             return;
         }
 
@@ -924,14 +910,14 @@ class ScoundrelGame {
             const weaponSvg = weaponCard.getSVG();
             container.classList.add('equipped');
             container.innerHTML = `
-                <div style="width: 100%; height: 150px; margin-bottom: 15px;">
+                <div class="weapon-svg">
                     ${weaponSvg}
                 </div>
                 ${stackInfo}
             `;
         } else {
             container.classList.remove('equipped');
-            container.innerHTML = '<div style="opacity: 0.5;">⚔️ No weapon equipped</div>';
+            container.innerHTML = '<div class="muted">⚔️ No weapon equipped</div>';
         }
     }
 
@@ -940,7 +926,7 @@ class ScoundrelGame {
         container.innerHTML = '';
 
         if (this.selectedCard === null || this.state.gameOver || this.state.cardsUsedThisRoom >= 3) {
-            container.innerHTML = '<p style="text-align: center; opacity: 0.7;">Select a card to act</p>';
+            container.innerHTML = '<p class="actions-empty">Select a card to act</p>';
             return;
         }
 
