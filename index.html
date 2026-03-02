@@ -4,96 +4,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scoundrel - Card Game</title>
+    <title>Scoundrel</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>⚔️ SCOUNDREL ⚔️</h1>
-            <p>Dungeon Card Game</p>
-        </div>
+    <div class="app">
+        <header class="header">
+            <h1>SCOUNDREL</h1>
+        </header>
 
-        <div class="game-info">
-            <div class="info-box">
-                <div class="info-label">❤️ HEALTH</div>
-                <div class="health-bar-container">
-                    <div class="health-bar" id="healthBar"></div>
-                </div>
-                <div class="health-subtext">
-                    <span id="healthDisplay">20</span>/20
-                </div>
-            </div>
-            <div class="info-box">
-                <div class="info-label">📜 DECK</div>
-                <div class="info-value deck-value" id="deckDisplay">44</div>
-            </div>
-            <div class="info-box">
-                <div class="info-label">🗺️ ROOM</div>
-                <div class="info-value" id="roomDisplay">I</div>
-            </div>
-        </div>
-
-        <div class="room-progress">
-            <div class="progress-label">Dungeon Path</div>
-            <div class="room-progress-path" id="roomProgressPath">
-                <div class="node current" title="Room I"></div>
-            </div>
-        </div>
-
-        <div class="main-game">
-            <!-- Player Area -->
-            <div class="player-area">
-                <div class="section-title">EQUIPMENT</div>
-                <div class="weapon-display" id="weaponDisplay">
-                    <div class="muted">No weapon equipped</div>
-                </div>
-            </div>
-
-            <!-- Room Area -->
-            <div class="room-area">
-                <div class="turn-info" id="turnInfo">
-                    Cards used: <span id="cardsUsed">0</span>/3
-                </div>
-                <div class="section-title">ROOM</div>
-                <div class="cards-grid" id="roomCards">
-                    <div class="room-cards-placeholder">
-                        Initializing game...
+        <div class="board">
+            <!-- LEFT COLUMN: Equipment + Deck -->
+            <section class="column left-column">
+                <div class="panel equipment-panel">
+                    <h2 class="panel-title">Equipment</h2>
+                    <div class="weapon-display" id="weaponDisplay">
+                        <div class="placeholder">None</div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Actions Area -->
-            <div class="action-area">
-                <div class="section-title">MENU</div>
-                <div class="actions-footer">
-                    <button class="btn-secondary" onclick="game.newGame()">New Game</button>
+                <div class="panel deck-panel">
+                    <h2 class="panel-title">Deck <span class="panel-count" id="deckCount">44</span></h2>
+                    <div class="pile" id="deckPile">
+                    </div>
                 </div>
-                <div class="section-title">ACTIONS</div>
-                <div id="actionButtons" class="actions-list">
-                    <button class="btn-danger" id="skipRoomBtn" onclick="game.skipRoom()" disabled>Skip Room</button>
-                    <!-- Additional action buttons will be generated here -->
+            </section>
+
+            <!-- MIDDLE COLUMN: Room Cards -->
+            <section class="column middle-column">
+                <div class="panel room-panel">
+                    <h2 class="panel-title room-title">ROOM <span class="panel-count" id="roomDisplay">I</span> HEALTH <span class="panel-count" id="healthDisplay">20</span> CARDS <span class="panel-count" id="roomCount">0</span></h2>
+                    <div class="cards-display" id="roomCards">
+                        <div class="placeholder">Initializing...</div>
+                    </div>
                 </div>
-            </div>
+            </section>
+
+            <!-- RIGHT COLUMN: Actions + Discard -->
+            <section class="column right-column">
+                <div class="panel actions-panel">
+                    <h2 class="panel-title">Actions</h2>
+                    <div class="actions-buttons" id="actionButtons">
+                        <button class="btn btn-skip" id="skipRoomBtn" onclick="game.skipRoom()" disabled>Skip</button>
+                    </div>
+                </div>
+
+                <div class="panel discard-panel">
+                    <h2 class="panel-title">Discard <span class="panel-count" id="discardCount">0</span></h2>
+                    <div class="pile" id="discardPile">
+                    </div>
+                </div>
+
+                <div class="panel menu-panel">
+                    <button class="btn btn-primary" onclick="game.newGame()">New Game</button>
+                </div>
+            </section>
         </div>
 
-        <!-- Message Container (Fixed at Bottom) -->
-        <div id="messageContainer"></div>
+        <div id="messageContainer" class="message-container"></div>
     </div>
 
     <!-- Game Over Modal -->
-    <div id="gameOverModal" class="game-over">
-        <div class="game-over-content">
-            <h2 id="gameOverTitle">GAME OVER</h2>
-            <p id="gameOverMessage"></p>
-            <p class="game-over-score-label">Final Score:</p>
-            <div class="final-score" id="finalScore"></div>
-            <p>Monsters Killed: <span id="killedMonstersScore">0</span></p>
-            <p>Monsters Remaining: <span id="remainingMonstersScore">0</span></p>
-            <button class="btn-success" onclick="game.newGame()">
-                Play Again
-            </button>
+    <div id="gameOverModal" class="modal">
+        <div class="modal-content">
+            <h2 id="gameOverTitle">Game Over</h2>
+            <div id="gameOverMessage"></div>
+            <div class="score-section">
+                <p>Final Score:</p>
+                <div class="final-score" id="finalScore">0</div>
+                <p>Monsters Killed: <span id="killedMonstersScore">0</span></p>
+                <p>Monsters Remaining: <span id="remainingMonstersScore">0</span></p>
+            </div>
+            <button class="btn btn-primary" style="width: 100%;" onclick="game.newGame()">Play Again</button>
         </div>
     </div>
 

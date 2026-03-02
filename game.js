@@ -478,7 +478,7 @@ class ScoundrelGame {
     }
 
     newGame() {
-        document.getElementById('gameOverModal').style.display = 'none';
+        document.querySelector('.modal').style.display = 'none';
         this.state = new GameState();
         this.state.deck = this.createDeck();
         this.state.currentRoom = [];
@@ -816,12 +816,10 @@ class ScoundrelGame {
 
     updateStats() {
         document.getElementById('healthDisplay').textContent = this.state.health;
-        document.getElementById('deckDisplay').textContent = this.state.deck.length;
+        document.getElementById('deckCount').textContent = this.state.deck.length;
+        document.getElementById('discardCount').textContent = this.state.discardPile.length;
+        document.getElementById('roomCount').textContent = this.state.currentRoom.length;
         document.getElementById('roomDisplay').textContent = this.toRomanNumeral(this.state.roomNumber);
-        document.getElementById('cardsUsed').textContent = this.state.cardsUsedThisRoom;
-        this.updateHealthBar();
-        this.updateRoomProgressPath();
-        this.updateDungeonDepthAtmosphere();
     }
 
     toRomanNumeral(num) {
@@ -840,45 +838,17 @@ class ScoundrelGame {
         return result;
     }
 
+
     updateHealthBar() {
-        const healthPercent = (this.state.health / this.state.maxHealth) * 100;
-        const style = healthPercent > 50 ? '#52b788' : healthPercent > 25 ? '#ffc107' : '#ff6b6b';
-        const barEl = document.getElementById('healthBar');
-        if (barEl) {
-            barEl.style.width = healthPercent + '%';
-            barEl.style.backgroundColor = style;
-        }
+        // Health bar removed in minimal design
     }
 
     updateRoomProgressPath() {
-        const pathEl = document.getElementById('roomProgressPath');
-        if (!pathEl) return;
-        
-        let path = '';
-        for (let i = 1; i <= this.state.roomNumber; i++) {
-            const isCurrent = i === this.state.roomNumber;
-            const classes = isCurrent ? 'node current' : 'node visited';
-            path += `<div class="${classes}" title="Room ${this.toRomanNumeral(i)}"></div>`;
-            if (i < this.state.roomNumber) {
-                path += '<div class="connector"></div>';
-            }
-        }
-        pathEl.innerHTML = path;
+        // Room progress path removed in minimal design
     }
 
     updateDungeonDepthAtmosphere() {
-        const depth = Math.min(this.state.roomNumber, 10);
-        const darkness = 0.05 + (depth * 0.04);
-        const container = document.querySelector('.container');
-        if (container) {
-            container.style.setProperty('--dungeon-depth', darkness);
-        }
-        
-        const mainGame = document.querySelector('.main-game');
-        if (mainGame) {
-            const shadowIntensity = 0.1 + (depth * 0.05);
-            mainGame.style.boxShadow = `inset 0 0 40px rgba(0, 0, 0, ${shadowIntensity})`;
-        }
+        // Dungeon atmosphere effects removed in minimal design
     }
 
     updateRoomDisplay() {
@@ -972,7 +942,7 @@ class ScoundrelGame {
 
         if (card.type === 'weapon') {
             const btn = document.createElement('button');
-            btn.className = 'btn-primary';
+            btn.className = 'btn btn-equip';
             btn.textContent = `⚔️ Equip ${card.getDisplay()}`;
             btn.onclick = () => this.equipWeapon();
             container.insertBefore(btn, skipBtn);
@@ -992,20 +962,20 @@ class ScoundrelGame {
             if (canUseWeapon) {
                 // Show both options: with weapon and bare-handed
                 const btnWeapon = document.createElement('button');
-                btnWeapon.className = 'btn-primary';
+                btnWeapon.className = 'btn btn-fight-weapon';
                 btnWeapon.textContent = `⚔️ Fight ${card.getDisplay()} (with weapon)`;
                 btnWeapon.onclick = () => this.fightMonster();
                 container.insertBefore(btnWeapon, skipBtn);
 
                 const btnBareHanded = document.createElement('button');
-                btnBareHanded.className = 'btn-danger';
+                btnBareHanded.className = 'btn btn-fight-bare';
                 btnBareHanded.textContent = `👊 Fight ${card.getDisplay()} (bare-handed)`;
                 btnBareHanded.onclick = () => this.fightMonsterBareHanded();
                 container.insertBefore(btnBareHanded, skipBtn);
             } else {
                 // Only bare-handed option (no weapon or weapon unusable)
                 const btn = document.createElement('button');
-                btn.className = 'btn-danger';
+                btn.className = 'btn btn-fight-bare';
                 if (this.state.equippedWeapon && !canUseWeapon) {
                     btn.textContent = `👊 Fight ${card.getDisplay()} (weapon unusable)`;
                 } else {
@@ -1017,10 +987,10 @@ class ScoundrelGame {
         } else if (card.type === 'potion') {
             const btn = document.createElement('button');
             if (this.state.potionUsedThisRoom) {
-                btn.className = 'btn-danger';
+                btn.className = 'btn btn-potion-discard';
                 btn.textContent = `🧪 Discard ${card.getDisplay()} (no heal)`;
             } else {
-                btn.className = 'btn-success';
+                btn.className = 'btn btn-potion-use';
                 btn.textContent = `🧪 Use ${card.getDisplay()}`;
             }
             btn.onclick = () => this.usePotion();
@@ -1041,7 +1011,7 @@ class ScoundrelGame {
     checkGameState() {
         if (!this.state.gameOver) return;
 
-        const modal = document.getElementById('gameOverModal');
+        const modal = document.querySelector('.modal');
         const title = document.getElementById('gameOverTitle');
         const message = document.getElementById('gameOverMessage');
         const score = document.getElementById('finalScore');
