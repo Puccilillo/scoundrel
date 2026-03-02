@@ -643,8 +643,8 @@ class ScoundrelGame {
         this.selectedCard = null;
         this.currentAction = null;
 
-        // Check if all monsters are killed - if so, player wins!
-        if (this.isAllMonsterKilled()) {
+        // Check if all monsters are killed - if so, player wins! (only if player hasn't died)
+        if (!this.state.playerDead && this.isAllMonsterKilled()) {
             this.state.gameOver = true;
             this.state.playerDead = false;
         }
@@ -689,8 +689,8 @@ class ScoundrelGame {
         this.selectedCard = null;
         this.currentAction = null;
 
-        // Check if all monsters are killed - if so, player wins!
-        if (this.isAllMonsterKilled()) {
+        // Check if all monsters are killed - if so, player wins! (only if player hasn't died)
+        if (!this.state.playerDead && this.isAllMonsterKilled()) {
             this.state.gameOver = true;
             this.state.playerDead = false;
         }
