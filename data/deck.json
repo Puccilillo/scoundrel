@@ -4,93 +4,63 @@
     "suit": "hearts",
     "rank": 2,
     "type": "potion",
-    "subject": "weak herbal vial"
+    "subject": "healing potion flask, almost empty"
   },
   {
     "id": "3_hearts",
     "suit": "hearts",
     "rank": 3,
     "type": "potion",
-    "subject": "small healing tincture"
+    "subject": "healing potion flask, low fill"
   },
   {
     "id": "4_hearts",
     "suit": "hearts",
     "rank": 4,
     "type": "potion",
-    "subject": "basic red potion",
-    "prompt": "simple potion flask icon, single centered flask, flat 2d vector style, thick black outline, red liquid fill, tiny cork stopper, no reflections, no glass texture, no decorative details, no background",
-    "negative_prompt": "photorealistic, realistic photo, cinematic, complex composition, multiple objects, character, creature, detailed ornament, shiny glass, reflections, highlights, texture, gradient, background, scenery, text, watermark, logo"
+    "subject": "healing potion flask, one-third full"
   },
   {
     "id": "5_hearts",
     "suit": "hearts",
     "rank": 5,
     "type": "potion",
-    "subject": "refined potion"
+    "subject": "healing potion flask, half full"
   },
   {
     "id": "6_hearts",
     "suit": "hearts",
     "rank": 6,
     "type": "potion",
-    "subject": "enhanced vitality flask"
+    "subject": "healing potion flask, above half"
   },
   {
     "id": "7_hearts",
     "suit": "hearts",
     "rank": 7,
     "type": "potion",
-    "subject": "military-grade tonic"
+    "subject": "healing potion flask, two-thirds full"
   },
   {
     "id": "8_hearts",
     "suit": "hearts",
     "rank": 8,
     "type": "potion",
-    "subject": "greater restoration"
+    "subject": "healing potion flask, three-quarters full"
   },
   {
     "id": "9_hearts",
     "suit": "hearts",
     "rank": 9,
     "type": "potion",
-    "subject": "high alchemy serum"
+    "subject": "healing potion flask, almost full"
   },
   {
     "id": "10_hearts",
     "suit": "hearts",
     "rank": 10,
     "type": "potion",
-    "subject": "grand elixir"
-  },
-  {
-    "id": "11_hearts",
-    "suit": "hearts",
-    "rank": 11,
-    "type": "potion",
-    "subject": "master field alchemist tonic"
-  },
-  {
-    "id": "12_hearts",
-    "suit": "hearts",
-    "rank": 12,
-    "type": "potion",
-    "subject": "queen alchemist royal serum"
-  },
-  {
-    "id": "13_hearts",
-    "suit": "hearts",
-    "rank": 13,
-    "type": "potion",
-    "subject": "king alchemist philosopher panacea"
-  },
-  {
-    "id": "14_hearts",
-    "suit": "hearts",
-    "rank": 14,
-    "type": "potion",
-    "subject": "divine elixir"
+    "subject": "healing potion flask, full"
   },
 
   {
@@ -98,91 +68,63 @@
     "suit": "diamonds",
     "rank": 2,
     "type": "weapon",
-    "subject": "rusted dagger"
+    "subject": "worn buckler"
   },
   {
     "id": "3_diamonds",
     "suit": "diamonds",
     "rank": 3,
     "type": "weapon",
-    "subject": "iron sword"
+    "subject": "leather cuirass"
   },
   {
     "id": "4_diamonds",
     "suit": "diamonds",
     "rank": 4,
     "type": "weapon",
-    "subject": "steel blade"
+    "subject": "iron shortsword"
   },
   {
     "id": "5_diamonds",
     "suit": "diamonds",
     "rank": 5,
     "type": "weapon",
-    "subject": "enchanted sword"
+    "subject": "steel longsword"
   },
   {
     "id": "6_diamonds",
     "suit": "diamonds",
     "rank": 6,
     "type": "weapon",
-    "subject": "warhammer"
+    "subject": "kite shield"
   },
   {
     "id": "7_diamonds",
     "suit": "diamonds",
     "rank": 7,
     "type": "weapon",
-    "subject": "runic spear"
+    "subject": "chainmail hauberk"
   },
   {
     "id": "8_diamonds",
     "suit": "diamonds",
     "rank": 8,
     "type": "weapon",
-    "subject": "flame blade"
+    "subject": "runed warhammer"
   },
   {
     "id": "9_diamonds",
     "suit": "diamonds",
     "rank": 9,
     "type": "weapon",
-    "subject": "storm axe"
+    "subject": "guardian plate armor"
   },
   {
     "id": "10_diamonds",
     "suit": "diamonds",
     "rank": 10,
     "type": "weapon",
-    "subject": "mythic greatsword"
-  },
-  {
-    "id": "11_diamonds",
-    "suit": "diamonds",
-    "rank": 11,
-    "type": "weapon",
-    "subject": "forge champion halberd"
-  },
-  {
-    "id": "12_diamonds",
-    "suit": "diamonds",
-    "rank": 12,
-    "type": "weapon",
-    "subject": "blade queen relic rapier"
-  },
-  {
-    "id": "13_diamonds",
-    "suit": "diamonds",
-    "rank": 13,
-    "type": "weapon",
-    "subject": "war king titanblade"
-  },
-  {
-    "id": "14_diamonds",
-    "suit": "diamonds",
-    "rank": 14,
-    "type": "weapon",
-    "subject": "legendary artifact"
+    "subject": "legendary aegis blade"
   },
 
   {
@@ -260,7 +202,7 @@
     "suit": "clubs",
     "rank": 12,
     "type": "monster",
-    "subject": "demon priestess"
+    "subject": "demon priest"
   },
   {
     "id": "13_clubs",
@@ -274,7 +216,7 @@
     "suit": "clubs",
     "rank": 14,
     "type": "monster",
-    "subject": "cerberus"
+    "subject": "archdemon"
   },
 
   {
@@ -289,14 +231,14 @@
     "suit": "spades",
     "rank": 3,
     "type": "monster",
-    "subject": "goblin brute"
+    "subject": "dire wolf"
   },
   {
     "id": "4_spades",
     "suit": "spades",
     "rank": 4,
     "type": "monster",
-    "subject": "shadow wolf"
+    "subject": "goblin raider"
   },
   {
     "id": "5_spades",
@@ -310,28 +252,28 @@
     "suit": "spades",
     "rank": 6,
     "type": "monster",
-    "subject": "wraith"
+    "subject": "ogre brute"
   },
   {
     "id": "7_spades",
     "suit": "spades",
     "rank": 7,
     "type": "monster",
-    "subject": "ogre"
+    "subject": "wyvern hatchling"
   },
   {
     "id": "8_spades",
     "suit": "spades",
     "rank": 8,
     "type": "monster",
-    "subject": "lich"
+    "subject": "stone golem"
   },
   {
     "id": "9_spades",
     "suit": "spades",
     "rank": 9,
     "type": "monster",
-    "subject": "giant"
+    "subject": "chimera"
   },
   {
     "id": "10_spades",
@@ -345,21 +287,21 @@
     "suit": "spades",
     "rank": 11,
     "type": "monster",
-    "subject": "beast tamer"
+    "subject": "alpha werebeast"
   },
   {
     "id": "12_spades",
     "suit": "spades",
     "rank": 12,
     "type": "monster",
-    "subject": "necromancer"
+    "subject": "ancient treant"
   },
   {
     "id": "13_spades",
     "suit": "spades",
     "rank": 13,
     "type": "monster",
-    "subject": "demon lord"
+    "subject": "storm giant"
   },
   {
     "id": "14_spades",
