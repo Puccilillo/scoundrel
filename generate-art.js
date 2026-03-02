@@ -15,10 +15,22 @@ const CONFIG = {
   limitCards: 0,
   suitFilter: [],
   commonLoras: [],
-  iconLoras: [],
-  figureLoras: [],
+  generationSets: {
+    potions: [
+      { id: "a", checkpoint: "fantassifiedIcons_fantassifiedIconsV20", lora: { name: "dnd_portrait", weight: 0.8 } },
+      { id: "b", checkpoint: "fantassifiedIcons_fantassifiedIconsV20", lora: { name: "OldSchoolDnD-10", weight: 0.8 } }
+    ],
+    equipment: [
+      { id: "a", checkpoint: "clarity_3", lora: { name: "dnd_portrait", weight: 0.8 } },
+      { id: "b", checkpoint: "rpg_v5", lora: { name: "CreaturesDesignV1", weight: 0.8 } }
+    ],
+    monsters: [
+      { id: "a", checkpoint: "clarity_3", lora: { name: "OldSchoolDnD-10", weight: 0.8 } },
+      { id: "b", checkpoint: "rpg_v5", lora: { name: "CreaturesDesignV1", weight: 0.8 } }
+    ]
+  },
   sweep: {
-    enabled: true,
+    enabled: false,
     randomCard: true,
     cardId: "",
     checkpoints: [
@@ -44,7 +56,15 @@ const CONFIG = {
       "photorealistic, realistic photo, cinematic scene, complex background, scenery, environment, landscape, text, letters, watermark, logo, border, frame, blurry, low quality"
   },
   profiles: {
-    icons: {
+    potions: {
+      model: "fantassifiedIcons_fantassifiedIconsV20",
+      steps: 30,
+      width: 512,
+      height: 768,
+      cfgScale: 6.5,
+      sampler: "DPM++ 2M Karras"
+    },
+    equipment: {
       model: "fantassifiedIcons_fantassifiedIconsV20",
       steps: 30,
       width: 512,
@@ -192,11 +212,37 @@ function validateCard(card, index, suitStyles) {
 }
 
 function selectProfile(card) {
-  if (card.type === "potion" || card.type === "weapon") {
-    return { ...CONFIG.profiles.icons, name: "icons" };
+  if (card.type === "potion") {
+    return { ...CONFIG.profiles.potions, name: "potions" };
+  }
+
+  if (card.type === "weapon") {
+    return { ...CONFIG.profiles.equipment, name: "equipment" };
   }
 
   return { ...CONFIG.profiles.figures, name: "figures" };
+}
+
+function getCardSetGroup(card) {
+  if (card.type === "potion") {
+    return "potions";
+  }
+
+  if (card.type === "weapon") {
+    return "equipment";
+  }
+
+  return "monsters";
+}
+
+function getSetDefinitionsForCard(card) {
+  const group = getCardSetGroup(card);
+  const sets = CONFIG.generationSets && CONFIG.generationSets[group];
+  if (!Array.isArray(sets) || !sets.length) {
+    throw new Error(`No generation sets configured for group '${group}'.`);
+  }
+
+  return { group, sets };
 }
 
 function buildPrompt(card, suitStyles) {
@@ -280,11 +326,7 @@ async function runSingleCardSweep(doFetch, card, suitStyles) {
     .filter(Boolean);
 
   const sweepOutputDir = String((CONFIG.sweep && CONFIG.sweep.outputDir) || "./output/sweeps").trim() || "./output/sweeps";
-  const sweepPromptDir = path.join(sweepOutputDir, "prompts");
-  const sweepSettingsDir = path.join(sweepOutputDir, "settings");
   fs.mkdirSync(sweepOutputDir, { recursive: true });
-  fs.mkdirSync(sweepPromptDir, { recursive: true });
-  fs.mkdirSync(sweepSettingsDir, { recursive: true });
 
   const jobs = [];
   for (const checkpoint of checkpoints) {
@@ -294,9 +336,8 @@ async function runSingleCardSweep(doFetch, card, suitStyles) {
     }
   }
 
-  const logFile = path.join(sweepOutputDir, `sweep-${card.id}-${runId()}.jsonl`);
   console.log(`Sweep card: ${card.id}`);
-  console.log(`Sweep combinations: ${jobs.length} (${checkpoints.length} checkpoints x (1 + ${loras.length} loras))`);
+  console.log(`Sweep combinations: ${jobs.length}`);
 
   for (let index = 0; index < jobs.length; index += 1) {
     const job = jobs[index];
@@ -305,7 +346,9 @@ async function runSingleCardSweep(doFetch, card, suitStyles) {
 
     const checkpointTag = sanitizeFileSegment(job.checkpoint);
     const loraTag = job.lora ? sanitizeFileSegment(job.lora.name) : "no_lora";
-    const fileStem = `${card.id}__${checkpointTag}__${loraTag}`;
+    const suitTag = sanitizeFileSegment(card.suit);
+    const rankTag = sanitizeFileSegment(String(card.rank));
+    const fileStem = `${checkpointTag}__${loraTag}__${suitTag}__${rankTag}`;
     const outPath = path.join(sweepOutputDir, `${fileStem}.png`);
 
     const payload = {
@@ -325,28 +368,6 @@ async function runSingleCardSweep(doFetch, card, suitStyles) {
       override_settings_restore_afterwards: true
     };
 
-    fs.writeFileSync(path.join(sweepPromptDir, `${fileStem}.prompt.txt`), `${promptWithLora}\n`, "utf8");
-    fs.writeFileSync(
-      path.join(sweepSettingsDir, `${fileStem}.settings.json`),
-      JSON.stringify(
-        {
-          cardId: card.id,
-          suit: card.suit,
-          rank: card.rank,
-          type: card.type || null,
-          baseProfile: profile.name,
-          sweepCheckpoint: job.checkpoint,
-          sweepLora: job.lora,
-          payload,
-          generatedAt: new Date().toISOString()
-        },
-        null,
-        2
-      ),
-      "utf8"
-    );
-
-    const startedAt = new Date().toISOString();
     console.log(`Sweep ${index + 1}/${jobs.length}: checkpoint='${job.checkpoint}' lora='${job.lora ? job.lora.name : "none"}'`);
 
     try {
@@ -360,39 +381,8 @@ async function runSingleCardSweep(doFetch, card, suitStyles) {
       );
       fs.writeFileSync(outPath, Buffer.from(data.images[0], "base64"));
 
-      fs.appendFileSync(
-        logFile,
-        `${JSON.stringify({
-          cardId: card.id,
-          status: "generated",
-          outPath,
-          startedAt,
-          finishedAt: new Date().toISOString(),
-          seed,
-          checkpoint: job.checkpoint,
-          lora: job.lora,
-          parameters: data.parameters || payload,
-          info: data.info || null
-        })}\n`,
-        "utf8"
-      );
     } catch (error) {
       const message = error && error.message ? error.message : String(error);
-      fs.appendFileSync(
-        logFile,
-        `${JSON.stringify({
-          cardId: card.id,
-          status: "failed",
-          outPath,
-          startedAt,
-          finishedAt: new Date().toISOString(),
-          seed,
-          checkpoint: job.checkpoint,
-          lora: job.lora,
-          error: message
-        })}\n`,
-        "utf8"
-      );
       console.error(`Sweep failed for ${fileStem}: ${message}`);
     }
   }
@@ -464,10 +454,11 @@ async function main() {
   console.log(`API base: ${CONFIG.apiBase}`);
 
   let started = !startFrom;
-  let processed = 0;
+  let processedCards = 0;
+  let processedRuns = 0;
 
   for (let i = 0; i < selectedDeck.length; i += 1) {
-    if (CONFIG.limitCards > 0 && processed >= CONFIG.limitCards) {
+    if (CONFIG.limitCards > 0 && processedCards >= CONFIG.limitCards) {
       break;
     }
 
@@ -482,14 +473,8 @@ async function main() {
       }
     }
 
-    const outPath = path.join(CONFIG.outputDir, `${card.id}.png`);
-    if (!CONFIG.overwriteArt && fs.existsSync(outPath)) {
-      console.log(`Skipped (exists): ${card.id}`);
-      fs.appendFileSync(logFile, `${JSON.stringify({ cardId: card.id, status: "skipped_exists", outPath })}\n`, "utf8");
-      continue;
-    }
-
     const profile = selectProfile(card);
+    const { group, sets } = getSetDefinitionsForCard(card);
     const basePrompt = buildPrompt(card, suitStyles);
 
     const perCardLoras = Array.isArray(card.loras)
@@ -501,109 +486,145 @@ async function main() {
           .filter((entry) => entry.name)
       : [];
 
-    const profileLoras = profile.name === "icons" ? CONFIG.iconLoras : CONFIG.figureLoras;
-    const promptWithLoras = appendTokensToPrompt(
-      basePrompt,
-      buildLoraTokens([...CONFIG.commonLoras, ...profileLoras, ...perCardLoras])
-    );
+    for (let setIndex = 0; setIndex < sets.length; setIndex += 1) {
+      const setDef = sets[setIndex] || {};
+      const setId = sanitizeFileSegment(setDef.id || String.fromCharCode(97 + setIndex));
+      const checkpoint = String(setDef.checkpoint || "").trim();
+      if (!checkpoint) {
+        throw new Error(`Missing checkpoint for set '${setId}' in group '${group}'.`);
+      }
 
-    const seed = Number.isFinite(Number(card.seed)) ? Number(card.seed) : hashSeed(card.id);
-    const negativePrompt =
-      typeof card.negative_prompt === "string" && card.negative_prompt.trim()
-        ? card.negative_prompt
-        : CONFIG.defaults.negativePrompt;
+      const setDir = path.join(CONFIG.outputDir, group, setId);
+      fs.mkdirSync(setDir, { recursive: true });
 
-    const payload = {
-      steps: profile.steps,
-      width: profile.width,
-      height: profile.height,
-      cfg_scale: profile.cfgScale,
-      sampler_name: profile.sampler,
-      prompt: promptWithLoras,
-      negative_prompt: negativePrompt,
-      seed,
-      batch_size: CONFIG.defaults.batchSize,
-      n_iter: CONFIG.defaults.nIter,
-      override_settings: {
-        sd_model_checkpoint: profile.model
-      },
-      override_settings_restore_afterwards: true
-    };
+      const outPath = path.join(setDir, `${card.id}.png`);
+      if (!CONFIG.overwriteArt && fs.existsSync(outPath)) {
+        console.log(`Skipped (exists): ${group}/${setId}/${card.id}`);
+        fs.appendFileSync(logFile, `${JSON.stringify({ cardId: card.id, group, setId, status: "skipped_exists", outPath })}\n`, "utf8");
+        continue;
+      }
 
-    fs.writeFileSync(path.join(CONFIG.promptDumpDir, `${card.id}.prompt.txt`), `${promptWithLoras}\n`, "utf8");
-    fs.writeFileSync(
-      path.join(CONFIG.settingsDumpDir, `${card.id}.settings.json`),
-      JSON.stringify(
-        {
-          cardId: card.id,
-          suit: card.suit,
-          rank: card.rank,
-          type: card.type || null,
-          profile: profile.name,
-          model: profile.model,
-          payload,
-          generatedAt: new Date().toISOString()
+      const setLora = normalizeLoraEntry(setDef.lora);
+      const promptWithLoras = appendTokensToPrompt(
+        basePrompt,
+        buildLoraTokens([
+          ...CONFIG.commonLoras,
+          ...(setLora ? [setLora] : []),
+          ...perCardLoras
+        ])
+      );
+
+      const seed = Number.isFinite(Number(card.seed)) ? Number(card.seed) : hashSeed(`${card.id}__${group}__${setId}`);
+      const negativePrompt =
+        typeof card.negative_prompt === "string" && card.negative_prompt.trim()
+          ? card.negative_prompt
+          : CONFIG.defaults.negativePrompt;
+
+      const payload = {
+        steps: profile.steps,
+        width: profile.width,
+        height: profile.height,
+        cfg_scale: profile.cfgScale,
+        sampler_name: profile.sampler,
+        prompt: promptWithLoras,
+        negative_prompt: negativePrompt,
+        seed,
+        batch_size: CONFIG.defaults.batchSize,
+        n_iter: CONFIG.defaults.nIter,
+        override_settings: {
+          sd_model_checkpoint: checkpoint
         },
-        null,
-        2
-      ),
-      "utf8"
-    );
+        override_settings_restore_afterwards: true
+      };
 
-    const startedAt = new Date().toISOString();
-    console.log(`Generating ${card.id} (${processed + 1}/${targetTotal}) with seed ${seed}...`);
-
-    try {
-      const data = await requestImage(
-        doFetch,
-        CONFIG.apiBase,
-        payload,
-        CONFIG.retries,
-        CONFIG.retryDelayMs,
-        CONFIG.requestTimeoutMs
-      );
-      fs.writeFileSync(outPath, Buffer.from(data.images[0], "base64"));
-
-      fs.appendFileSync(
-        logFile,
-        `${JSON.stringify({
-          cardId: card.id,
-          status: "generated",
-          outPath,
-          startedAt,
-          finishedAt: new Date().toISOString(),
-          seed,
-          suit: card.suit,
-          rank: card.rank,
-          type: card.type || null,
-          profile: profile.name,
-          model: profile.model,
-          parameters: data.parameters || payload,
-          info: data.info || null
-        })}\n`,
+      const dumpStem = `${group}__${setId}__${card.id}`;
+      fs.writeFileSync(path.join(CONFIG.promptDumpDir, `${dumpStem}.prompt.txt`), `${promptWithLoras}\n`, "utf8");
+      fs.writeFileSync(
+        path.join(CONFIG.settingsDumpDir, `${dumpStem}.settings.json`),
+        JSON.stringify(
+          {
+            cardId: card.id,
+            suit: card.suit,
+            rank: card.rank,
+            type: card.type || null,
+            group,
+            setId,
+            checkpoint,
+            lora: setLora,
+            profile: profile.name,
+            payload,
+            generatedAt: new Date().toISOString()
+          },
+          null,
+          2
+        ),
         "utf8"
       );
-      console.log(`Generated: ${card.id}`);
-    } catch (error) {
-      const message = error && error.message ? error.message : String(error);
-      fs.appendFileSync(
-        logFile,
-        `${JSON.stringify({
-          cardId: card.id,
-          status: "failed",
-          outPath,
-          startedAt,
-          finishedAt: new Date().toISOString(),
-          seed,
-          error: message
-        })}\n`,
-        "utf8"
-      );
-      console.error(`Failed: ${card.id}`);
-      console.error(message);
+
+      const startedAt = new Date().toISOString();
+      console.log(`Generating ${group}/${setId}/${card.id} (${processedRuns + 1}) with seed ${seed}...`);
+
+      try {
+        const data = await requestImage(
+          doFetch,
+          CONFIG.apiBase,
+          payload,
+          CONFIG.retries,
+          CONFIG.retryDelayMs,
+          CONFIG.requestTimeoutMs
+        );
+        fs.writeFileSync(outPath, Buffer.from(data.images[0], "base64"));
+
+        fs.appendFileSync(
+          logFile,
+          `${JSON.stringify({
+            cardId: card.id,
+            group,
+            setId,
+            checkpoint,
+            lora: setLora,
+            status: "generated",
+            outPath,
+            startedAt,
+            finishedAt: new Date().toISOString(),
+            seed,
+            suit: card.suit,
+            rank: card.rank,
+            type: card.type || null,
+            profile: profile.name,
+            parameters: data.parameters || payload,
+            info: data.info || null
+          })}\n`,
+          "utf8"
+        );
+        console.log(`Generated: ${group}/${setId}/${card.id}`);
+      } catch (error) {
+        const message = error && error.message ? error.message : String(error);
+        fs.appendFileSync(
+          logFile,
+          `${JSON.stringify({
+            cardId: card.id,
+            group,
+            setId,
+            checkpoint,
+            lora: setLora,
+            status: "failed",
+            outPath,
+            startedAt,
+            finishedAt: new Date().toISOString(),
+            seed,
+            error: message
+          })}\n`,
+          "utf8"
+        );
+        console.error(`Failed: ${group}/${setId}/${card.id}`);
+        console.error(message);
+      }
+
+      processedRuns += 1;
     }
 
-    processed += 1;
+    processedCards += 1;
   }
 
   console.log("Generation run completed.");
