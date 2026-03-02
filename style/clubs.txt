@@ -1,0 +1,11 @@
+clubs suit identity: corrupted infernal beasts,
+theme: brutal, savage, demonic predators,
+color bias: black, ember red, smoke,
+lighting rule: infernal red underlighting only,
+environment rule: volcanic hellscape aura only,
+design language: brutal demonic anatomy with aggressive readable silhouette,
+progression intent: imp to cerberus apex,
+recurring identity: horns, claws, ember fissures, smoke-edged forms,
+do not use warm alchemy glow,
+do not use forge lighting,
+do not use moonlight

@@ -1,0 +1,12 @@
+fantasy card asset generation,
+single centered subject only,
+fixed camera angle,
+fixed distance framing,
+strong readable silhouette,
+consistent shape proportions across the deck,
+clean stylized game-art rendering,
+transparent background,
+no card frame,
+no corner symbols,
+no text,
+print friendly

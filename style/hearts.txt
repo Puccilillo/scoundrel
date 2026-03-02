@@ -1,0 +1,11 @@
+hearts suit identity: the alchemist's order,
+theme: vitality, restoration, life energy,
+color bias: ivory, red glass, gold trim,
+lighting rule: warm soft glow only,
+environment rule: subtle alchemy lab aura only,
+design language: elegant glass containers, ornate stoppers, controlled ornament,
+progression intent: weak brews to divine elixir,
+recurring identity: same potion family silhouette with red liquid core,
+do not use forge lighting,
+do not use moonlight,
+do not use infernal underlighting

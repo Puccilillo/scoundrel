@@ -1,0 +1,11 @@
+diamonds suit identity: the forgemaster's arsenal,
+theme: crafted power, discipline, human ambition,
+color bias: steel grey, gold, crimson highlights,
+lighting rule: forge lighting only,
+environment rule: subtle forge heat aura only,
+design language: crafted weapon silhouettes with readable engineered forms,
+progression intent: crude weapons to legendary artifacts,
+recurring identity: forged metal language with gold trim and crimson heat accents,
+do not use warm alchemy glow,
+do not use moonlight,
+do not use infernal underlighting
