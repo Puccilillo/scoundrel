@@ -887,31 +887,25 @@ class ScoundrelGame {
     }
 
     updateWeaponDisplay() {
-        const container = document.getElementById('weaponDisplay');
+        const container = document.getElementById('equipmentContent');
 
         if (this.state.equippedWeapon) {
             const weaponCard = this.state.equippedWeapon;
-            let stackInfo = '';
+            const weaponSvg = weaponCard.getSVG();
+            
+            let html = `<div class="equipped-weapon">${weaponSvg}</div>`;
 
             if (this.state.stackedMonsters.length > 0) {
-                stackInfo = `<div class="stacked-monsters">⚠️ THREATS (${this.state.stackedMonsters.length}):<br>`;
+                html += `<div class="stacked-monsters">⚠️ THREATS (${this.state.stackedMonsters.length}):<br>`;
                 this.state.stackedMonsters.forEach(m => {
-                    stackInfo += `${m.getDisplay()} `;
+                    html += `${m.getDisplay()} `;
                 });
-                stackInfo += '</div>';
+                html += '</div>';
             }
 
-            const weaponSvg = weaponCard.getSVG();
-            container.classList.add('equipped');
-            container.innerHTML = `
-                <div class="weapon-svg">
-                    ${weaponSvg}
-                </div>
-                ${stackInfo}
-            `;
+            container.innerHTML = html;
         } else {
-            container.classList.remove('equipped');
-            container.innerHTML = '<div class="muted">⚔️ No weapon equipped</div>';
+            container.innerHTML = '<div class="equipped-weapon"></div>';
         }
     }
 

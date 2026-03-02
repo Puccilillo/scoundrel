@@ -98,7 +98,16 @@ body {
 }
 
 .room-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0;
+}
+
+.stat-item {
     white-space: nowrap;
+    font-size: inherit;
+    font-weight: inherit;
 }
 
 /* EQUIPMENT PANEL */
@@ -108,31 +117,25 @@ body {
     min-height: auto;
 }
 
-.weapon-display {
-    flex: 0 0 auto;
-    border: 1px dashed var(--border-color);
+#equipmentContent {
     display: flex;
     flex-direction: column;
+    gap: 10px;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    min-height: auto;
-    padding: 8px;
 }
 
-.weapon-display.equipped {
-    border: 1px solid var(--accent);
-    background: rgba(78, 205, 196, 0.05);
-    justify-content: flex-start;
-    min-height: 220px;
-}
-
-.weapon-svg {
+.equipped-weapon {
     width: 100%;
     max-width: 120px;
+    aspect-ratio: 2/3;
+    border: 1px dashed var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
 }
 
-.weapon-svg svg {
+.equipped-weapon svg {
     width: 100%;
     height: auto;
     display: block;
@@ -240,8 +243,10 @@ body {
     align-items: center;
     justify-content: center;
     border: 1px dashed var(--border-color);
-    flex: 1;
-    min-height: 80px;
+    width: 100%;
+    max-width: 120px;
+    aspect-ratio: 2/3;
+    margin: 0 auto;
     text-align: center;
 }
 
@@ -264,7 +269,8 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     transition: all 0.2s ease;
-    white-space: nowrap;
+    white-space: normal;
+    word-wrap: break-word;
 }
 
 .btn:hover:not(:disabled) {

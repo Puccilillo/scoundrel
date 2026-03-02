@@ -19,8 +19,8 @@
             <section class="column left-column">
                 <div class="panel equipment-panel">
                     <h2 class="panel-title">Equipment</h2>
-                    <div class="weapon-display" id="weaponDisplay">
-                        <div class="placeholder">None</div>
+                    <div id="equipmentContent">
+                        <div class="equipped-weapon"></div>
                     </div>
                 </div>
 
@@ -34,7 +34,11 @@
             <!-- MIDDLE COLUMN: Room Cards -->
             <section class="column middle-column">
                 <div class="panel room-panel">
-                    <h2 class="panel-title room-title">ROOM <span class="panel-count" id="roomDisplay">I</span> HEALTH <span class="panel-count" id="healthDisplay">20</span> CARDS <span class="panel-count" id="roomCount">0</span></h2>
+                    <h2 class="panel-title room-title">
+                        <span class="stat-item">HEALTH <span class="panel-count" id="healthDisplay">20</span></span>
+                        <span class="stat-item">ROOM <span class="panel-count" id="roomDisplay">I</span></span>
+                        <span class="stat-item">CARDS <span class="panel-count" id="roomCount">0</span></span>
+                    </h2>
                     <div class="cards-display" id="roomCards">
                         <div class="placeholder">Initializing...</div>
                     </div>
