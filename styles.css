@@ -38,6 +38,7 @@ body {
     background: var(--bg-primary);
     color: var(--text-primary);
     overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .app,
@@ -51,15 +52,21 @@ body {
 
 .app {
 <<<<<<< HEAD
+<<<<<<< HEAD
     height: 100vh;
     padding: 20px;
     gap: 20px;
 =======
+=======
+>>>>>>> d2e81c9925ab7027bc43182db63c466ad5b066ca
     min-height: 100vh;
     min-height: 100dvh;
     padding: var(--space-xl);
     gap: var(--space-xl);
+<<<<<<< HEAD
 >>>>>>> cc74b72 (some other test)
+=======
+>>>>>>> d2e81c9925ab7027bc43182db63c466ad5b066ca
 }
 
 /* HEADER */
@@ -83,7 +90,7 @@ body {
     gap: var(--space-xl);
     flex: 1;
     min-height: 0;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .column,
@@ -94,12 +101,17 @@ body {
 
 .column {
 <<<<<<< HEAD
+<<<<<<< HEAD
     gap: 20px;
     overflow: hidden;
 =======
     gap: var(--space-xl);
     overflow: visible;
 >>>>>>> cc74b72 (some other test)
+=======
+    gap: var(--space-xl);
+    overflow: visible;
+>>>>>>> d2e81c9925ab7027bc43182db63c466ad5b066ca
 }
 
 /* PANELS */
@@ -108,7 +120,7 @@ body {
     border: 1px solid var(--border-color);
     padding: var(--space-md);
     flex: 1;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .panel-title {
@@ -805,15 +817,21 @@ body {
     /* Single column layout - reorder everything */
     .board {
 <<<<<<< HEAD
+<<<<<<< HEAD
         grid-template-columns: 1fr;
         gap: 12px;
 =======
+=======
+>>>>>>> d2e81c9925ab7027bc43182db63c466ad5b066ca
         display: flex;
         flex-direction: column;
         gap: var(--space-sm);
         overflow: visible;
         max-height: none;
+<<<<<<< HEAD
 >>>>>>> cc74b72 (some other test)
+=======
+>>>>>>> d2e81c9925ab7027bc43182db63c466ad5b066ca
     }
 
     .column {
