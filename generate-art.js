@@ -59,25 +59,25 @@ const CONFIG = {
     potions: {
       model: "fantassifiedIcons_fantassifiedIconsV20",
       steps: 30,
-      width: 512,
-      height: 768,
-      cfgScale: 6.5,
+      width: 480,
+      height: 720,
+      cfgScale: 9,
       sampler: "DPM++ 2M Karras"
     },
     equipment: {
       model: "fantassifiedIcons_fantassifiedIconsV20",
       steps: 30,
-      width: 512,
-      height: 768,
-      cfgScale: 6.5,
+      width: 480,
+      height: 720,
+      cfgScale: 7,
       sampler: "DPM++ 2M Karras"
     },
     figures: {
       model: "3D3DCharacterFigurine_v10",
-      steps: 24,
-      width: 640,
-      height: 960,
-      cfgScale: 6,
+      steps: 30,
+      width: 480,
+      height: 720,
+      cfgScale: 7,
       sampler: "DPM++ 2M Karras"
     }
   }
@@ -453,12 +453,10 @@ async function main() {
   console.log(`Target cards this run: ${targetTotal}`);
   console.log(`API base: ${CONFIG.apiBase}`);
 
+  const runCards = [];
   let started = !startFrom;
-  let processedCards = 0;
-  let processedRuns = 0;
-
   for (let i = 0; i < selectedDeck.length; i += 1) {
-    if (CONFIG.limitCards > 0 && processedCards >= CONFIG.limitCards) {
+    if (CONFIG.limitCards > 0 && runCards.length >= CONFIG.limitCards) {
       break;
     }
 
@@ -473,18 +471,22 @@ async function main() {
       }
     }
 
-    const profile = selectProfile(card);
-    const { group, sets } = getSetDefinitionsForCard(card);
-    const basePrompt = buildPrompt(card, suitStyles);
+    runCards.push(card);
+  }
 
-    const perCardLoras = Array.isArray(card.loras)
-      ? card.loras
-          .map((entry) => ({
-            name: String(entry && entry.name ? entry.name : "").trim(),
-            weight: Number.isFinite(Number(entry && entry.weight)) ? Number(entry.weight) : 0.8
-          }))
-          .filter((entry) => entry.name)
-      : [];
+  const cardsByGroup = {
+    potions: runCards.filter((card) => getCardSetGroup(card) === "potions"),
+    equipment: runCards.filter((card) => getCardSetGroup(card) === "equipment"),
+    monsters: runCards.filter((card) => getCardSetGroup(card) === "monsters")
+  };
+
+  const setRuns = [];
+  for (const group of ["potions", "equipment", "monsters"]) {
+    const sets = CONFIG.generationSets && CONFIG.generationSets[group];
+    const groupCards = cardsByGroup[group];
+    if (!Array.isArray(sets) || !sets.length || !groupCards.length) {
+      continue;
+    }
 
     for (let setIndex = 0; setIndex < sets.length; setIndex += 1) {
       const setDef = sets[setIndex] || {};
@@ -494,137 +496,172 @@ async function main() {
         throw new Error(`Missing checkpoint for set '${setId}' in group '${group}'.`);
       }
 
+      const setLora = normalizeLoraEntry(setDef.lora);
+      const profile = group === "potions"
+        ? { ...CONFIG.profiles.potions, name: "potions" }
+        : group === "equipment"
+          ? { ...CONFIG.profiles.equipment, name: "equipment" }
+          : { ...CONFIG.profiles.figures, name: "figures" };
+
+      setRuns.push({ group, setId, checkpoint, setLora, profile });
+    }
+  }
+
+  const runsByCheckpoint = new Map();
+  for (const setRun of setRuns) {
+    if (!runsByCheckpoint.has(setRun.checkpoint)) {
+      runsByCheckpoint.set(setRun.checkpoint, []);
+    }
+    runsByCheckpoint.get(setRun.checkpoint).push(setRun);
+  }
+
+  let processedRuns = 0;
+  for (const [checkpoint, checkpointRuns] of runsByCheckpoint.entries()) {
+    console.log(`Using checkpoint: ${checkpoint}`);
+
+    for (const setRun of checkpointRuns) {
+      const { group, setId, setLora, profile } = setRun;
+      const groupCards = cardsByGroup[group];
       const setDir = path.join(CONFIG.outputDir, group, setId);
       fs.mkdirSync(setDir, { recursive: true });
 
-      const outPath = path.join(setDir, `${card.id}.png`);
-      if (!CONFIG.overwriteArt && fs.existsSync(outPath)) {
-        console.log(`Skipped (exists): ${group}/${setId}/${card.id}`);
-        fs.appendFileSync(logFile, `${JSON.stringify({ cardId: card.id, group, setId, status: "skipped_exists", outPath })}\n`, "utf8");
-        continue;
-      }
+      for (const card of groupCards) {
+        const basePrompt = buildPrompt(card, suitStyles);
+        const perCardLoras = Array.isArray(card.loras)
+          ? card.loras
+              .map((entry) => ({
+                name: String(entry && entry.name ? entry.name : "").trim(),
+                weight: Number.isFinite(Number(entry && entry.weight)) ? Number(entry.weight) : 0.8
+              }))
+              .filter((entry) => entry.name)
+          : [];
 
-      const setLora = normalizeLoraEntry(setDef.lora);
-      const promptWithLoras = appendTokensToPrompt(
-        basePrompt,
-        buildLoraTokens([
-          ...CONFIG.commonLoras,
-          ...(setLora ? [setLora] : []),
-          ...perCardLoras
-        ])
-      );
+        const outPath = path.join(setDir, `${card.id}.png`);
+        if (!CONFIG.overwriteArt && fs.existsSync(outPath)) {
+          console.log(`Skipped (exists): ${group}/${setId}/${card.id}`);
+          fs.appendFileSync(logFile, `${JSON.stringify({ cardId: card.id, group, setId, status: "skipped_exists", outPath })}\n`, "utf8");
+          continue;
+        }
 
-      const seed = Number.isFinite(Number(card.seed)) ? Number(card.seed) : hashSeed(`${card.id}__${group}__${setId}`);
-      const negativePrompt =
-        typeof card.negative_prompt === "string" && card.negative_prompt.trim()
-          ? card.negative_prompt
-          : CONFIG.defaults.negativePrompt;
+        const promptWithLoras = appendTokensToPrompt(
+          basePrompt,
+          buildLoraTokens([
+            ...CONFIG.commonLoras,
+            ...(setLora ? [setLora] : []),
+            ...perCardLoras
+          ])
+        );
 
-      const payload = {
-        steps: profile.steps,
-        width: profile.width,
-        height: profile.height,
-        cfg_scale: profile.cfgScale,
-        sampler_name: profile.sampler,
-        prompt: promptWithLoras,
-        negative_prompt: negativePrompt,
-        seed,
-        batch_size: CONFIG.defaults.batchSize,
-        n_iter: CONFIG.defaults.nIter,
-        override_settings: {
-          sd_model_checkpoint: checkpoint
-        },
-        override_settings_restore_afterwards: true
-      };
+        const seed = Number.isFinite(Number(card.seed)) ? Number(card.seed) : hashSeed(`${card.id}__${group}__${setId}`);
+        const negativePrompt =
+          typeof card.negative_prompt === "string" && card.negative_prompt.trim()
+            ? card.negative_prompt
+            : CONFIG.defaults.negativePrompt;
 
-      const dumpStem = `${group}__${setId}__${card.id}`;
-      fs.writeFileSync(path.join(CONFIG.promptDumpDir, `${dumpStem}.prompt.txt`), `${promptWithLoras}\n`, "utf8");
-      fs.writeFileSync(
-        path.join(CONFIG.settingsDumpDir, `${dumpStem}.settings.json`),
-        JSON.stringify(
-          {
-            cardId: card.id,
-            suit: card.suit,
-            rank: card.rank,
-            type: card.type || null,
-            group,
-            setId,
-            checkpoint,
-            lora: setLora,
-            profile: profile.name,
-            payload,
-            generatedAt: new Date().toISOString()
+        const payload = {
+          steps: profile.steps,
+          width: profile.width,
+          height: profile.height,
+          cfg_scale: profile.cfgScale,
+          sampler_name: profile.sampler,
+          prompt: promptWithLoras,
+          negative_prompt: negativePrompt,
+          seed,
+          batch_size: CONFIG.defaults.batchSize,
+          n_iter: CONFIG.defaults.nIter,
+          override_settings: {
+            sd_model_checkpoint: checkpoint
           },
-          null,
-          2
-        ),
-        "utf8"
-      );
+          override_settings_restore_afterwards: true
+        };
 
-      const startedAt = new Date().toISOString();
-      console.log(`Generating ${group}/${setId}/${card.id} (${processedRuns + 1}) with seed ${seed}...`);
-
-      try {
-        const data = await requestImage(
-          doFetch,
-          CONFIG.apiBase,
-          payload,
-          CONFIG.retries,
-          CONFIG.retryDelayMs,
-          CONFIG.requestTimeoutMs
-        );
-        fs.writeFileSync(outPath, Buffer.from(data.images[0], "base64"));
-
-        fs.appendFileSync(
-          logFile,
-          `${JSON.stringify({
-            cardId: card.id,
-            group,
-            setId,
-            checkpoint,
-            lora: setLora,
-            status: "generated",
-            outPath,
-            startedAt,
-            finishedAt: new Date().toISOString(),
-            seed,
-            suit: card.suit,
-            rank: card.rank,
-            type: card.type || null,
-            profile: profile.name,
-            parameters: data.parameters || payload,
-            info: data.info || null
-          })}\n`,
+        const dumpStem = `${group}__${setId}__${card.id}`;
+        fs.writeFileSync(path.join(CONFIG.promptDumpDir, `${dumpStem}.prompt.txt`), `${promptWithLoras}\n`, "utf8");
+        fs.writeFileSync(
+          path.join(CONFIG.settingsDumpDir, `${dumpStem}.settings.json`),
+          JSON.stringify(
+            {
+              cardId: card.id,
+              suit: card.suit,
+              rank: card.rank,
+              type: card.type || null,
+              group,
+              setId,
+              checkpoint,
+              lora: setLora,
+              profile: profile.name,
+              payload,
+              generatedAt: new Date().toISOString()
+            },
+            null,
+            2
+          ),
           "utf8"
         );
-        console.log(`Generated: ${group}/${setId}/${card.id}`);
-      } catch (error) {
-        const message = error && error.message ? error.message : String(error);
-        fs.appendFileSync(
-          logFile,
-          `${JSON.stringify({
-            cardId: card.id,
-            group,
-            setId,
-            checkpoint,
-            lora: setLora,
-            status: "failed",
-            outPath,
-            startedAt,
-            finishedAt: new Date().toISOString(),
-            seed,
-            error: message
-          })}\n`,
-          "utf8"
-        );
-        console.error(`Failed: ${group}/${setId}/${card.id}`);
-        console.error(message);
+
+        const startedAt = new Date().toISOString();
+        console.log(`Generating ${group}/${setId}/${card.id} (${processedRuns + 1}) with seed ${seed}...`);
+
+        try {
+          const data = await requestImage(
+            doFetch,
+            CONFIG.apiBase,
+            payload,
+            CONFIG.retries,
+            CONFIG.retryDelayMs,
+            CONFIG.requestTimeoutMs
+          );
+          fs.writeFileSync(outPath, Buffer.from(data.images[0], "base64"));
+
+          fs.appendFileSync(
+            logFile,
+            `${JSON.stringify({
+              cardId: card.id,
+              group,
+              setId,
+              checkpoint,
+              lora: setLora,
+              status: "generated",
+              outPath,
+              startedAt,
+              finishedAt: new Date().toISOString(),
+              seed,
+              suit: card.suit,
+              rank: card.rank,
+              type: card.type || null,
+              profile: profile.name,
+              parameters: data.parameters || payload,
+              info: data.info || null
+            })}\n`,
+            "utf8"
+          );
+          console.log(`Generated: ${group}/${setId}/${card.id}`);
+        } catch (error) {
+          const message = error && error.message ? error.message : String(error);
+          fs.appendFileSync(
+            logFile,
+            `${JSON.stringify({
+              cardId: card.id,
+              group,
+              setId,
+              checkpoint,
+              lora: setLora,
+              status: "failed",
+              outPath,
+              startedAt,
+              finishedAt: new Date().toISOString(),
+              seed,
+              error: message
+            })}\n`,
+            "utf8"
+          );
+          console.error(`Failed: ${group}/${setId}/${card.id}`);
+          console.error(message);
+        }
+
+        processedRuns += 1;
       }
-
-      processedRuns += 1;
     }
-
-    processedCards += 1;
   }
 
   console.log("Generation run completed.");
