@@ -157,6 +157,7 @@ body {
     max-width: 120px;
     aspect-ratio: 2/3;
     border: 1px dashed var(--border-color);
+    border-radius: 8px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -176,6 +177,7 @@ body {
     max-width: 120px;
     aspect-ratio: 2/3;
     border: 1px dashed var(--border-color);
+    border-radius: 8px;
     margin: 0 auto;
 }
 
@@ -212,11 +214,11 @@ body {
 }
 
 .corner-value {
-    font-size: 3em;
+    font-size: clamp(1.5em, 4vw, 3.5em);
 }
 
 .corner-suit {
-    font-size: 2.5em;
+    font-size: clamp(1.2em, 3.5vw, 3em);
     margin-top: -3px;
 }
 
@@ -236,7 +238,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 6em;
+    font-size: clamp(3.5em, 7vw, 7em);
 }
 
 .card.equipped-card {
@@ -244,6 +246,18 @@ body {
     width: 100%;
     max-width: 120px;
     margin: 0 auto;
+}
+
+.equipped-card .corner-value {
+    font-size: 1.75em;
+}
+
+.equipped-card .corner-suit {
+    font-size: 1.5em;
+}
+
+.equipped-card .card-center {
+    font-size: 3.5em;
 }
 
 .card.black-suit {
