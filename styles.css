@@ -16,7 +16,8 @@
     --accent-hover: #5ff5eb;
 }
 
-html, body {
+html,
+body {
     height: 100%;
 }
 
@@ -27,9 +28,16 @@ body {
     overflow-x: hidden;
 }
 
-.app {
+.app,
+.column,
+.panel,
+.actions-buttons,
+.message-container {
     display: flex;
     flex-direction: column;
+}
+
+.app {
     height: 100vh;
     padding: 20px;
     gap: 20px;
@@ -44,12 +52,9 @@ body {
 
 .header h1 {
     font-size: 2em;
-    margin-bottom: 0;
     letter-spacing: 2px;
     font-weight: 700;
 }
-
-
 
 /* BOARD - 3 COLUMN LAYOUT */
 .board {
@@ -61,11 +66,14 @@ body {
     overflow: hidden;
 }
 
-.column {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.column,
+.panel,
+.actions-buttons {
     min-height: 0;
+}
+
+.column {
+    gap: 20px;
     overflow: hidden;
 }
 
@@ -74,10 +82,7 @@ body {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     padding: 15px;
-    display: flex;
-    flex-direction: column;
     flex: 1;
-    min-height: 0;
     overflow: hidden;
 }
 
@@ -101,20 +106,36 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 0;
 }
 
 .stat-item {
     white-space: nowrap;
-    font-size: inherit;
-    font-weight: inherit;
 }
 
 /* EQUIPMENT PANEL */
-.equipment-panel {
-    order: 1;
+.equipment-panel,
+.room-panel,
+.deck-panel,
+.discard-panel,
+.menu-panel {
     flex: 0 0 auto;
-    min-height: auto;
+}
+
+.equipment-panel,
+.room-panel,
+.actions-panel {
+    order: 1;
+}
+
+.deck-panel,
+.discard-panel {
+    order: 2;
+    min-height: 140px;
+}
+
+.menu-panel {
+    order: 3;
+    padding: 10px;
 }
 
 #equipmentContent {
@@ -124,14 +145,20 @@ body {
     align-items: center;
 }
 
-.equipped-weapon {
+.equipped-weapon,
+.pile,
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.equipped-weapon,
+.pile {
     width: 100%;
     max-width: 120px;
     aspect-ratio: 2/3;
     border: 1px dashed var(--border-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin: 0 auto;
 }
 
@@ -141,26 +168,11 @@ body {
     display: block;
 }
 
-/* DECK PANEL */
-.deck-panel {
-    order: 2;
-    min-height: 140px;
-    flex: 0 0 auto;
-}
-
 /* ROOM PANEL */
-.room-panel {
-    order: 1;
-    flex: 0 0 auto;
-    min-height: auto;
-}
-
 .cards-display {
     display: flex;
-    flex-wrap: nowrap;
     gap: 10px;
     flex: 0 0 auto;
-    min-height: auto;
     overflow: visible;
 }
 
@@ -168,12 +180,7 @@ body {
     flex: 0 0 calc((100% - 30px) / 4);
     max-width: calc((100% - 30px) / 4);
     aspect-ratio: 2/3;
-    background: transparent;
-    border: none;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     transition: all 0.2s ease;
 }
 
@@ -202,51 +209,19 @@ body {
 }
 
 /* ACTIONS PANEL */
-.actions-panel {
-    order: 1;
-}
-
 .actions-buttons {
-    display: flex;
-    flex-direction: column;
     gap: 8px;
     flex: 1;
-    min-height: 0;
     overflow: auto;
 }
 
-.actions-buttons .btn {
-    width: 100%;
-}
-
-/* DISCARD PANEL */
-.discard-panel {
-    order: 2;
-    flex: 0 0 auto;
-    min-height: 140px;
-}
-
-/* MENU PANEL */
-.menu-panel {
-    order: 3;
-    flex: 0 0 auto;
-    padding: 10px;
-}
-
+.actions-buttons .btn,
 .menu-panel button {
     width: 100%;
 }
 
 /* PILES (Deck/Discard) */
 .pile {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px dashed var(--border-color);
-    width: 100%;
-    max-width: 120px;
-    aspect-ratio: 2/3;
-    margin: 0 auto;
     text-align: center;
 }
 
@@ -258,10 +233,17 @@ body {
 
 /* BUTTONS */
 .btn {
+    --btn-bg: var(--bg-secondary);
+    --btn-border: var(--border-color);
+    --btn-color: var(--text-primary);
+    --btn-hover-bg: rgba(78, 205, 196, 0.1);
+    --btn-hover-border: var(--accent);
+    --btn-hover-color: var(--accent);
+
     padding: 10px 12px;
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
+    background: var(--btn-bg);
+    color: var(--btn-color);
+    border: 1px solid var(--btn-border);
     border-radius: 4px;
     cursor: pointer;
     font-size: 0.85em;
@@ -274,9 +256,9 @@ body {
 }
 
 .btn:hover:not(:disabled) {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: rgba(78, 205, 196, 0.1);
+    border-color: var(--btn-hover-border);
+    color: var(--btn-hover-color);
+    background: var(--btn-hover-bg);
 }
 
 .btn:active:not(:disabled) {
@@ -289,87 +271,64 @@ body {
 }
 
 .btn-primary {
-    background: var(--accent);
-    color: var(--bg-primary);
-    border-color: var(--accent);
+    --btn-bg: var(--accent);
+    --btn-border: var(--accent);
+    --btn-color: var(--bg-primary);
+    --btn-hover-bg: var(--accent-hover);
+    --btn-hover-border: var(--accent-hover);
+    --btn-hover-color: var(--bg-primary);
 }
 
-.btn-primary:hover:not(:disabled) {
-    background: var(--accent-hover);
-    border-color: var(--accent-hover);
-    color: var(--bg-primary);
+.btn-equip,
+.btn-fight-weapon,
+.btn-fight-bare,
+.btn-potion-use,
+.btn-potion-discard,
+.btn-skip {
+    --btn-color: #ffffff;
+    --btn-hover-color: #ffffff;
 }
 
 .btn-equip {
-    background: #8b5cf6;
-    color: #ffffff;
-    border-color: #8b5cf6;
-}
-
-.btn-equip:hover:not(:disabled) {
-    background: #a78bfa;
-    border-color: #a78bfa;
-    color: #ffffff;
+    --btn-bg: #8b5cf6;
+    --btn-border: #8b5cf6;
+    --btn-hover-bg: #a78bfa;
+    --btn-hover-border: #a78bfa;
 }
 
 .btn-fight-weapon {
-    background: #f59e0b;
-    color: #ffffff;
-    border-color: #f59e0b;
-}
-
-.btn-fight-weapon:hover:not(:disabled) {
-    background: #fbbf24;
-    border-color: #fbbf24;
-    color: #ffffff;
+    --btn-bg: #f59e0b;
+    --btn-border: #f59e0b;
+    --btn-hover-bg: #fbbf24;
+    --btn-hover-border: #fbbf24;
 }
 
 .btn-fight-bare {
-    background: #f97316;
-    color: #ffffff;
-    border-color: #f97316;
-}
-
-.btn-fight-bare:hover:not(:disabled) {
-    background: #fb923c;
-    border-color: #fb923c;
-    color: #ffffff;
+    --btn-bg: #f97316;
+    --btn-border: #f97316;
+    --btn-hover-bg: #fb923c;
+    --btn-hover-border: #fb923c;
 }
 
 .btn-potion-use {
-    background: #10b981;
-    color: #ffffff;
-    border-color: #10b981;
-}
-
-.btn-potion-use:hover:not(:disabled) {
-    background: #34d399;
-    border-color: #34d399;
-    color: #ffffff;
+    --btn-bg: #10b981;
+    --btn-border: #10b981;
+    --btn-hover-bg: #34d399;
+    --btn-hover-border: #34d399;
 }
 
 .btn-potion-discard {
-    background: #64748b;
-    color: #ffffff;
-    border-color: #64748b;
-}
-
-.btn-potion-discard:hover:not(:disabled) {
-    background: #94a3b8;
-    border-color: #94a3b8;
-    color: #ffffff;
+    --btn-bg: #64748b;
+    --btn-border: #64748b;
+    --btn-hover-bg: #94a3b8;
+    --btn-hover-border: #94a3b8;
 }
 
 .btn-skip {
-    background: #ff6b6b;
-    color: #ffffff;
-    border-color: #ff6b6b;
-}
-
-.btn-skip:hover:not(:disabled) {
-    background: #ff8585;
-    border-color: #ff8585;
-    color: #ffffff;
+    --btn-bg: #ff6b6b;
+    --btn-border: #ff6b6b;
+    --btn-hover-bg: #ff8585;
+    --btn-hover-border: #ff8585;
 }
 
 /* MESSAGE CONTAINER */
@@ -378,8 +337,6 @@ body {
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
     gap: 10px;
     pointer-events: none;
     z-index: 100;
@@ -400,6 +357,7 @@ body {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -429,10 +387,7 @@ body {
 /* MODAL */
 .modal {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background: rgba(0, 0, 0, 0.7);
     display: none;
     align-items: center;
@@ -442,8 +397,13 @@ body {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .modal-content {
@@ -517,40 +477,34 @@ body {
         padding: 12px;
         gap: 12px;
     }
-    
+
     .header {
         padding-bottom: 10px;
     }
-    
+
     .header h1 {
         font-size: 1.5em;
     }
-    
-    .status-bar {
-        gap: 20px;
-        font-size: 0.8em;
-    }
-    
+
     .board {
         grid-template-columns: 1fr;
         gap: 12px;
     }
-    
+
     .column {
         gap: 12px;
     }
-    
+
     .left-column,
     .middle-column,
     .right-column {
         display: grid;
         grid-template-columns: 1fr;
     }
-    
+
     .panel {
         padding: 12px;
         min-height: 120px;
     }
-    
 }
 
