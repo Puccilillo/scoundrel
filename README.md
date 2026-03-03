@@ -45,10 +45,3 @@ Scoring starts from 0 and can go + or -
 At the end of the game the score is determined by:
 - adding the value of killed monsters
 - subtracting the value of remaining monsters
-
-# Implementing the game
-The simplest approch is to use an HTML+JS setup.
-
-
-
-
