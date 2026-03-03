@@ -145,7 +145,6 @@ body {
     align-items: center;
 }
 
-.equipped-weapon,
 .pile,
 .card {
     display: flex;
@@ -153,19 +152,31 @@ body {
     justify-content: center;
 }
 
-.equipped-weapon,
 .pile {
     width: 100%;
     max-width: 120px;
     aspect-ratio: 2/3;
     border: 1px dashed var(--border-color);
     margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
-.equipped-weapon svg {
+.equipped-card {
+    flex: 0 0 auto;
     width: 100%;
-    height: auto;
-    display: block;
+    max-width: 120px;
+    margin: 0 auto;
+}
+
+.equipment-slot {
+    width: 100%;
+    max-width: 120px;
+    aspect-ratio: 2/3;
+    border: 1px dashed var(--border-color);
+    margin: 0 auto;
 }
 
 /* ROOM PANEL */
@@ -182,6 +193,65 @@ body {
     aspect-ratio: 2/3;
     cursor: pointer;
     transition: all 0.2s ease;
+    position: relative;
+    font-weight: bold;
+    background: #d9d9d9;
+    color: #111111;
+    border: 2px solid #b0b0b0;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.card-corner {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+    font-weight: 700;
+}
+
+.corner-value {
+    font-size: 3em;
+}
+
+.corner-suit {
+    font-size: 2.5em;
+    margin-top: -3px;
+}
+
+.card-corner.top-left {
+    top: 8px;
+    left: 8px;
+}
+
+.card-corner.bottom-right {
+    bottom: 8px;
+    right: 8px;
+    transform: rotate(180deg);
+}
+
+.card-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 6em;
+}
+
+.card.equipped-card {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 120px;
+    margin: 0 auto;
+}
+
+.card.black-suit {
+    color: #111111;
+}
+
+.card.red-suit {
+    color: #c62828;
 }
 
 .card svg {
