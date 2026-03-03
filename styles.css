@@ -14,18 +14,6 @@
     --text-secondary: #b0b0b0;
     --accent: #4ecdc4;
     --accent-hover: #5ff5eb;
-    
-    /* Design System - Card Sizes */
-    --card-min: 120px;
-    --card-optimal: 150px;
-    --card-max: 180px;
-    
-    /* Spacing System (8px grid) */
-    --space-xs: 4px;
-    --space-sm: 8px;
-    --space-md: 12px;
-    --space-lg: 16px;
-    --space-xl: 20px;
 }
 
 html,
@@ -38,7 +26,6 @@ body {
     background: var(--bg-primary);
     color: var(--text-primary);
     overflow-x: hidden;
-    overflow-y: auto;
 }
 
 .app,
@@ -51,22 +38,20 @@ body {
 }
 
 .app {
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding: var(--space-xl);
-    gap: var(--space-xl);
+    height: 100vh;
+    padding: 20px;
+    gap: 20px;
 }
 
 /* HEADER */
 .header {
     text-align: center;
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: var(--space-md);
-    flex: 0 0 auto;
+    padding-bottom: 15px;
 }
 
 .header h1 {
-    font-size: 1.8em;
+    font-size: 2em;
     letter-spacing: 2px;
     font-weight: 700;
 }
@@ -74,11 +59,11 @@ body {
 /* BOARD - 3 COLUMN LAYOUT */
 .board {
     display: grid;
-    grid-template-columns: minmax(180px, 200px) 1fr minmax(180px, 200px);
-    gap: var(--space-xl);
+    grid-template-columns: 200px 1fr 200px;
+    gap: 20px;
     flex: 1;
     min-height: 0;
-    overflow: visible;
+    overflow: hidden;
 }
 
 .column,
@@ -88,28 +73,28 @@ body {
 }
 
 .column {
-    gap: var(--space-xl);
-    overflow: visible;
+    gap: 20px;
+    overflow: hidden;
 }
 
 /* PANELS */
 .panel {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    padding: var(--space-md);
+    padding: 15px;
     flex: 1;
-    overflow: visible;
+    overflow: hidden;
 }
 
 .panel-title {
-    font-size: 0.8em;
+    font-size: 0.85em;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: var(--space-sm);
+    margin-bottom: 12px;
     color: var(--text-secondary);
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: var(--space-xs);
+    padding-bottom: 8px;
 }
 
 .panel-count {
@@ -150,13 +135,13 @@ body {
 
 .menu-panel {
     order: 3;
-    padding: var(--space-sm);
+    padding: 10px;
 }
 
 #equipmentContent {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
+    gap: 10px;
     align-items: center;
 }
 
@@ -167,76 +152,44 @@ body {
     justify-content: center;
 }
 
-.pile {
+.pile,
+.equipment-slot {
     width: 100%;
     max-width: 120px;
     aspect-ratio: 2/3;
     border: 1px dashed var(--border-color);
     border-radius: 8px;
     margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
 }
 
-.equipped-card {
-    flex: 0 0 auto;
-    width: 100%;
-    max-width: 120px;
-    margin: 0 auto;
-}
-
-.equipment-slot {
-    width: 100%;
-    max-width: var(--card-optimal);
-    aspect-ratio: 2/3;
-    border: 1px dashed var(--border-color);
-    border-radius: var(--space-sm);
-    margin: 0 auto;
-}
-
-<<<<<<< HEAD
 .pile {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    font-size: 0.85em;
-    color: var(--text-secondary);
 }
 
-=======
->>>>>>> parent of 91ce1a2 (removed SVG elements, softened CSS style)
 /* ROOM PANEL */
 .cards-display {
     display: flex;
-    gap: var(--space-sm);
+    gap: 10px;
     flex: 0 0 auto;
     overflow: visible;
-<<<<<<< HEAD
     perspective: 1200px;
-    justify-content: center;
-=======
->>>>>>> parent of 91ce1a2 (removed SVG elements, softened CSS style)
 }
 
 .card {
-    /* Fluid card sizing - grows from min to optimal, never exceeds max */
-    flex: 1 1 var(--card-optimal);
-    min-width: var(--card-min);
-    max-width: var(--card-max);
+    flex: 0 0 calc((100% - 30px) / 4);
+    max-width: calc((100% - 30px) / 4);
     aspect-ratio: 2/3;
     cursor: pointer;
-    transition: all 0.2s ease;
     position: relative;
     font-weight: bold;
     background: #d9d9d9;
     color: #111111;
     border: 2px solid #b0b0b0;
-<<<<<<< HEAD
-    border-radius: var(--space-sm);
-    padding: var(--space-sm);
+    border-radius: 8px;
+    padding: 8px;
     transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
                 box-shadow 0.38s cubic-bezier(0.22, 1, 0.36, 1),
                 border-color 0.28s ease;
@@ -275,35 +228,11 @@ body {
     transform: translateX(40%) rotate(8deg);
 }
 
-/* Touch device improvements */
-@media (hover: none) and (pointer: coarse) {
-    .card:active:not(.selected) {
-        transform: translateY(-4px) scale(0.98);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25),
-                    0 4px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    .card:active:not(.selected)::before {
-        opacity: 0.7;
-        transform: translateX(40%) rotate(8deg);
-    }
-
-    /* Larger tap targets on touch devices */
-    .btn {
-        min-height: 44px;
-        padding: 12px 16px;
-    }
-}
-
 .card.selected {
     transform: translateY(-4px) scale(1.02);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25),
                 0 0 0 1px rgba(176, 176, 176, 0.35);
     border-color: #808080;
-=======
-    border-radius: 8px;
-    padding: 8px;
->>>>>>> parent of 91ce1a2 (removed SVG elements, softened CSS style)
 }
 
 .card-corner {
@@ -325,13 +254,13 @@ body {
 }
 
 .card-corner.top-left {
-    top: var(--space-sm);
-    left: var(--space-sm);
+    top: 8px;
+    left: 8px;
 }
 
 .card-corner.bottom-right {
-    bottom: var(--space-sm);
-    right: var(--space-sm);
+    bottom: 8px;
+    right: 8px;
     transform: rotate(180deg);
 }
 
@@ -346,8 +275,7 @@ body {
 .card.equipped-card {
     flex: 0 0 auto;
     width: 100%;
-    max-width: var(--card-optimal);
-    min-width: var(--card-min);
+    max-width: 120px;
     margin: 0 auto;
 }
 
@@ -363,26 +291,8 @@ body {
     font-size: 3.5em;
 }
 
-.card.black-suit {
-    color: #111111;
-}
-
 .card.red-suit {
     color: #c62828;
-}
-
-.card svg {
-    width: 100%;
-    height: 100%;
-    border-radius: 4px;
-}
-
-.card:hover svg {
-    filter: brightness(1.1);
-}
-
-.card.selected svg {
-    filter: brightness(1.2) drop-shadow(0 0 8px var(--accent));
 }
 
 .stacked-monsters {
@@ -392,12 +302,12 @@ body {
     font-size: 0.8em;
     color: var(--text-secondary);
     border-top: 1px solid var(--border-color);
-    padding-top: var(--space-sm);
+    padding-top: 8px;
 }
 
 /* ACTIONS PANEL */
 .actions-buttons {
-    gap: var(--space-sm);
+    gap: 8px;
     flex: 1;
     overflow: auto;
 }
@@ -427,7 +337,7 @@ body {
     --btn-hover-border: var(--accent);
     --btn-hover-color: var(--accent);
 
-    padding: var(--space-sm) var(--space-md);
+    padding: 10px 12px;
     background: var(--btn-bg);
     color: var(--btn-color);
     border: 1px solid var(--btn-border);
@@ -521,19 +431,19 @@ body {
 /* MESSAGE CONTAINER */
 .message-container {
     position: fixed;
-    bottom: var(--space-xl);
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    gap: var(--space-sm);
+    gap: 10px;
     pointer-events: none;
     z-index: 100;
 }
 
 .message {
-    padding: var(--space-md) var(--space-lg);
+    padding: 12px 16px;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    border-radius: var(--space-xs);
+    border-radius: 4px;
     font-size: 0.9em;
     pointer-events: auto;
     animation: slideUp 0.3s ease;
@@ -542,7 +452,7 @@ body {
 @keyframes slideUp {
     from {
         opacity: 0;
-        transform: translateY(var(--space-xl));
+        transform: translateY(20px);
     }
 
     to {
@@ -596,8 +506,8 @@ body {
 .modal-content {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    padding: calc(var(--space-xl) * 1.5);
-    border-radius: var(--space-xs);
+    padding: 30px;
+    border-radius: 4px;
     width: 90%;
     max-width: 400px;
     text-align: center;
@@ -605,32 +515,32 @@ body {
 
 .modal-content h2 {
     font-size: 1.5em;
-    margin-bottom: var(--space-lg);
+    margin-bottom: 15px;
 }
 
 .score-section {
-    margin: var(--space-xl) 0;
-    padding: var(--space-lg);
+    margin: 20px 0;
+    padding: 15px;
     background: var(--bg-primary);
     border: 1px solid var(--border-color);
-    border-radius: var(--space-xs);
+    border-radius: 4px;
 }
 
 .final-score {
     font-size: 2em;
     color: var(--accent);
     font-weight: 700;
-    margin: var(--space-sm) 0;
+    margin: 10px 0;
 }
 
 .modal-content p {
-    margin: var(--space-sm) 0;
+    margin: 8px 0;
     color: var(--text-secondary);
     font-size: 0.9em;
 }
 
 .modal-content button {
-    margin-top: var(--space-lg);
+    margin-top: 15px;
 }
 
 /* SCROLLBARS */
@@ -645,339 +555,53 @@ body {
 
 ::-webkit-scrollbar-thumb {
     background: var(--border-color);
-    border-radius: var(--space-xs);
+    border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--text-secondary);
 }
 
-/* =================================================================
-   RESPONSIVE DESIGN SYSTEM
-   Breakpoints based on content needs, not arbitrary device sizes
-   ================================================================= */
-
-/* Large Desktop: 1400px+ - Optimal viewing, max card size */
-@media (min-width: 1400px) {
-    :root {
-        --card-optimal: 160px;
-        --card-max: 200px;
-    }
-}
-
-/* Desktop: 1024px - 1399px - Standard desktop layout */
-@media (max-width: 1399px) {
+/* RESPONSIVE */
+@media (max-width: 1200px) {
     .board {
-        grid-template-columns: minmax(160px, 180px) 1fr minmax(160px, 180px);
-    }
-    
-    .header h1 {
-        font-size: 1.6em;
+        grid-template-columns: 150px 1fr 150px;
     }
 }
 
-/* Tablet Landscape: 900px - 1023px - Narrower columns */
-@media (max-width: 1023px) {
-    .board {
-        grid-template-columns: 160px 1fr 160px;
-        gap: var(--space-md);
-    }
-    
-    :root {
-        --card-optimal: 140px;
-    }
-    
-    .header h1 {
-        font-size: 1.5em;
-    }
-    
-    .deck-panel,
-    .discard-panel {
-        min-height: 140px;
-    }
-}
-
-/* Tablet Portrait: 768px - 899px - Compact columns */
-@media (max-width: 899px) {
+@media (max-width: 768px) {
     .app {
-        padding: var(--space-md);
-        gap: var(--space-md);
-    }
-    
-    .board {
-        grid-template-columns: 140px 1fr 140px;
-        gap: var(--space-md);
-    }
-    
-    .cards-display {
-        gap: var(--space-sm);
-    }
-    
-    .header h1 {
-        font-size: 1.75em;
-    }
-    
-    .deck-panel,
-    .discard-panel {
-        min-height: 140px;
-    }
-}
-
-/* Mobile Landscape: 600px - 767px in landscape orientation */
-@media (max-width: 767px) and (orientation: landscape) {
-    .board {
-        grid-template-columns: 140px 1fr 140px;
-        gap: var(--space-sm);
-        overflow: hidden;
-    }
-    
-    .app {
-        padding: var(--space-sm);
-        max-height: 100vh;
-        max-height: 100dvh;
-    }
-    
-    .column {
-        overflow-y: auto;
-    }
-    
-    .cards-display {
-        flex-wrap: nowrap;
-        gap: var(--space-xs);
-    }
-    
-    .card {
-        min-width: 100px;
-    }
-    
-    :root {
-        --card-min: 100px;
-        --card-optimal: 120px;
-        --card-max: 140px;
-    }
-    
-    .deck-panel,
-    .discard-panel {
-        min-height: 120px;
-    }
-    
-    .header h1 {
-        font-size: 1.3em;
-    }
-}
-
-/* Mobile Portrait: <768px - Single column layout */
-@media (max-width: 767px) and (orientation: portrait) {
-    :root {
-        --card-min: 140px;
-        --card-optimal: 160px;
-        --card-max: 180px;
-    }
-    
-    .app {
-        padding: var(--space-sm);
-        gap: var(--space-sm);
-        max-height: 100vh;
-        max-height: 100dvh;
-        overflow-y: auto;
-        overflow-x: hidden;
+        padding: 12px;
+        gap: 12px;
     }
 
     .header {
-        padding-bottom: var(--space-sm);
+        padding-bottom: 10px;
     }
 
     .header h1 {
         font-size: 1.5em;
-        letter-spacing: 1px;
     }
 
-    /* Single column layout - reorder everything */
     .board {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-sm);
-        overflow: visible;
-        max-height: none;
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
 
     .column {
-        overflow: visible;
+        gap: 12px;
     }
 
     .left-column,
     .middle-column,
     .right-column {
-        display: contents;
-    }
-
-    /* Content order: Room → Equipment → Actions → Deck → Discard → Menu */
-    .room-panel { order: 1; }
-    .equipment-panel { order: 2; }
-    .actions-panel { order: 3; }
-    .deck-panel { order: 4; }
-    .discard-panel { order: 5; }
-    .menu-panel { order: 6; }
-
-    .panel {
-        padding: var(--space-md);
-        overflow: visible;
-    }
-
-    .panel-title {
-        font-size: 0.8em;
-        margin-bottom: var(--space-sm);
-        padding-bottom: var(--space-xs);
-    }
-
-    /* Cards wrap to 2 per row on mobile */
-    .cards-display {
-        flex-wrap: wrap;
-        gap: var(--space-sm);
-        overflow: visible;
-    }
-
-    /* Equipment and pile consistency */
-    .pile,
-    .equipment-slot,
-    .card.equipped-card {
-        max-width: var(--card-optimal);
-        min-width: var(--card-min);
-    }
-
-    /* Typography adjustments */
-    .corner-value {
-        font-size: clamp(1.4em, 3.5vw, 2.2em);
-    }
-
-    .corner-suit {
-        font-size: clamp(1.1em, 3vw, 1.8em);
-    }
-
-    .card-center {
-        font-size: clamp(3em, 6vw, 5.5em);
-    }
-
-    .equipped-card .corner-value {
-        font-size: 1.6em;
-    }
-
-    .equipped-card .corner-suit {
-        font-size: 1.3em;
-    }
-
-    .equipped-card .card-center {
-        font-size: 3.2em;
-    }
-
-    /* Stats header - better mobile layout */
-    .room-title {
-        flex-wrap: wrap;
-        gap: var(--space-xs);
-        justify-content: space-between;
-    }
-
-    .stat-item {
-        font-size: 0.9em;
-    }
-
-    /* Deck and discard slightly taller */
-    .deck-panel,
-    .discard-panel {
-        min-height: 180px;
-    }
-
-    /* Button improvements */
-    .btn {
-        padding: var(--space-md);
-        font-size: 0.85em;
-        min-height: 48px; /* Touch-friendly */
-    }
-
-    .actions-buttons {
-        gap: var(--space-sm);
-    }
-
-    .menu-panel {
-        padding: var(--space-sm);
-    }
-}
-
-/* Small Mobile: <400px - Compact everything */
-@media (max-width: 399px) {
-    :root {
-        --card-min: 120px;
-        --card-optimal: 140px;
-        --card-max: 160px;
-    }
-    
-    .app {
-        padding: var(--space-xs);
-        gap: var(--space-xs);
-    }
-
-    .header h1 {
-        font-size: 1.2em;
-        letter-spacing: 0.5px;
-    }
-
-    .board {
-        gap: var(--space-xs);
+        display: grid;
+        grid-template-columns: 1fr;
     }
 
     .panel {
-        padding: var(--space-sm);
-    }
-
-    .cards-display {
-        gap: var(--space-xs);
-    }
-
-    .corner-value {
-        font-size: clamp(1.2em, 3vw, 1.8em);
-    }
-
-    .corner-suit {
-        font-size: clamp(1em, 2.5vw, 1.5em);
-    }
-
-    .card-center {
-        font-size: clamp(2.5em, 5vw, 4.5em);
-    }
-
-    .btn {
-        padding: var(--space-sm) var(--space-sm);
-        font-size: 0.8em;
-    }
-
-    .panel-title {
-        font-size: 0.7em;
+        padding: 12px;
+        min-height: 120px;
     }
 }
 
-/* Touch device optimizations */
-@media (hover: none) and (pointer: coarse) {
-    /* Ensure adequate tap targets */
-    .btn {
-        min-height: 48px;
-        padding: var(--space-md) var(--space-lg);
-    }
-    
-    .card {
-        /* Slightly larger touch targets */
-        min-width: 140px;
-    }
-    
-    /* Reduce hover effects, enhance active states */
-    .card:active:not(.selected) {
-        transform: translateY(-4px) scale(0.98);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-    }
-}
-
-/* High resolution displays - sharper rendering */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .card {
-        border-width: 1.5px;
-    }
-}
