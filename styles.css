@@ -152,26 +152,7 @@ body {
     justify-content: center;
 }
 
-.pile {
-    width: 100%;
-    max-width: 120px;
-    aspect-ratio: 2/3;
-    border: 1px dashed var(--border-color);
-    border-radius: 8px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.equipped-card {
-    flex: 0 0 auto;
-    width: 100%;
-    max-width: 120px;
-    margin: 0 auto;
-}
-
+.pile,
 .equipment-slot {
     width: 100%;
     max-width: 120px;
@@ -181,12 +162,20 @@ body {
     margin: 0 auto;
 }
 
+.pile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 /* ROOM PANEL */
 .cards-display {
     display: flex;
     gap: 10px;
     flex: 0 0 auto;
     overflow: visible;
+    perspective: 1200px;
 }
 
 .card {
@@ -194,7 +183,6 @@ body {
     max-width: calc((100% - 30px) / 4);
     aspect-ratio: 2/3;
     cursor: pointer;
-    transition: all 0.2s ease;
     position: relative;
     font-weight: bold;
     background: #d9d9d9;
@@ -202,6 +190,49 @@ body {
     border: 2px solid #b0b0b0;
     border-radius: 8px;
     padding: 8px;
+    transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.28s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18),
+                0 1px 0 rgba(255, 255, 255, 0.35) inset;
+    transform: translateY(0) rotateX(0) rotateY(0);
+    transform-style: preserve-3d;
+    overflow: hidden;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: -25%;
+    background: linear-gradient(120deg,
+        rgba(255, 255, 255, 0) 35%,
+        rgba(255, 255, 255, 0.42) 48%,
+        rgba(255, 255, 255, 0.08) 58%,
+        rgba(255, 255, 255, 0) 70%);
+    opacity: 0;
+    transform: translateX(-45%) rotate(8deg);
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.45s ease;
+    pointer-events: none;
+}
+
+.card:hover:not(.selected) {
+    transform: translateY(-10px) rotateX(5deg) rotateY(-2deg);
+    box-shadow: 0 18px 30px rgba(0, 0, 0, 0.32),
+                0 8px 14px rgba(0, 0, 0, 0.2),
+                0 1px 0 rgba(255, 255, 255, 0.5) inset;
+}
+
+.card:hover:not(.selected)::before {
+    opacity: 1;
+    transform: translateX(40%) rotate(8deg);
+}
+
+.card.selected {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25),
+                0 0 0 1px rgba(176, 176, 176, 0.35);
+    border-color: #808080;
 }
 
 .card-corner {
@@ -260,26 +291,8 @@ body {
     font-size: 3.5em;
 }
 
-.card.black-suit {
-    color: #111111;
-}
-
 .card.red-suit {
     color: #c62828;
-}
-
-.card svg {
-    width: 100%;
-    height: 100%;
-    border-radius: 4px;
-}
-
-.card:hover svg {
-    filter: brightness(1.1);
-}
-
-.card.selected svg {
-    filter: brightness(1.2) drop-shadow(0 0 8px var(--accent));
 }
 
 .stacked-monsters {
