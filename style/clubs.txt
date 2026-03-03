@@ -1,8 +1,1 @@
-group: corrupted and infernal entities,
-style: demonic brutal fantasy,
-palette: black, ember red, smoke gray,
-lighting: red underlighting from below,
-materials: scorched flesh, cracked armor, spikes, smoke,
-shape language: heavy, jagged, aggressive,
-mood: chaotic, violent, intimidating,
-forbidden: healing-item motifs, clean forged hero weapons, calm moonlit look
+demonic infernal creature, corrupted hellish entity with scorched blackened flesh, crackling ember-red eyes glowing with inner fire, charred cracked armor plates with jagged spikes, wreathed in dark smoke and ash, dramatic red underlighting from below casting menacing shadows, heavy brutal silhouette, aggressive jagged forms, volcanic heat distortion, burnt textures with glowing cracks, chaotic threatening posture, violent intimidating presence, dark fantasy bestiary illustration, detailed demon design, hellfire ambiance

@@ -1,8 +1,1 @@
-group: wild and ancient monsters,
-style: dark mythic creature design,
-palette: midnight blue, violet, bone,
-lighting: cold rim light, moonlit contrast,
-materials: hide, bone, claw, horn,
-shape language: sharp, predatory, asymmetric,
-mood: ominous, ancient, dangerous,
-forbidden: human weapon focus, healing-item motifs, infernal ember glow
+ancient mythical beast, wild primordial monster with weathered hide and bone protrusions, sharp predatory claws and twisted horns, asymmetric natural armor plating, midnight blue and deep violet color palette with bone-white highlights, cold moonlit rim lighting creating dramatic contrast, textured scales and fur details, sharp dangerous silhouette, ominous threatening stance, primal wilderness aesthetic, ancient creature design, detailed natural textures on hide and bone, cold atmospheric lighting, dark fantasy monster illustration

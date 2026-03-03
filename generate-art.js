@@ -58,27 +58,27 @@ const CONFIG = {
   profiles: {
     potions: {
       model: "fantassifiedIcons_fantassifiedIconsV20",
-      steps: 30,
+      steps: 40,
+      width: 480,
+      height: 720,
+      cfgScale: 10,
+      sampler: "DPM++ 2M Karras"
+    },
+    equipment: {
+      model: "fantassifiedIcons_fantassifiedIconsV20",
+      steps: 40,
       width: 480,
       height: 720,
       cfgScale: 9,
       sampler: "DPM++ 2M Karras"
     },
-    equipment: {
-      model: "fantassifiedIcons_fantassifiedIconsV20",
-      steps: 30,
-      width: 480,
-      height: 720,
-      cfgScale: 7,
-      sampler: "DPM++ 2M Karras"
-    },
     figures: {
       model: "3D3DCharacterFigurine_v10",
-      steps: 30,
+      steps: 45,
       width: 480,
       height: 720,
-      cfgScale: 7,
-      sampler: "DPM++ 2M Karras"
+      cfgScale: 10,
+      sampler: "Euler a"
     }
   }
 };
@@ -529,11 +529,11 @@ async function main() {
         const basePrompt = buildPrompt(card, suitStyles);
         const perCardLoras = Array.isArray(card.loras)
           ? card.loras
-              .map((entry) => ({
-                name: String(entry && entry.name ? entry.name : "").trim(),
-                weight: Number.isFinite(Number(entry && entry.weight)) ? Number(entry.weight) : 0.8
-              }))
-              .filter((entry) => entry.name)
+            .map((entry) => ({
+              name: String(entry && entry.name ? entry.name : "").trim(),
+              weight: Number.isFinite(Number(entry && entry.weight)) ? Number(entry.weight) : 0.8
+            }))
+            .filter((entry) => entry.name)
           : [];
 
         const outPath = path.join(setDir, `${card.id}.png`);

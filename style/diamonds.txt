@@ -1,8 +1,1 @@
-group: weapons and combat equipment,
-style: forged fantasy armory,
-palette: steel gray, bronze or gold trim, ember accents,
-lighting: directional forge highlights,
-materials: metal, leather, rivets, runic inlays,
-shape language: angular, balanced, engineered,
-mood: disciplined, crafted, powerful,
-forbidden: potions, biological monsters, infernal corruption
+medieval fantasy weapon or armor piece, masterwork craftsmanship with detailed metalwork, polished steel with bronze or gold trim accents, leather straps with visible rivets, intricate runic engravings glowing with subtle ember light, angular balanced design showing expert smithing, directional lighting highlighting metal surfaces and edge details, forge-hardened materials, disciplined military aesthetic, powerful heroic equipment, battle-ready construction, detailed texture on metal and leather, sharp focus on craftsmanship details

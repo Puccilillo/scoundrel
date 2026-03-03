@@ -1,8 +1,1 @@
-group: healing and restoration items,
-style: refined alchemy aesthetic,
-palette: crimson, rose, ivory, soft gold,
-lighting: gentle warm glow,
-materials: glass, ceramic, cloth wraps, wax seals,
-shape language: rounded, smooth, curved,
-mood: safe, restorative, precious,
-forbidden: weapons, monsters, infernal motifs
+healing potion item, alchemical flask with ornate details, crafted from translucent crimson glass with soft rose tints, elegant curved bottle with ivory ceramic stopper, wrapped in cloth with wax seal, delicate gold filigree trim, glowing magical liquid inside casting warm light, smooth rounded shapes, apothecary craftsmanship, precious gemlike quality, warm gentle illumination from within, refined medieval alchemy aesthetic, safe and restorative atmosphere

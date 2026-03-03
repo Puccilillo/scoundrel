@@ -4,63 +4,63 @@
     "suit": "hearts",
     "rank": 2,
     "type": "potion",
-    "subject": "healing potion flask, almost empty"
+    "subject": "small healing potion in delicate glass vial, almost empty with small amount of glowing crimson liquid at bottom, cork stopper, elegant shape"
   },
   {
     "id": "3_hearts",
     "suit": "hearts",
     "rank": 3,
     "type": "potion",
-    "subject": "healing potion flask, low fill"
+    "subject": "healing potion in glass flask with low fill, quarter-full of luminous red liquid, cloth wrap around base, wax seal on stopper"
   },
   {
     "id": "4_hearts",
     "suit": "hearts",
     "rank": 4,
     "type": "potion",
-    "subject": "healing potion flask, one-third full"
+    "subject": "healing potion in ornate bottle, one-third full with glowing rose-red liquid, ivory ceramic stopper, delicate gold filigree on neck"
   },
   {
     "id": "5_hearts",
     "suit": "hearts",
     "rank": 5,
     "type": "potion",
-    "subject": "healing potion flask, half full"
+    "subject": "healing potion in curved glass bottle, half filled with radiant crimson potion, wrapped in leather cord, warm glow from liquid"
   },
   {
     "id": "6_hearts",
     "suit": "hearts",
     "rank": 6,
     "type": "potion",
-    "subject": "healing potion flask, above half"
+    "subject": "healing potion in elegant flask above half-full, swirling glowing red liquid, decorative wax seal, soft light emanating from contents"
   },
   {
     "id": "7_hearts",
     "suit": "hearts",
     "rank": 7,
     "type": "potion",
-    "subject": "healing potion flask, two-thirds full"
+    "subject": "healing potion in refined bottle two-thirds full, bright luminous crimson liquid with magical sparkles, gold trim on glass, cloth wrap with seal"
   },
   {
     "id": "8_hearts",
     "suit": "hearts",
     "rank": 8,
     "type": "potion",
-    "subject": "healing potion flask, three-quarters full"
+    "subject": "healing potion in ornate flask three-quarters full, brilliant glowing red liquid with swirling energy, ivory stopper, golden filigree decorations"
   },
   {
     "id": "9_hearts",
     "suit": "hearts",
     "rank": 9,
     "type": "potion",
-    "subject": "healing potion flask, almost full"
+    "subject": "healing potion in beautiful bottle almost completely full, radiant crimson potion with magical glow, elaborate gold trim, pristine glass craftsmanship"
   },
   {
     "id": "10_hearts",
     "suit": "hearts",
     "rank": 10,
     "type": "potion",
-    "subject": "healing potion flask, full"
+    "subject": "healing potion in masterwork flask completely filled to top, intensely glowing deep red liquid casting warm light, precious gemstones set in gold trim, immaculate craftsmanship"
   },
 
   {
@@ -68,63 +68,63 @@
     "suit": "diamonds",
     "rank": 2,
     "type": "weapon",
-    "subject": "worn buckler"
+    "subject": "worn buckler small round wooden shield with leather binding, scratched metal boss in center, simple construction"
   },
   {
     "id": "3_diamonds",
     "suit": "diamonds",
     "rank": 3,
     "type": "weapon",
-    "subject": "leather cuirass"
+    "subject": "leather cuirass studded leather chest armor with metal rivets, shoulder straps, weathered brown leather with buckles"
   },
   {
     "id": "4_diamonds",
     "suit": "diamonds",
     "rank": 4,
     "type": "weapon",
-    "subject": "iron shortsword"
+    "subject": "iron shortsword simple straight blade sword with crossguard, wrapped leather grip, basic military design, functional forging"
   },
   {
     "id": "5_diamonds",
     "suit": "diamonds",
     "rank": 5,
     "type": "weapon",
-    "subject": "steel longsword"
+    "subject": "steel longsword well-crafted double-edged sword with fuller groove, polished steel blade, leather-wrapped handle with pommel, balanced weapon"
   },
   {
     "id": "6_diamonds",
     "suit": "diamonds",
     "rank": 6,
     "type": "weapon",
-    "subject": "kite shield"
+    "subject": "kite shield large teardrop-shaped shield with metal frame, painted heraldic design, reinforced wooden construction, leather straps"
   },
   {
     "id": "7_diamonds",
     "suit": "diamonds",
     "rank": 7,
     "type": "weapon",
-    "subject": "chainmail hauberk"
+    "subject": "chainmail hauberk interlocking metal rings forming shirt armor, reaching to knees, with coif hood, detailed riveted links"
   },
   {
     "id": "8_diamonds",
     "suit": "diamonds",
     "rank": 8,
     "type": "weapon",
-    "subject": "runed warhammer"
+    "subject": "runed warhammer heavy two-handed hammer with spiked head, glowing runes etched along metal, wrapped leather grip, dwarven-style craftsmanship"
   },
   {
     "id": "9_diamonds",
     "suit": "diamonds",
     "rank": 9,
     "type": "weapon",
-    "subject": "guardian plate armor"
+    "subject": "guardian plate armor full suit of polished steel plate with pauldrons, breastplate with embossed details, articulated joints, shining finish"
   },
   {
     "id": "10_diamonds",
     "suit": "diamonds",
     "rank": 10,
     "type": "weapon",
-    "subject": "legendary aegis blade"
+    "subject": "legendary aegis blade ornate longsword with glowing golden runes, intricate crossguard with gemstone, pristine mirror-finish blade, wrapped grip with gold wire, holy radiance"
   },
 
   {
@@ -132,91 +132,91 @@
     "suit": "clubs",
     "rank": 2,
     "type": "monster",
-    "subject": "imp"
+    "subject": "small imp demon with leathery wings, pointed tail, sharp claws, mischievous hunched posture"
   },
   {
     "id": "3_clubs",
     "suit": "clubs",
     "rank": 3,
     "type": "monster",
-    "subject": "hellhound"
+    "subject": "hellhound with burning eyes, charred matted fur, bared fangs dripping ember saliva, muscular canine body"
   },
   {
     "id": "4_clubs",
     "suit": "clubs",
     "rank": 4,
     "type": "monster",
-    "subject": "war ghoul"
+    "subject": "war ghoul undead warrior, tattered armor fused to decaying flesh, glowing red eyes, wielding a notched blade"
   },
   {
     "id": "5_clubs",
     "suit": "clubs",
     "rank": 5,
     "type": "monster",
-    "subject": "bone fiend"
+    "subject": "bone fiend skeletal horror with elongated limbs, exposed ribcage, skull face with hellfire in eye sockets, draped in chains"
   },
   {
     "id": "6_clubs",
     "suit": "clubs",
     "rank": 6,
     "type": "monster",
-    "subject": "abyss stalker"
+    "subject": "abyss stalker shadow demon with multiple glowing eyes, tentacle appendages, smoke-wreathed form, otherworldly anatomy"
   },
   {
     "id": "7_clubs",
     "suit": "clubs",
     "rank": 7,
     "type": "monster",
-    "subject": "infernal knight"
+    "subject": "infernal knight heavily armored demon warrior, blackened plate armor with glowing cracks, horned helmet, wielding massive corrupted greatsword"
   },
   {
     "id": "8_clubs",
     "suit": "clubs",
     "rank": 8,
     "type": "monster",
-    "subject": "blood demon"
+    "subject": "blood demon muscular fiend with crimson skin, large curved horns, clawed hands, fanged maw, tribal scar patterns glowing red"
   },
   {
     "id": "9_clubs",
     "suit": "clubs",
     "rank": 9,
     "type": "monster",
-    "subject": "pit tyrant"
+    "subject": "pit tyrant massive demon lord with spiked armor plates, multiple horns, barbed tail, holding flaming whip, imposing stance"
   },
   {
     "id": "10_clubs",
     "suit": "clubs",
     "rank": 10,
     "type": "monster",
-    "subject": "chaos abomination"
+    "subject": "chaos abomination twisted multi-limbed monstrosity, asymmetric mutations, writhing tentacles, multiple screaming faces, reality-warping distortions"
   },
   {
     "id": "11_clubs",
     "suit": "clubs",
     "rank": 11,
     "type": "monster",
-    "subject": "cult champion"
+    "subject": "cult champion dark warrior in profane ritual armor, skull trophies, blood-stained ceremonial robes over spiked mail, wielding cursed sacrificial blade"
   },
   {
     "id": "12_clubs",
     "suit": "clubs",
     "rank": 12,
     "type": "monster",
-    "subject": "demon priest"
+    "subject": "demon priest robed infernal cleric with horned skull mask, holding burning unholy tome, draped in chains and amulets, surrounded by floating embers"
   },
   {
     "id": "13_clubs",
     "suit": "clubs",
     "rank": 13,
     "type": "monster",
-    "subject": "infernal overlord"
+    "subject": "infernal overlord towering demon commander with massive burning crown, ornate hellforged armor, four arms wielding dark weapons, cape of smoke and flames"
   },
   {
     "id": "14_clubs",
     "suit": "clubs",
     "rank": 14,
     "type": "monster",
-    "subject": "archdemon"
+    "subject": "archdemon colossal winged demon with vast bat wings, multiple curved horns forming crown, muscular humanoid body, clawed feet, wielding flaming sword, commanding presence"
   },
 
   {
@@ -224,90 +224,90 @@
     "suit": "spades",
     "rank": 2,
     "type": "monster",
-    "subject": "cave crawler"
+    "subject": "cave crawler insectoid creature with segmented body, multiple legs, chitinous exoskeleton, mandibles, glowing eyes, lurking predator"
   },
   {
     "id": "3_spades",
     "suit": "spades",
     "rank": 3,
     "type": "monster",
-    "subject": "dire wolf"
+    "subject": "dire wolf massive feral wolf with thick dark fur, glowing moonlit eyes, bared fangs, muscular build, aggressive hunting posture"
   },
   {
     "id": "4_spades",
     "suit": "spades",
     "rank": 4,
     "type": "monster",
-    "subject": "goblin raider"
+    "subject": "goblin raider small hunched humanoid with pointed ears, sharp teeth, crude leather armor, wielding jagged blade and wooden shield"
   },
   {
     "id": "5_spades",
     "suit": "spades",
     "rank": 5,
     "type": "monster",
-    "subject": "swamp troll"
+    "subject": "swamp troll large grotesque humanoid covered in moss and warts, hunched back, long arms, crude club, dripping with slime"
   },
   {
     "id": "6_spades",
     "suit": "spades",
     "rank": 6,
     "type": "monster",
-    "subject": "ogre brute"
+    "subject": "ogre brute massive muscular humanoid with small head, scarred skin, simple hide armor, wielding tree trunk as club"
   },
   {
     "id": "7_spades",
     "suit": "spades",
     "rank": 7,
     "type": "monster",
-    "subject": "wyvern hatchling"
+    "subject": "wyvern hatchling young dragon-like creature with leathery wings, serpentine neck, barbed tail, sharp claws, scaled hide, fierce yellow eyes"
   },
   {
     "id": "8_spades",
     "suit": "spades",
     "rank": 8,
     "type": "monster",
-    "subject": "stone golem"
+    "subject": "stone golem massive humanoid construct made of assembled rocks and boulders, glowing runes carved in stone, slow powerful stance"
   },
   {
     "id": "9_spades",
     "suit": "spades",
     "rank": 9,
     "type": "monster",
-    "subject": "chimera"
+    "subject": "chimera three-headed beast with lion body, goat head on back, serpent tail, dragon head breathing fire, massive paws with claws"
   },
   {
     "id": "10_spades",
     "suit": "spades",
     "rank": 10,
     "type": "monster",
-    "subject": "hydra"
+    "subject": "hydra multi-headed serpentine dragon with seven snake heads, long necks, scaled body, writhing coiled form, fanged maws"
   },
   {
     "id": "11_spades",
     "suit": "spades",
     "rank": 11,
     "type": "monster",
-    "subject": "alpha werebeast"
+    "subject": "alpha werebeast massive werewolf pack leader, muscular bipedal form, thick fur, elongated snout with exposed fangs, clawed hands, torn clothing"
   },
   {
     "id": "12_spades",
     "suit": "spades",
     "rank": 12,
     "type": "monster",
-    "subject": "ancient treant"
+    "subject": "ancient treant towering tree creature with gnarled bark skin, branch-like arms, glowing eyes in trunk face, moss and roots, wise but dangerous"
   },
   {
     "id": "13_spades",
     "suit": "spades",
     "rank": 13,
     "type": "monster",
-    "subject": "storm giant"
+    "subject": "storm giant colossal humanoid warrior with long flowing hair, ornate armor with lightning motifs, holding massive sword, commanding presence"
   },
   {
     "id": "14_spades",
     "suit": "spades",
     "rank": 14,
     "type": "monster",
-    "subject": "ancient dragon"
+    "subject": "ancient dragon massive serpentine dragon with four legs, vast wings, horned head, armored scales, long tail, treasure hoard guardian, wise ancient eyes"
   }
 ]

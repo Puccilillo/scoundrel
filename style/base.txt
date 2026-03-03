@@ -1,12 +1,1 @@
-single isolated game asset,
-transparent background,
-single centered subject,
-fixed camera angle,
-consistent framing,
-strong readable silhouette,
-clean stylized fantasy art,
-high shape clarity,
-no card frame,
-no text,
-no logo,
-no extra objects
+game asset illustration, single centered subject on transparent background, clean silhouette with strong shape language, isometric three-quarter view, professional fantasy game art style, studio lighting with subtle rim light, high detail render, crisp edges, no background elements, no scenery, no text or UI elements, isolated object focus, sharp focus, detailed textures, painterly digital art
