@@ -14,6 +14,18 @@
     --text-secondary: #b0b0b0;
     --accent: #4ecdc4;
     --accent-hover: #5ff5eb;
+    
+    /* Design System - Card Sizes */
+    --card-min: 120px;
+    --card-optimal: 150px;
+    --card-max: 180px;
+    
+    /* Spacing System (8px grid) */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 12px;
+    --space-lg: 16px;
+    --space-xl: 20px;
 }
 
 html,
@@ -38,20 +50,28 @@ body {
 }
 
 .app {
+<<<<<<< HEAD
     height: 100vh;
     padding: 20px;
     gap: 20px;
+=======
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: var(--space-xl);
+    gap: var(--space-xl);
+>>>>>>> cc74b72 (some other test)
 }
 
 /* HEADER */
 .header {
     text-align: center;
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 15px;
+    padding-bottom: var(--space-md);
+    flex: 0 0 auto;
 }
 
 .header h1 {
-    font-size: 2em;
+    font-size: 1.8em;
     letter-spacing: 2px;
     font-weight: 700;
 }
@@ -59,8 +79,8 @@ body {
 /* BOARD - 3 COLUMN LAYOUT */
 .board {
     display: grid;
-    grid-template-columns: 200px 1fr 200px;
-    gap: 20px;
+    grid-template-columns: minmax(180px, 200px) 1fr minmax(180px, 200px);
+    gap: var(--space-xl);
     flex: 1;
     min-height: 0;
     overflow: hidden;
@@ -73,28 +93,33 @@ body {
 }
 
 .column {
+<<<<<<< HEAD
     gap: 20px;
     overflow: hidden;
+=======
+    gap: var(--space-xl);
+    overflow: visible;
+>>>>>>> cc74b72 (some other test)
 }
 
 /* PANELS */
 .panel {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    padding: 15px;
+    padding: var(--space-md);
     flex: 1;
     overflow: hidden;
 }
 
 .panel-title {
-    font-size: 0.85em;
+    font-size: 0.8em;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 12px;
+    margin-bottom: var(--space-sm);
     color: var(--text-secondary);
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 8px;
+    padding-bottom: var(--space-xs);
 }
 
 .panel-count {
@@ -135,13 +160,13 @@ body {
 
 .menu-panel {
     order: 3;
-    padding: 10px;
+    padding: var(--space-sm);
 }
 
 #equipmentContent {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: var(--space-sm);
     align-items: center;
 }
 
@@ -155,10 +180,10 @@ body {
 .pile,
 .equipment-slot {
     width: 100%;
-    max-width: 120px;
+    max-width: var(--card-optimal);
     aspect-ratio: 2/3;
     border: 1px dashed var(--border-color);
-    border-radius: 8px;
+    border-radius: var(--space-sm);
     margin: 0 auto;
 }
 
@@ -167,21 +192,25 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    font-size: 0.85em;
+    color: var(--text-secondary);
 }
 
 /* ROOM PANEL */
 .cards-display {
     display: flex;
-    gap: 10px;
+    gap: var(--space-sm);
     flex: 0 0 auto;
     overflow: visible;
     perspective: 1200px;
+    justify-content: center;
 }
 
 .card {
-    flex: 1 1 120px;
-    max-width: calc((100% - 30px) / 4);
-    min-width: 120px;
+    /* Fluid card sizing - grows from min to optimal, never exceeds max */
+    flex: 1 1 var(--card-optimal);
+    min-width: var(--card-min);
+    max-width: var(--card-max);
     aspect-ratio: 2/3;
     cursor: pointer;
     position: relative;
@@ -189,8 +218,8 @@ body {
     background: #d9d9d9;
     color: #111111;
     border: 2px solid #b0b0b0;
-    border-radius: 8px;
-    padding: 8px;
+    border-radius: var(--space-sm);
+    padding: var(--space-sm);
     transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
                 box-shadow 0.38s cubic-bezier(0.22, 1, 0.36, 1),
                 border-color 0.28s ease;
@@ -275,13 +304,13 @@ body {
 }
 
 .card-corner.top-left {
-    top: 8px;
-    left: 8px;
+    top: var(--space-sm);
+    left: var(--space-sm);
 }
 
 .card-corner.bottom-right {
-    bottom: 8px;
-    right: 8px;
+    bottom: var(--space-sm);
+    right: var(--space-sm);
     transform: rotate(180deg);
 }
 
@@ -296,7 +325,8 @@ body {
 .card.equipped-card {
     flex: 0 0 auto;
     width: 100%;
-    max-width: 120px;
+    max-width: var(--card-optimal);
+    min-width: var(--card-min);
     margin: 0 auto;
 }
 
@@ -323,12 +353,12 @@ body {
     font-size: 0.8em;
     color: var(--text-secondary);
     border-top: 1px solid var(--border-color);
-    padding-top: 8px;
+    padding-top: var(--space-sm);
 }
 
 /* ACTIONS PANEL */
 .actions-buttons {
-    gap: 8px;
+    gap: var(--space-sm);
     flex: 1;
     overflow: auto;
 }
@@ -358,7 +388,7 @@ body {
     --btn-hover-border: var(--accent);
     --btn-hover-color: var(--accent);
 
-    padding: 10px 12px;
+    padding: var(--space-sm) var(--space-md);
     background: var(--btn-bg);
     color: var(--btn-color);
     border: 1px solid var(--btn-border);
@@ -452,19 +482,19 @@ body {
 /* MESSAGE CONTAINER */
 .message-container {
     position: fixed;
-    bottom: 20px;
+    bottom: var(--space-xl);
     left: 50%;
     transform: translateX(-50%);
-    gap: 10px;
+    gap: var(--space-sm);
     pointer-events: none;
     z-index: 100;
 }
 
 .message {
-    padding: 12px 16px;
+    padding: var(--space-md) var(--space-lg);
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: var(--space-xs);
     font-size: 0.9em;
     pointer-events: auto;
     animation: slideUp 0.3s ease;
@@ -473,7 +503,7 @@ body {
 @keyframes slideUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(var(--space-xl));
     }
 
     to {
@@ -527,8 +557,8 @@ body {
 .modal-content {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    padding: 30px;
-    border-radius: 4px;
+    padding: calc(var(--space-xl) * 1.5);
+    border-radius: var(--space-xs);
     width: 90%;
     max-width: 400px;
     text-align: center;
@@ -536,32 +566,32 @@ body {
 
 .modal-content h2 {
     font-size: 1.5em;
-    margin-bottom: 15px;
+    margin-bottom: var(--space-lg);
 }
 
 .score-section {
-    margin: 20px 0;
-    padding: 15px;
+    margin: var(--space-xl) 0;
+    padding: var(--space-lg);
     background: var(--bg-primary);
     border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: var(--space-xs);
 }
 
 .final-score {
     font-size: 2em;
     color: var(--accent);
     font-weight: 700;
-    margin: 10px 0;
+    margin: var(--space-sm) 0;
 }
 
 .modal-content p {
-    margin: 8px 0;
+    margin: var(--space-sm) 0;
     color: var(--text-secondary);
     font-size: 0.9em;
 }
 
 .modal-content button {
-    margin-top: 15px;
+    margin-top: var(--space-lg);
 }
 
 /* SCROLLBARS */
@@ -576,40 +606,146 @@ body {
 
 ::-webkit-scrollbar-thumb {
     background: var(--border-color);
-    border-radius: 3px;
+    border-radius: var(--space-xs);
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--text-secondary);
 }
 
-/* RESPONSIVE */
-@media (max-width: 1200px) {
-    .board {
-        grid-template-columns: 150px 1fr 150px;
+/* =================================================================
+   RESPONSIVE DESIGN SYSTEM
+   Breakpoints based on content needs, not arbitrary device sizes
+   ================================================================= */
+
+/* Large Desktop: 1400px+ - Optimal viewing, max card size */
+@media (min-width: 1400px) {
+    :root {
+        --card-optimal: 160px;
+        --card-max: 200px;
     }
 }
 
-@media (max-width: 900px) {
+/* Desktop: 1024px - 1399px - Standard desktop layout */
+@media (max-width: 1399px) {
     .board {
-        grid-template-columns: 180px 1fr 180px;
+        grid-template-columns: minmax(160px, 180px) 1fr minmax(160px, 180px);
+    }
+    
+    .header h1 {
+        font-size: 1.6em;
+    }
+}
+
+/* Tablet Landscape: 900px - 1023px - Narrower columns */
+@media (max-width: 1023px) {
+    .board {
+        grid-template-columns: 160px 1fr 160px;
+        gap: var(--space-md);
+    }
+    
+    :root {
+        --card-optimal: 140px;
+    }
+    
+    .header h1 {
+        font-size: 1.5em;
+    }
+    
+    .deck-panel,
+    .discard-panel {
+        min-height: 140px;
+    }
+}
+
+/* Tablet Portrait: 768px - 899px - Compact columns */
+@media (max-width: 899px) {
+    .app {
+        padding: var(--space-md);
+        gap: var(--space-md);
+    }
+    
+    .board {
+        grid-template-columns: 140px 1fr 140px;
+        gap: var(--space-md);
+    }
+    
+    .cards-display {
+        gap: var(--space-sm);
+    }
+    
+    .header h1 {
+        font-size: 1.75em;
+    }
+    
+    .deck-panel,
+    .discard-panel {
+        min-height: 140px;
+    }
+}
+
+/* Mobile Landscape: 600px - 767px in landscape orientation */
+@media (max-width: 767px) and (orientation: landscape) {
+    .board {
+        grid-template-columns: 140px 1fr 140px;
+        gap: var(--space-sm);
+        overflow: hidden;
+    }
+    
+    .app {
+        padding: var(--space-sm);
+        max-height: 100vh;
+        max-height: 100dvh;
+    }
+    
+    .column {
+        overflow-y: auto;
+    }
+    
+    .cards-display {
+        flex-wrap: nowrap;
+        gap: var(--space-xs);
     }
     
     .card {
-        flex: 1 1 120px;
-        max-width: calc((100% - 20px) / 3);
-        min-width: 120px;
+        min-width: 100px;
+    }
+    
+    :root {
+        --card-min: 100px;
+        --card-optimal: 120px;
+        --card-max: 140px;
+    }
+    
+    .deck-panel,
+    .discard-panel {
+        min-height: 120px;
+    }
+    
+    .header h1 {
+        font-size: 1.3em;
     }
 }
 
-@media (max-width: 768px) {
+/* Mobile Portrait: <768px - Single column layout */
+@media (max-width: 767px) and (orientation: portrait) {
+    :root {
+        --card-min: 140px;
+        --card-optimal: 160px;
+        --card-max: 180px;
+    }
+    
     .app {
-        padding: 10px;
-        gap: 10px;
+        padding: var(--space-sm);
+        gap: var(--space-sm);
+        max-height: 100vh;
+        max-height: 100dvh;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
     .header {
-        padding-bottom: 10px;
+        padding-bottom: var(--space-sm);
     }
 
     .header h1 {
@@ -617,13 +753,22 @@ body {
         letter-spacing: 1px;
     }
 
+    /* Single column layout - reorder everything */
     .board {
+<<<<<<< HEAD
         grid-template-columns: 1fr;
         gap: 12px;
+=======
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-sm);
+        overflow: visible;
+        max-height: none;
+>>>>>>> cc74b72 (some other test)
     }
 
     .column {
-        gap: 10px;
+        overflow: visible;
     }
 
     .left-column,
@@ -632,185 +777,173 @@ body {
         display: contents;
     }
 
-    /* Reorder panels for mobile: Room first, then equipment/actions, then deck/discard */
-    .room-panel {
-        order: 1;
-    }
-
-    .equipment-panel {
-        order: 2;
-    }
-
-    .actions-panel {
-        order: 3;
-    }
-
-    .deck-panel {
-        order: 4;
-    }
-
-    .discard-panel {
-        order: 5;
-    }
-
-    .menu-panel {
-        order: 6;
-    }
+    /* Content order: Room → Equipment → Actions → Deck → Discard → Menu */
+    .room-panel { order: 1; }
+    .equipment-panel { order: 2; }
+    .actions-panel { order: 3; }
+    .deck-panel { order: 4; }
+    .discard-panel { order: 5; }
+    .menu-panel { order: 6; }
 
     .panel {
-        padding: 12px;
-        min-height: auto;
+        padding: var(--space-md);
+        overflow: visible;
     }
 
     .panel-title {
-        font-size: 0.75em;
-        margin-bottom: 10px;
-        padding-bottom: 6px;
-    }
-
-    /* Cards display - 2 per row on mobile */
-    .cards-display {
-        gap: 8px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .card {
-        flex: 1 1 140px;
-        max-width: 180px;
-        min-width: 140px;
-    }
-
-    /* Ensure equipment cards are properly sized on mobile */
-    .pile,
-    .equipment-slot {
-        max-width: 140px;
-    }
-
-    .card.equipped-card {
-        max-width: 140px;
-    }
-
-    /* Adjust font sizes on mobile */
-    .corner-value {
-        font-size: clamp(1.2em, 3vw, 2.5em);
-    }
-
-    .corner-suit {
-        font-size: clamp(1em, 2.5vw, 2em);
-    }
-
-    .card-center {
-        font-size: clamp(2.5em, 5vw, 5em);
-    }
-
-    /* Equipment card fonts */
-    .equipped-card .corner-value {
-        font-size: 1.5em;
-    }
-
-    .equipped-card .corner-suit {
-        font-size: 1.2em;
-    }
-
-    .equipped-card .card-center {
-        font-size: 3em;
-    }
-
-    .room-title {
-        flex-wrap: wrap;
-        gap: 4px;
-        font-size: 0.7em;
-    }
-
-    .stat-item {
-        font-size: 1em;
-    }
-
-    /* Button adjustments */
-    .btn {
-        padding: 12px;
         font-size: 0.8em;
+        margin-bottom: var(--space-sm);
+        padding-bottom: var(--space-xs);
     }
 
-    .actions-buttons {
-        gap: 6px;
-    }
-
-    /* Deck and discard panels side by side on mobile */
-    .deck-panel,
-    .discard-panel {
-        min-height: 200px;
-    }
-}
-
-/* Extra small devices */
-@media (max-width: 480px) {
-    .app {
-        padding: 8px;
-        gap: 8px;
-    }
-
-    .header h1 {
-        font-size: 1.3em;
-    }
-
-    .board {
-        gap: 8px;
-    }
-
-    .panel {
-        padding: 10px;
-    }
-
+    /* Cards wrap to 2 per row on mobile */
     .cards-display {
-        gap: 6px;
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+        overflow: visible;
     }
 
-    .card {
-        flex: 1 1 120px;
-        max-width: 160px;
-        min-width: 120px;
-        padding: 6px;
-    }
-
+    /* Equipment and pile consistency */
     .pile,
     .equipment-slot,
     .card.equipped-card {
-        max-width: 120px;
+        max-width: var(--card-optimal);
+        min-width: var(--card-min);
+    }
+
+    /* Typography adjustments */
+    .corner-value {
+        font-size: clamp(1.4em, 3.5vw, 2.2em);
+    }
+
+    .corner-suit {
+        font-size: clamp(1.1em, 3vw, 1.8em);
+    }
+
+    .card-center {
+        font-size: clamp(3em, 6vw, 5.5em);
+    }
+
+    .equipped-card .corner-value {
+        font-size: 1.6em;
+    }
+
+    .equipped-card .corner-suit {
+        font-size: 1.3em;
+    }
+
+    .equipped-card .card-center {
+        font-size: 3.2em;
+    }
+
+    /* Stats header - better mobile layout */
+    .room-title {
+        flex-wrap: wrap;
+        gap: var(--space-xs);
+        justify-content: space-between;
+    }
+
+    .stat-item {
+        font-size: 0.9em;
+    }
+
+    /* Deck and discard slightly taller */
+    .deck-panel,
+    .discard-panel {
+        min-height: 180px;
+    }
+
+    /* Button improvements */
+    .btn {
+        padding: var(--space-md);
+        font-size: 0.85em;
+        min-height: 48px; /* Touch-friendly */
+    }
+
+    .actions-buttons {
+        gap: var(--space-sm);
+    }
+
+    .menu-panel {
+        padding: var(--space-sm);
+    }
+}
+
+/* Small Mobile: <400px - Compact everything */
+@media (max-width: 399px) {
+    :root {
+        --card-min: 120px;
+        --card-optimal: 140px;
+        --card-max: 160px;
+    }
+    
+    .app {
+        padding: var(--space-xs);
+        gap: var(--space-xs);
+    }
+
+    .header h1 {
+        font-size: 1.2em;
+        letter-spacing: 0.5px;
+    }
+
+    .board {
+        gap: var(--space-xs);
+    }
+
+    .panel {
+        padding: var(--space-sm);
+    }
+
+    .cards-display {
+        gap: var(--space-xs);
+    }
+
+    .corner-value {
+        font-size: clamp(1.2em, 3vw, 1.8em);
+    }
+
+    .corner-suit {
+        font-size: clamp(1em, 2.5vw, 1.5em);
+    }
+
+    .card-center {
+        font-size: clamp(2.5em, 5vw, 4.5em);
     }
 
     .btn {
-        padding: 10px;
-        font-size: 0.75em;
+        padding: var(--space-sm) var(--space-sm);
+        font-size: 0.8em;
     }
 
-    .room-title {
-        font-size: 0.65em;
+    .panel-title {
+        font-size: 0.7em;
     }
 }
 
-/* Landscape mobile */
-@media (max-width: 900px) and (orientation: landscape) {
-    .board {
-        grid-template-columns: 150px 1fr 150px;
-    }
-
-    .left-column,
-    .middle-column,
-    .right-column {
-        display: flex;
-    }
-
-    .card {
-        flex: 1 1 100px;
-        max-width: calc((100% - 30px) / 4);
-        min-width: 100px;
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Ensure adequate tap targets */
+    .btn {
+        min-height: 48px;
+        padding: var(--space-md) var(--space-lg);
     }
     
-    .cards-display {
-        flex-wrap: nowrap;
+    .card {
+        /* Slightly larger touch targets */
+        min-width: 140px;
+    }
+    
+    /* Reduce hover effects, enhance active states */
+    .card:active:not(.selected) {
+        transform: translateY(-4px) scale(0.98);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
     }
 }
 
-
+/* High resolution displays - sharper rendering */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .card {
+        border-width: 1.5px;
+    }
+}
