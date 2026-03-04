@@ -78,7 +78,7 @@ body {
    ======================================== */
 .board {
     display: grid;
-    grid-template-columns: 1fr 6fr 1fr;
+    grid-template-columns: 1fr 5fr 1fr;
     gap: clamp(10px, 2vw, 20px);
     flex: 1;
     min-height: 0;

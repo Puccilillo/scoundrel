@@ -3,6 +3,7 @@ const path = require("path");
 
 const CONFIG = {
   apiBase: "http://127.0.0.1:7860",
+  useRandomSeed: false,
   outputDir: "./art",
   logDir: "./output",
   promptDumpDir: "./output/prompts",
@@ -115,6 +116,18 @@ function hashSeed(value) {
 
   const normalized = Math.abs(hash);
   return (normalized % 2147483646) + 1;
+}
+
+function resolveSeed(card, fallbackKey) {
+  if (CONFIG.useRandomSeed) {
+    return -1;
+  }
+
+  if (Number.isFinite(Number(card && card.seed))) {
+    return Number(card.seed);
+  }
+
+  return hashSeed(String(fallbackKey || (card && card.id) || "card"));
 }
 
 function sleep(ms) {
@@ -308,7 +321,7 @@ async function requestImage(doFetch, apiBase, payload, retries, retryDelayMs, re
 async function runSingleCardSweep(doFetch, card, suitStyles) {
   const profile = selectProfile(card);
   const basePrompt = buildPrompt(card, suitStyles);
-  const seed = Number.isFinite(Number(card.seed)) ? Number(card.seed) : hashSeed(card.id);
+  const seed = resolveSeed(card, card.id);
   const negativePrompt =
     typeof card.negative_prompt === "string" && card.negative_prompt.trim()
       ? card.negative_prompt
@@ -552,7 +565,7 @@ async function main() {
           ])
         );
 
-        const seed = Number.isFinite(Number(card.seed)) ? Number(card.seed) : hashSeed(`${card.id}__${group}__${setId}`);
+        const seed = resolveSeed(card, `${card.id}__${group}__${setId}`);
         const negativePrompt =
           typeof card.negative_prompt === "string" && card.negative_prompt.trim()
             ? card.negative_prompt
