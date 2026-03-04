@@ -64,6 +64,13 @@ class ScoundrelGame {
         this.state = new GameState();
         this.selectedCard = null;
         this.currentAction = null; // 'weapon', 'monster', 'potion'
+        this.setupDeckSkipInteraction();
+    }
+
+    setupDeckSkipInteraction() {
+        const deckPile = document.getElementById('deckPile');
+        if (!deckPile) return;
+        deckPile.addEventListener('click', () => this.skipRoom());
     }
 
     createDeck() {
@@ -356,6 +363,13 @@ class ScoundrelGame {
     }
 
     skipRoom() {
+        if (this.state.gameOver) return;
+
+        if (this.state.cardsUsedThisRoom > 0) {
+            this.showMessage('Cannot skip after taking an action in this room!', 'error');
+            return;
+        }
+
         if (this.state.lastRoomSkipped) {
             this.showMessage('Cannot skip 2 rooms in a row!', 'error');
             return;
@@ -460,6 +474,23 @@ class ScoundrelGame {
         return result;
     }
 
+    getCardArtPath(card) {
+        const folderMap = {
+            monster: 'monsters',
+            weapon: 'equipment',
+            potion: 'potions'
+        };
+        return `art/${folderMap[card.type]}/a/${card.value}_${card.suit}.png`;
+    }
+
+    renderCardCenter(card) {
+        return `
+            <span class="card-center">
+                <img class="card-center-image" src="${this.getCardArtPath(card)}" alt="${card.value} of ${card.suit}" draggable="false">
+            </span>
+        `;
+    }
+
     updateRoomDisplay() {
         const container = document.getElementById('roomCards');
         
@@ -490,7 +521,6 @@ class ScoundrelGame {
             }
 
             // Traditional playing card layout: corners + center
-            const typeEmoji = card.type === 'monster' ? '👹' : card.type === 'weapon' ? '🗡️' : '🧪';
             const valueMap = { 11: 'J', 12: 'Q', 13: 'K', 14: 'A' };
             const suitMap = { 'clubs': '♣', 'spades': '♠', 'hearts': '♥', 'diamonds': '♦' };
             const displayValue = valueMap[card.value] || card.value;
@@ -500,7 +530,7 @@ class ScoundrelGame {
                     <span class="corner-value">${displayValue}</span>
                     <span class="corner-suit">${displaySuit}</span>
                 </span>
-                <span class="card-center">${typeEmoji}</span>
+                ${this.renderCardCenter(card)}
                 <span class="card-corner bottom-right">
                     <span class="corner-value">${displayValue}</span>
                     <span class="corner-suit">${displaySuit}</span>
@@ -522,7 +552,6 @@ class ScoundrelGame {
         if (this.state.equippedWeapon) {
             const card = this.state.equippedWeapon;
             const suitClass = (card.suit === 'hearts' || card.suit === 'diamonds') ? 'red-suit' : 'black-suit';
-            const typeEmoji = card.type === 'monster' ? '👹' : card.type === 'weapon' ? '🗡️' : '🧪';
             const valueMap = { 11: 'J', 12: 'Q', 13: 'K', 14: 'A' };
             const suitMap = { 'clubs': '♣', 'spades': '♠', 'hearts': '♥', 'diamonds': '♦' };
             const displayValue = valueMap[card.value] || card.value;
@@ -534,7 +563,7 @@ class ScoundrelGame {
                         <span class="corner-value">${displayValue}</span>
                         <span class="corner-suit">${displaySuit}</span>
                     </span>
-                    <span class="card-center">${typeEmoji}</span>
+                    ${this.renderCardCenter(card)}
                     <span class="card-corner bottom-right">
                         <span class="corner-value">${displayValue}</span>
                         <span class="corner-suit">${displaySuit}</span>
@@ -545,7 +574,6 @@ class ScoundrelGame {
                 html += '<div class="stacked-monsters-container">';
                 this.state.stackedMonsters.forEach((monster, index) => {
                     const monsterSuitClass = (monster.suit === 'hearts' || monster.suit === 'diamonds') ? 'red-suit' : 'black-suit';
-                    const monsterEmoji = '👹';
                     const monsterDisplayValue = valueMap[monster.value] || monster.value;
                     const monsterDisplaySuit = suitMap[monster.suit];
                     
@@ -554,7 +582,7 @@ class ScoundrelGame {
                             <span class="corner-value">${monsterDisplayValue}</span>
                             <span class="corner-suit">${monsterDisplaySuit}</span>
                         </span>
-                        <span class="card-center">${monsterEmoji}</span>
+                        ${this.renderCardCenter(monster)}
                         <span class="card-corner bottom-right">
                             <span class="corner-value">${monsterDisplayValue}</span>
                             <span class="corner-suit">${monsterDisplaySuit}</span>
@@ -574,10 +602,9 @@ class ScoundrelGame {
 
     updateActionButtons() {
         const container = document.getElementById('actionButtons');
-        const skipBtn = document.getElementById('skipRoomBtn');
         
-        // Clear action buttons but preserve skip button
-        const buttonsToRemove = container.querySelectorAll('button:not(#skipRoomBtn)');
+        // Clear action buttons
+        const buttonsToRemove = container.querySelectorAll('button');
         buttonsToRemove.forEach(btn => btn.remove());
         
         // Remove message if present
@@ -590,7 +617,7 @@ class ScoundrelGame {
                 const msg = document.createElement('p');
                 msg.className = 'actions-empty';
                 msg.textContent = 'Select a card to act';
-                container.insertBefore(msg, skipBtn);
+                container.appendChild(msg);
             }
             return;
         }
@@ -602,7 +629,7 @@ class ScoundrelGame {
             btn.className = 'btn btn-equip';
             btn.textContent = `⚔️ Equip ${card.getDisplay()}`;
             btn.onclick = () => this.equipWeapon();
-            container.insertBefore(btn, skipBtn);
+            container.appendChild(btn);
         } else if (card.type === 'monster') {
             // Check if weapon is equipped and usable
             let canUseWeapon = false;
@@ -622,13 +649,13 @@ class ScoundrelGame {
                 btnWeapon.className = 'btn btn-fight-weapon';
                 btnWeapon.textContent = `⚔️ Fight ${card.getDisplay()} (with weapon)`;
                 btnWeapon.onclick = () => this.fightMonster();
-                container.insertBefore(btnWeapon, skipBtn);
+                container.appendChild(btnWeapon);
 
                 const btnBareHanded = document.createElement('button');
                 btnBareHanded.className = 'btn btn-fight-bare';
                 btnBareHanded.textContent = `👊 Fight ${card.getDisplay()} (bare-handed)`;
                 btnBareHanded.onclick = () => this.fightMonsterBareHanded();
-                container.insertBefore(btnBareHanded, skipBtn);
+                container.appendChild(btnBareHanded);
             } else {
                 // Only bare-handed option (no weapon or weapon unusable)
                 const btn = document.createElement('button');
@@ -639,7 +666,7 @@ class ScoundrelGame {
                     btn.textContent = `👊 Fight ${card.getDisplay()}`;
                 }
                 btn.onclick = () => this.fightMonsterBareHanded();
-                container.insertBefore(btn, skipBtn);
+                container.appendChild(btn);
             }
         } else if (card.type === 'potion') {
             const btn = document.createElement('button');
@@ -651,17 +678,22 @@ class ScoundrelGame {
                 btn.textContent = `🧪 Use ${card.getDisplay()}`;
             }
             btn.onclick = () => this.usePotion();
-            container.insertBefore(btn, skipBtn);
+            container.appendChild(btn);
         }
     }
 
     updateButtons() {
-        const skipBtn = document.getElementById('skipRoomBtn');
+        const deckPile = document.getElementById('deckPile');
+        if (!deckPile) return;
 
-        if (this.state.gameOver) {
-            skipBtn.disabled = true;
+        const canSkip = !this.state.gameOver && !this.state.lastRoomSkipped && this.state.cardsUsedThisRoom === 0;
+
+        if (canSkip) {
+            deckPile.classList.remove('disabled');
+            deckPile.classList.add('clickable');
         } else {
-            skipBtn.disabled = this.state.lastRoomSkipped || this.state.cardsUsedThisRoom > 0;
+            deckPile.classList.add('disabled');
+            deckPile.classList.remove('clickable');
         }
     }
 
