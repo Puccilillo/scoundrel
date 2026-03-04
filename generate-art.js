@@ -3,7 +3,7 @@ const path = require("path");
 
 const CONFIG = {
   apiBase: "http://127.0.0.1:7860",
-  useRandomSeed: false,
+  useRandomSeed: true,
   outputDir: "./art",
   logDir: "./output",
   promptDumpDir: "./output/prompts",
