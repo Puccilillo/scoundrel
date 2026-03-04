@@ -1,5 +1,9 @@
-/* Minimal Card Game UI */
+/* ========================================
+   SCOUNDREL - FLUID 3-COLUMN CARD GAME
+   Fully responsive, no scrollbars
+   ======================================== */
 
+/* RESET & BASE */
 * {
     margin: 0;
     padding: 0;
@@ -14,87 +18,95 @@
     --text-secondary: #b0b0b0;
     --accent: #4ecdc4;
     --accent-hover: #5ff5eb;
+    --card-bg: #d9d9d9;
+    --card-border: #b0b0b0;
 }
 
-html,
-body {
+html, body {
     height: 100%;
+    overflow: hidden;
 }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
-    overflow-x: hidden;
 }
 
-.app,
-.column,
-.panel,
-.actions-buttons,
-.message-container {
+/* ========================================
+   APP CONTAINER - FULL VIEWPORT
+   ======================================== */
+.app {
     display: flex;
     flex-direction: column;
-}
-
-.app {
     height: 100vh;
-    padding: 20px;
-    gap: 20px;
+    width: 100vw;
+    padding: clamp(10px, 2vh, 20px);
+    gap: clamp(10px, 2vh, 20px);
+    overflow: hidden;
 }
 
-/* HEADER */
+/* ========================================
+   HEADER - TITLE BAR
+   ======================================== */
 .header {
+    flex: 0 0 auto;
     text-align: center;
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 15px;
+    padding-bottom: clamp(8px, 1.5vh, 15px);
 }
 
 .header h1 {
-    font-size: 2em;
+    font-size: clamp(1.2rem, 3vw, 2rem);
     letter-spacing: 2px;
     font-weight: 700;
 }
 
-/* BOARD - 3 COLUMN LAYOUT */
+/* ========================================
+   BOARD - 3 COLUMN FIXED-PROPORTION LAYOUT
+   ======================================== */
 .board {
     display: grid;
-    grid-template-columns: 200px 1fr 200px;
-    gap: 20px;
+    grid-template-columns: 1fr 8fr 1fr;
+    gap: clamp(10px, 2vw, 20px);
     flex: 1;
     min-height: 0;
     overflow: hidden;
 }
 
-.column,
-.panel,
-.actions-buttons {
-    min-height: 0;
-}
-
+/* COLUMNS */
 .column {
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(10px, 2vh, 20px);
+    min-height: 0;
     overflow: hidden;
 }
 
-/* PANELS */
+/* ========================================
+   PANELS - BASE STYLING
+   ======================================== */
 .panel {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    padding: 15px;
-    flex: 1;
+    padding: clamp(10px, 1.5vh, 15px);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
     overflow: hidden;
 }
 
 .panel-title {
-    font-size: 0.85em;
+    font-size: clamp(0.7rem, 1.5vw, 0.85rem);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 12px;
+    margin-bottom: clamp(8px, 1.5vh, 12px);
     color: var(--text-secondary);
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 8px;
+    padding-bottom: clamp(6px, 1vh, 8px);
+    flex: 0 0 auto;
 }
 
 .panel-count {
@@ -102,94 +114,258 @@ body {
     font-weight: 700;
 }
 
+/* ========================================
+   LEFT COLUMN - EQUIPMENT & DECK
+   ======================================== */
+.health-bar-panel {
+    flex: 0 0 auto;
+    padding: clamp(8px, 1vh, 10px);
+    background: var(--bg-secondary);
+    order: 1;
+}
+
+.health-bar-display {
+    width: 100%;
+    padding: clamp(8px, 1.5vh, 12px) clamp(10px, 2vw, 16px);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border: 1px solid #10b981;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(8px, 1.5vw, 12px);
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+}
+
+.health-bar-icon {
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.health-bar-text {
+    letter-spacing: 0.5px;
+}
+
+.equipment-panel {
+    flex: 1;
+    min-height: 0;
+    order: 2;
+}
+
+.deck-panel {
+    flex: 0 0 auto;
+    order: 3;
+}
+
+/* EQUIPMENT CONTAINER */
+.equipment-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 0;
+    width: 100%;
+}
+
+.equipment-slot {
+    width: 100%;
+    aspect-ratio: 2/3;
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* EQUIPPED CARD WRAPPER */
+.equipped-card-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2/3;
+}
+
+.equipped-weapon {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* STACKED MONSTERS - ON RIGHT SIDE */
+.stacked-monsters-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.stacked-monster {
+    position: absolute !important;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    transform-origin: left center;
+}
+
+.stacked-monster:nth-child(1) {
+    left: 25%;
+}
+
+.stacked-monster:nth-child(2) {
+    left: 42%;
+}
+
+.stacked-monster:nth-child(3) {
+    left: 57%;
+}
+
+.stacked-monster:nth-child(4) {
+    left: 70%;
+}
+
+.stacked-monster:nth-child(5) {
+    left: 81%;
+}
+
+.stacked-monster:nth-child(6) {
+    left: 90%;
+}
+
+.stacked-monster:nth-child(7) {
+    left: 97%;
+}
+
+/* ========================================
+   CENTER COLUMN - ROOM PANEL
+   ======================================== */
+.room-panel {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 .room-title {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
+    gap: clamp(10px, 2vw, 20px);
+    flex-wrap: wrap;
 }
 
 .stat-item {
     white-space: nowrap;
+    font-size: clamp(0.7rem, 1.5vw, 0.85rem);
 }
 
-/* EQUIPMENT PANEL */
-.equipment-panel,
-.room-panel,
-.deck-panel,
-.discard-panel,
+/* ROOM CARDS DISPLAY */
+.cards-display {
+    flex: 1;
+    display: flex;
+    gap: clamp(8px, 1.5vw, 12px);
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    overflow: visible;
+    perspective: 1200px;
+    padding: clamp(10px, 2vh, 20px) 0;
+    flex-wrap: wrap;
+}
+
+.placeholder {
+    color: var(--text-secondary);
+    font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+    text-align: center;
+}
+
+/* ========================================
+   RIGHT COLUMN - ACTIONS, DISCARD, MENU
+   ======================================== */
 .menu-panel {
     flex: 0 0 auto;
-}
-
-.equipment-panel,
-.room-panel,
-.actions-panel {
+    padding: clamp(8px, 1vh, 10px);
     order: 1;
 }
 
-.deck-panel,
-.discard-panel {
+.actions-panel {
+    flex: 1;
+    min-height: 0;
     order: 2;
-    min-height: 140px;
 }
 
-.menu-panel {
-    order: 3;
-    padding: 10px;
-}
-
-#equipmentContent {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-}
-
-.pile,
-.card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.pile,
-.equipment-slot {
-    width: 100%;
-    max-width: 120px;
-    aspect-ratio: 2/3;
-    border: 1px dashed var(--border-color);
-    border-radius: 8px;
-    margin: 0 auto;
-}
-
-.pile {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-/* ROOM PANEL */
-.cards-display {
-    display: flex;
-    gap: 10px;
+.discard-panel {
     flex: 0 0 auto;
-    overflow: visible;
-    perspective: 1200px;
+    order: 3;
 }
 
-.card {
-    flex: 0 0 calc((100% - 30px) / 4);
-    max-width: calc((100% - 30px) / 4);
-    aspect-ratio: 2/3;
-    cursor: pointer;
+/* ACTIONS BUTTONS */
+.actions-buttons {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(6px, 1vh, 8px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0;
+}
+
+.actions-empty {
+    color: var(--text-secondary);
+    font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+    text-align: center;
+    padding: clamp(10px, 2vh, 15px);
+}
+
+/* ========================================
+   PILES - DECK & DISCARD
+   ======================================== */
+.pile {
     position: relative;
-    font-weight: bold;
-    background: #d9d9d9;
-    color: #111111;
-    border: 2px solid #b0b0b0;
+    width: 100%;
+    aspect-ratio: 2/3;
+    border: 2px dashed var(--border-color);
     border-radius: 8px;
-    padding: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pile-counter {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--accent);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    user-select: none;
+}
+
+.pile-counter {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--accent);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    user-select: none;
+}
+
+/* ========================================
+   CARDS - BASE STYLING
+   ======================================== */
+.card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2/3;
+    background: var(--card-bg);
+    color: #111111;
+    border: 2px solid var(--card-border);
+    border-radius: 8px;
+    padding: clamp(6px, 1vh, 8px);
+    cursor: pointer;
     transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
                 box-shadow 0.38s cubic-bezier(0.22, 1, 0.36, 1),
                 border-color 0.28s ease;
@@ -200,6 +376,7 @@ body {
     overflow: hidden;
 }
 
+/* Card shine effect */
 .card::before {
     content: "";
     position: absolute;
@@ -216,14 +393,20 @@ body {
     pointer-events: none;
 }
 
-.card:hover:not(.selected) {
+/* Room display cards - flex evenly */
+.cards-display .card {
+    flex: 1 1 calc(25% - 10px);
+    max-width: calc(25% - 10px);
+}
+
+.card:hover:not(.selected):not(.stacked-monster) {
     transform: translateY(-10px) rotateX(5deg) rotateY(-2deg);
     box-shadow: 0 18px 30px rgba(0, 0, 0, 0.32),
                 0 8px 14px rgba(0, 0, 0, 0.2),
                 0 1px 0 rgba(255, 255, 255, 0.5) inset;
 }
 
-.card:hover:not(.selected)::before {
+.card:hover:not(.selected):not(.stacked-monster)::before {
     opacity: 1;
     transform: translateX(40%) rotate(8deg);
 }
@@ -235,6 +418,7 @@ body {
     border-color: #808080;
 }
 
+/* CARD DISPLAY ELEMENTS */
 .card-corner {
     position: absolute;
     display: flex;
@@ -245,22 +429,22 @@ body {
 }
 
 .corner-value {
-    font-size: clamp(1.5em, 4vw, 3.5em);
+    font-size: clamp(1.2rem, 3vw, 2.5rem);
 }
 
 .corner-suit {
-    font-size: clamp(1.2em, 3.5vw, 3em);
-    margin-top: -3px;
+    font-size: clamp(1rem, 2.5vw, 2rem);
+    margin-top: -2px;
 }
 
 .card-corner.top-left {
-    top: 8px;
-    left: 8px;
+    top: clamp(6px, 1vh, 8px);
+    left: clamp(6px, 1vh, 8px);
 }
 
 .card-corner.bottom-right {
-    bottom: 8px;
-    right: 8px;
+    bottom: clamp(6px, 1vh, 8px);
+    right: clamp(6px, 1vh, 8px);
     transform: rotate(180deg);
 }
 
@@ -269,66 +453,46 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: clamp(3.5em, 7vw, 7em);
-}
-
-.card.equipped-card {
-    flex: 0 0 auto;
-    width: 100%;
-    max-width: 120px;
-    margin: 0 auto;
-}
-
-.equipped-card .corner-value {
-    font-size: 1.75em;
-}
-
-.equipped-card .corner-suit {
-    font-size: 1.5em;
-}
-
-.equipped-card .card-center {
-    font-size: 3.5em;
+    font-size: clamp(2.5rem, 6vw, 5rem);
 }
 
 .card.red-suit {
     color: #c62828;
 }
 
-.stacked-monsters {
-    margin-top: auto;
-    width: 100%;
-    text-align: left;
-    font-size: 0.8em;
-    color: var(--text-secondary);
-    border-top: 1px solid var(--border-color);
-    padding-top: 8px;
+/* EQUIPPED CARD SPECIFIC SIZING */
+.equipped-card .corner-value {
+    font-size: clamp(1rem, 2.5vw, 1.75rem);
 }
 
-/* ACTIONS PANEL */
-.actions-buttons {
-    gap: 8px;
-    flex: 1;
-    overflow: auto;
+.equipped-card .corner-suit {
+    font-size: clamp(0.9rem, 2vw, 1.5rem);
 }
 
-.actions-buttons .btn,
-.menu-panel button {
-    width: 100%;
+.equipped-card .card-center {
+    font-size: clamp(2rem, 4vw, 3.5rem);
 }
 
-/* PILES (Deck/Discard) */
-.pile {
-    text-align: center;
+/* STACKED MONSTER CARD SIZING */
+.stacked-monster .corner-value {
+    font-size: clamp(1rem, 2.5vw, 1.75rem);
 }
 
-/* PLACEHOLDER STATES */
-.placeholder {
-    color: var(--text-secondary);
-    font-size: 0.85em;
+.stacked-monster .corner-suit {
+    font-size: clamp(0.9rem, 2vw, 1.5rem);
 }
 
-/* BUTTONS */
+.stacked-monster .card-center {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+}
+
+.stacked-monster .card-center {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
 .btn {
     --btn-bg: var(--bg-secondary);
     --btn-border: var(--border-color);
@@ -337,19 +501,20 @@ body {
     --btn-hover-border: var(--accent);
     --btn-hover-color: var(--accent);
 
-    padding: 10px 12px;
+    padding: clamp(8px, 1.5vh, 12px) clamp(10px, 2vw, 16px);
     background: var(--btn-bg);
     color: var(--btn-color);
     border: 1px solid var(--btn-border);
     border-radius: 4px;
     cursor: pointer;
-    font-size: 0.85em;
+    font-size: clamp(0.7rem, 1.5vw, 0.85rem);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     transition: all 0.2s ease;
     white-space: normal;
     word-wrap: break-word;
+    width: 100%;
 }
 
 .btn:hover:not(:disabled) {
@@ -360,6 +525,7 @@ body {
 
 .btn:active:not(:disabled) {
     background: rgba(78, 205, 196, 0.15);
+    transform: scale(0.98);
 }
 
 .btn:disabled {
@@ -367,6 +533,7 @@ body {
     cursor: not-allowed;
 }
 
+/* BUTTON VARIANTS */
 .btn-primary {
     --btn-bg: var(--accent);
     --btn-border: var(--accent);
@@ -376,21 +543,13 @@ body {
     --btn-hover-color: var(--bg-primary);
 }
 
-.btn-equip,
-.btn-fight-weapon,
-.btn-fight-bare,
-.btn-potion-use,
-.btn-potion-discard,
-.btn-skip {
-    --btn-color: #ffffff;
-    --btn-hover-color: #ffffff;
-}
-
 .btn-equip {
     --btn-bg: #8b5cf6;
     --btn-border: #8b5cf6;
     --btn-hover-bg: #a78bfa;
     --btn-hover-border: #a78bfa;
+    --btn-color: #ffffff;
+    --btn-hover-color: #ffffff;
 }
 
 .btn-fight-weapon {
@@ -398,6 +557,8 @@ body {
     --btn-border: #f59e0b;
     --btn-hover-bg: #fbbf24;
     --btn-hover-border: #fbbf24;
+    --btn-color: #ffffff;
+    --btn-hover-color: #ffffff;
 }
 
 .btn-fight-bare {
@@ -405,6 +566,8 @@ body {
     --btn-border: #f97316;
     --btn-hover-bg: #fb923c;
     --btn-hover-border: #fb923c;
+    --btn-color: #ffffff;
+    --btn-hover-color: #ffffff;
 }
 
 .btn-potion-use {
@@ -412,6 +575,8 @@ body {
     --btn-border: #10b981;
     --btn-hover-bg: #34d399;
     --btn-hover-border: #34d399;
+    --btn-color: #ffffff;
+    --btn-hover-color: #ffffff;
 }
 
 .btn-potion-discard {
@@ -419,34 +584,44 @@ body {
     --btn-border: #64748b;
     --btn-hover-bg: #94a3b8;
     --btn-hover-border: #94a3b8;
+    --btn-color: #ffffff;
+    --btn-hover-color: #ffffff;
 }
 
 .btn-skip {
-    --btn-bg: #ff6b6b;
-    --btn-border: #ff6b6b;
-    --btn-hover-bg: #ff8585;
-    --btn-hover-border: #ff8585;
+    --btn-bg: #ef4444;
+    --btn-border: #ef4444;
+    --btn-hover-bg: #f87171;
+    --btn-hover-border: #f87171;
+    --btn-color: #ffffff;
+    --btn-hover-color: #ffffff;
 }
 
-/* MESSAGE CONTAINER */
+/* ========================================
+   MESSAGE CONTAINER
+   ======================================== */
 .message-container {
     position: fixed;
-    bottom: 20px;
+    bottom: clamp(15px, 3vh, 20px);
     left: 50%;
     transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
     gap: 10px;
     pointer-events: none;
     z-index: 100;
+    max-width: 90vw;
 }
 
 .message {
-    padding: 12px 16px;
+    padding: clamp(10px, 1.5vh, 12px) clamp(12px, 2vw, 16px);
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    font-size: 0.9em;
+    font-size: clamp(0.75rem, 1.5vw, 0.9rem);
     pointer-events: auto;
     animation: slideUp 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes slideUp {
@@ -454,7 +629,6 @@ body {
         opacity: 0;
         transform: translateY(20px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -467,67 +641,66 @@ body {
 }
 
 .message.warning {
-    border-color: #ffd966;
-    color: #ffd966;
+    border-color: #fbbf24;
+    color: #fbbf24;
 }
 
 .message.error {
-    border-color: #ff6b6b;
-    color: #ff6b6b;
+    border-color: #ef4444;
+    color: #ef4444;
 }
 
 .message.success {
-    border-color: #52b788;
-    color: #52b788;
+    border-color: #10b981;
+    color: #10b981;
 }
 
-/* MODAL */
+/* ========================================
+   MODAL
+   ======================================== */
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.85);
     display: none;
     align-items: center;
     justify-content: center;
     z-index: 1000;
     animation: fadeIn 0.2s ease;
+    padding: 20px;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .modal-content {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
-    padding: 30px;
-    border-radius: 4px;
+    padding: clamp(20px, 4vh, 30px);
+    border-radius: 8px;
     width: 90%;
     max-width: 400px;
     text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
 .modal-content h2 {
-    font-size: 1.5em;
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
     margin-bottom: 15px;
 }
 
 .score-section {
     margin: 20px 0;
-    padding: 15px;
+    padding: clamp(12px, 2vh, 15px);
     background: var(--bg-primary);
     border: 1px solid var(--border-color);
     border-radius: 4px;
 }
 
 .final-score {
-    font-size: 2em;
+    font-size: clamp(1.5rem, 4vw, 2rem);
     color: var(--accent);
     font-weight: 700;
     margin: 10px 0;
@@ -536,14 +709,20 @@ body {
 .modal-content p {
     margin: 8px 0;
     color: var(--text-secondary);
-    font-size: 0.9em;
+    font-size: clamp(0.8rem, 1.5vw, 0.9rem);
 }
 
 .modal-content button {
     margin-top: 15px;
 }
 
-/* SCROLLBARS */
+.modal-content button {
+    margin-top: 15px;
+}
+
+/* ========================================
+   SCROLLBARS (for actions panel)
+   ======================================== */
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -562,46 +741,106 @@ body {
     background: var(--text-secondary);
 }
 
-/* RESPONSIVE */
-@media (max-width: 1200px) {
+/* ========================================
+   RESPONSIVE - MOBILE & TABLET
+   ======================================== */
+
+/* Tablets */
+@media (max-width: 1024px) {
     .board {
-        grid-template-columns: 150px 1fr 150px;
+        grid-template-columns: 1fr 8fr 1fr;
     }
 }
 
+/* Mobile Portrait - Stack vertically but keep proportions */
 @media (max-width: 768px) {
     .app {
-        padding: 12px;
-        gap: 12px;
-    }
-
-    .header {
-        padding-bottom: 10px;
-    }
-
-    .header h1 {
-        font-size: 1.5em;
+        padding: 10px;
+        gap: 10px;
     }
 
     .board {
         grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
-    .column {
-        gap: 12px;
+        gap: 15px;
     }
 
     .left-column,
-    .middle-column,
-    .right-column {
-        display: grid;
-        grid-template-columns: 1fr;
+    .right-column,
+    .middle-column {
+        display: flex;
+        flex-direction: column;
     }
 
-    .panel {
-        padding: 12px;
-        min-height: 120px;
+    /* Health bar and New Game maintain full width */
+    .health-bar-panel,
+    .menu-panel {
+        width: 100%;
+    }
+
+    /* Equipment and Actions take equal space */
+    .equipment-panel,
+    .actions-panel {
+        flex: 1;
+    }
+
+    /* Deck and Discard piles take equal space */
+    .deck-panel,
+    .discard-panel {
+        flex: 0 0 auto;
+    }
+
+    /* Stack cards in 2 columns on mobile */
+    .cards-display .card {
+        flex: 1 1 calc(50% - 8px);
+        max-width: calc(50% - 8px);
+    }
+
+    /* Adjust stacked monsters for mobile */
+    .stacked-monster:nth-child(1) { left: 25%; }
+    .stacked-monster:nth-child(2) { left: 42%; }
+    .stacked-monster:nth-child(3) { left: 57%; }
+    .stacked-monster:nth-child(4) { left: 70%; }
+    .stacked-monster:nth-child(5) { left: 81%; }
+    .stacked-monster:nth-child(6) { left: 90%; }
+    .stacked-monster:nth-child(7) { left: 97%; }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+
+    /* Stack cards vertically on very small screens */
+    .cards-display {
+        flex-direction: column;
+    }
+
+    .cards-display .card {
+        flex: 1 1 100%;
+        max-width: 100%;
+        max-height: 200px;
     }
 }
 
+/* Landscape mobile */
+@media (max-width: 896px) and (orientation: landscape) {
+    .board {
+        grid-template-columns: 1fr 8fr 1fr;
+        grid-template-rows: 1fr;
+    }
+
+    .left-column,
+    .right-column,
+    .middle-column {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Stack cards in 3 columns on landscape */
+    .cards-display .card {
+        flex: 1 1 calc(33.33% - 10px);
+        max-width: calc(33.33% - 10px);
+    }
+}

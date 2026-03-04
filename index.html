@@ -17,16 +17,26 @@
         <div class="board">
             <!-- LEFT COLUMN: Equipment + Deck -->
             <section class="column left-column">
+                <div class="panel health-bar-panel">
+                    <div class="health-bar-display">
+                        <span class="health-bar-icon">❤️</span>
+                        <span class="health-bar-text">
+                            <span id="healthBarDisplay">20</span> / <span id="healthBarMax">20</span>
+                        </span>
+                    </div>
+                </div>
+                
                 <div class="panel equipment-panel">
                     <h2 class="panel-title">Equipment</h2>
-                    <div id="equipmentContent">
-                        <div class="equipped-weapon"></div>
+                    <div id="equipmentContent" class="equipment-container">
+                        <div class="equipment-slot"></div>
                     </div>
                 </div>
 
                 <div class="panel deck-panel">
-                    <h2 class="panel-title">Deck <span class="panel-count" id="deckCount">44</span></h2>
+                    <h2 class="panel-title">Deck</h2>
                     <div class="pile" id="deckPile">
+                        <span class="pile-counter" id="deckCount">44</span>
                     </div>
                 </div>
             </section>
@@ -37,7 +47,6 @@
                     <h2 class="panel-title room-title">
                         <span class="stat-item">HEALTH <span class="panel-count" id="healthDisplay">20</span></span>
                         <span class="stat-item">ROOM <span class="panel-count" id="roomDisplay">I</span></span>
-                        <span class="stat-item">CARDS <span class="panel-count" id="roomCount">0</span></span>
                     </h2>
                     <div class="cards-display" id="roomCards">
                         <div class="placeholder">Initializing...</div>
@@ -47,6 +56,10 @@
 
             <!-- RIGHT COLUMN: Actions + Discard -->
             <section class="column right-column">
+                <div class="panel menu-panel">
+                    <button class="btn btn-primary" onclick="game.newGame()">New Game</button>
+                </div>
+                
                 <div class="panel actions-panel">
                     <h2 class="panel-title">Actions</h2>
                     <div class="actions-buttons" id="actionButtons">
@@ -55,13 +68,10 @@
                 </div>
 
                 <div class="panel discard-panel">
-                    <h2 class="panel-title">Discard <span class="panel-count" id="discardCount">0</span></h2>
+                    <h2 class="panel-title">Discard</h2>
                     <div class="pile" id="discardPile">
+                        <span class="pile-counter" id="discardCount">0</span>
                     </div>
-                </div>
-
-                <div class="panel menu-panel">
-                    <button class="btn btn-primary" onclick="game.newGame()">New Game</button>
                 </div>
             </section>
         </div>

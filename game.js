@@ -431,8 +431,17 @@ class ScoundrelGame {
         document.getElementById('healthDisplay').textContent = this.state.health;
         document.getElementById('deckCount').textContent = this.state.deck.length;
         document.getElementById('discardCount').textContent = this.state.discardPile.length;
-        document.getElementById('roomCount').textContent = this.state.currentRoom.length;
         document.getElementById('roomDisplay').textContent = this.toRomanNumeral(this.state.roomNumber);
+        
+        // Update health bar display
+        const healthBarDisplay = document.getElementById('healthBarDisplay');
+        if (healthBarDisplay) {
+            healthBarDisplay.textContent = this.state.health;
+        }
+        const healthBarMax = document.getElementById('healthBarMax');
+        if (healthBarMax) {
+            healthBarMax.textContent = this.state.maxHealth;
+        }
     }
 
     toRomanNumeral(num) {
@@ -518,25 +527,44 @@ class ScoundrelGame {
             const suitMap = { 'clubs': '♣', 'spades': '♠', 'hearts': '♥', 'diamonds': '♦' };
             const displayValue = valueMap[card.value] || card.value;
             const displaySuit = suitMap[card.suit];
-            let html = `<div class="card equipped-weapon equipped-card ${suitClass}">
-                <span class="card-corner top-left">
-                    <span class="corner-value">${displayValue}</span>
-                    <span class="corner-suit">${displaySuit}</span>
-                </span>
-                <span class="card-center">${typeEmoji}</span>
-                <span class="card-corner bottom-right">
-                    <span class="corner-value">${displayValue}</span>
-                    <span class="corner-suit">${displaySuit}</span>
-                </span>
-            </div>`;
+            
+            let html = `<div class="equipped-card-wrapper">
+                <div class="card equipped-weapon equipped-card ${suitClass}">
+                    <span class="card-corner top-left">
+                        <span class="corner-value">${displayValue}</span>
+                        <span class="corner-suit">${displaySuit}</span>
+                    </span>
+                    <span class="card-center">${typeEmoji}</span>
+                    <span class="card-corner bottom-right">
+                        <span class="corner-value">${displayValue}</span>
+                        <span class="corner-suit">${displaySuit}</span>
+                    </span>
+                </div>`;
 
             if (this.state.stackedMonsters.length > 0) {
-                html += `<div class="stacked-monsters">⚠️ THREATS (${this.state.stackedMonsters.length}):<br>`;
-                this.state.stackedMonsters.forEach(m => {
-                    html += `${m.getDisplay()} `;
+                html += '<div class="stacked-monsters-container">';
+                this.state.stackedMonsters.forEach((monster, index) => {
+                    const monsterSuitClass = (monster.suit === 'hearts' || monster.suit === 'diamonds') ? 'red-suit' : 'black-suit';
+                    const monsterEmoji = '👹';
+                    const monsterDisplayValue = valueMap[monster.value] || monster.value;
+                    const monsterDisplaySuit = suitMap[monster.suit];
+                    
+                    html += `<div class="card stacked-monster ${monsterSuitClass}" style="z-index: ${index + 1};">
+                        <span class="card-corner top-left">
+                            <span class="corner-value">${monsterDisplayValue}</span>
+                            <span class="corner-suit">${monsterDisplaySuit}</span>
+                        </span>
+                        <span class="card-center">${monsterEmoji}</span>
+                        <span class="card-corner bottom-right">
+                            <span class="corner-value">${monsterDisplayValue}</span>
+                            <span class="corner-suit">${monsterDisplaySuit}</span>
+                        </span>
+                    </div>`;
                 });
                 html += '</div>';
             }
+            
+            html += '</div>';
 
             container.innerHTML = html;
         } else {
