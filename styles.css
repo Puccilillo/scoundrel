@@ -20,8 +20,9 @@
     --accent-hover: #5ff5eb;
     --card-bg: #d9d9d9;
     --card-border: #b0b0b0;
-    --game-ratio-width: 16;
-    --game-ratio-height: 9;
+    --base-width: 1600;
+    --base-height: 900;
+    --ui-scale: 1;
 }
 
 html, body {
@@ -44,11 +45,13 @@ body {
 .app {
     display: flex;
     flex-direction: column;
-    width: min(98vw, calc(98vh * var(--game-ratio-width) / var(--game-ratio-height)));
-    height: min(98vh, calc(98vw * var(--game-ratio-height) / var(--game-ratio-width)));
+    width: calc(var(--base-width) * 1px);
+    height: calc(var(--base-height) * 1px);
     padding: clamp(10px, 2vh, 20px);
     gap: clamp(10px, 2vh, 20px);
     overflow: hidden;
+    transform: scale(var(--ui-scale));
+    transform-origin: center center;
 }
 
 /* ========================================
@@ -313,7 +316,7 @@ body {
     overflow: visible;
     perspective: 1200px;
     padding: clamp(10px, 2vh, 20px) 0;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .placeholder {
@@ -587,7 +590,7 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     transition: all 0.2s ease;
-    white-space: normal;
+    white-space: nowrap;
     word-wrap: break-word;
     width: 100%;
 }

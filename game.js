@@ -64,7 +64,24 @@ class ScoundrelGame {
         this.state = new GameState();
         this.selectedCard = null;
         this.currentAction = null; // 'weapon', 'monster', 'potion'
+        this.setupViewportScale();
         this.setupDeckSkipInteraction();
+    }
+
+    setupViewportScale() {
+        const setScale = () => {
+            const rootStyle = getComputedStyle(document.documentElement);
+            const baseWidth = parseFloat(rootStyle.getPropertyValue('--base-width')) || 1600;
+            const baseHeight = parseFloat(rootStyle.getPropertyValue('--base-height')) || 900;
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const scale = Math.min(viewportWidth / baseWidth, viewportHeight / baseHeight) * 0.98;
+            document.documentElement.style.setProperty('--ui-scale', String(Math.max(scale, 0.2)));
+        };
+
+        setScale();
+        window.addEventListener('resize', setScale);
+        window.addEventListener('orientationchange', setScale);
     }
 
     setupDeckSkipInteraction() {
